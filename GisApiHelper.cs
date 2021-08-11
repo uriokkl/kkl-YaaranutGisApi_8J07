@@ -26,7 +26,7 @@ namespace YaaranutGisApi
         {
             this.appSettings = appSettings;
             this.env = env;
-            if (env.IsDevelopment() || env.IsStaging()) this.GisEnvPrefix = "Test_";
+            //if (env.IsDevelopment() || env.IsStaging()) this.GisEnvPrefix = "Test_";
         }
 
         public string GetFeatures(string LayerName, int SubData, System.Collections.Specialized.NameValueCollection ParmQuery)

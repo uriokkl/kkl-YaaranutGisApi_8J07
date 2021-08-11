@@ -35,6 +35,13 @@ namespace YaaranutGisApi
 
             services.AddAuthentication(Microsoft.AspNetCore.Server.HttpSys.HttpSysDefaults.AuthenticationScheme);
 
+            services.AddCors(options => options.AddPolicy("CorsAll", builder =>
+            {
+                builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+            }));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -53,6 +60,7 @@ namespace YaaranutGisApi
             }
 
             app.UseRouting();
+            app.UseCors("CorsAll"); 
 
             app.UseAuthentication();
             app.UseAuthorization();

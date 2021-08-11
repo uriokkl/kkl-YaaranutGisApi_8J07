@@ -11,6 +11,11 @@ namespace YaaranutGisApi.Controllers
         public DistrictController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
         [HttpGet]
+        [Route("test")]
+        public async Task<ActionResult<string>> test(){
+        return Ok("OK OK OK");
+        }
+        [HttpGet]
         [Route("GetDistricts")]
         public async Task<ActionResult<IEnumerable<GisDistrictModel.DistrictModel>>> GetDistricts()
         {

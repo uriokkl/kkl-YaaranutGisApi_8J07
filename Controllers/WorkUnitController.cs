@@ -9,11 +9,13 @@ using System.Net;
 using System.Text;
 
 using static YaaranutGisApi.Controllers.GisWorkUnitModel;
+using Microsoft.AspNetCore.Cors;
 
 namespace YaaranutGisApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [EnableCors("CorsAll")]
     public class WorkUnitController : BaseController
     {
         public WorkUnitController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
@@ -22,26 +24,33 @@ namespace YaaranutGisApi.Controllers
         [Route("GetWorkUnitTipul")]
         public string GetWorkUnitTipul()
         {
-            IList<WorkUnitModel> WorkUnits = new List<WorkUnitModel>();
-            string queryWhare = "FOR_NO=3303";
-             
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection
-                {
-                    {"where", queryWhare },
-                    {"outFields", "OBJECTID,FOR_Name,WorkYear,TRTUnit,WPFSRequestStatus,DistrictName,RegionName,FOR_NO,AgeGr,ForAgeComposition,CurForestType,CurDensity,CurCover,ForStatusMain,AreaDesignation,ReqForestType,VegDesignPrinc,ThinningPurpose,OtherThinningPurpose,ThinFreq,ReqDensity,ReqCover,ThinIntensity,ThinType,PruningType,BurnPermission,WPFSWorkEssence"},
-                    {"returnGeometry", "false"},
-                    {"returnExceededLimitFeatures", "true"},
-                    //{"orderByFields", "objectid"},
-                    {"token", this.GisApiHelper.GetToken()},
-                    {"f", "json"},
-                    {"geometryType","esriGeometryPoint"},
-                    //{"spatialRel","esriSpatialRelIntersects"}
-                };
+            //IList<WorkUnitModel> WorkUnits = new List<WorkUnitModel>();
+            //string queryWhare = "FOR_NO=3303";
 
-            var rrr = this.GisApiHelper.GetFeatures("KKLForestManagementUnits", 0, reqparmForest);
-            var Gisfeatures = System.Text.Json.JsonSerializer.Deserialize<GisWorkUnitModel>(rrr);
-            
-            return rrr;
+            //var reqparmForest = new System.Collections.Specialized.NameValueCollection
+            //    {
+            //        {"where", queryWhare },
+            //        {"outFields", "OBJECTID,FOR_Name,WorkYear,TRTUnit,WPFSRequestStatus,DistrictName,RegionName,FOR_NO,AgeGr,ForAgeComposition,CurForestType,CurDensity,CurCover,ForStatusMain,AreaDesignation,ReqForestType,VegDesignPrinc,ThinningPurpose,OtherThinningPurpose,ThinFreq,ReqDensity,ReqCover,ThinIntensity,ThinType,PruningType,BurnPermission,WPFSWorkEssence"},
+            //        {"returnGeometry", "true"},
+            //        {"returnExceededLimitFeatures", "true"},
+            //        //{"orderByFields", "objectid"},
+            //        {"token", this.GisApiHelper.GetToken()},
+            //        {"f", "json"},
+            //        {"geometryType","esriGeometryPoint"},
+            //        {"spatialRel","esriSpatialRelIntersects"}
+            //    };
+
+            //var rrr = this.GisApiHelper.GetFeatures("KKLForestManagementUnits", 0, reqparmForest);
+            //var Gisfeatures = System.Text.Json.JsonSerializer.Deserialize<GisWorkUnitModel>(rrr);
+
+            //return rrr;
+            string responsebodyForest;
+            using (WebClient clientForest = new WebClient())
+            {
+                byte[] responsebytesForest = clientForest.UploadValues("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/JNFFieldCenterBuildingsPublicView/FeatureServer/0", "POST", null);
+                responsebodyForest = Encoding.UTF8.GetString(responsebytesForest);
+            }
+            return responsebodyForest;
         }
         [HttpGet]
         [Route("CheckTest")]
