@@ -13,7 +13,7 @@ namespace YaaranutGisApi.Controllers
         [HttpGet]
         [Route("test")]
         public async Task<ActionResult<string>> test(){
-        return Ok("OK OK OK");
+        return Ok("OK OK");
         }
         [HttpGet]
         [Route("GetDistricts")]
