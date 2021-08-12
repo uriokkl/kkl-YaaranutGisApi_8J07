@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,12 +7,14 @@ namespace YaaranutGisApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [EnableCors("CorsAll")]
     public class RegionController : BaseController
     {
         public RegionController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
         [HttpGet]
         [Route("GetRegions")]
+        [EnableCors("CorsAll")]
         public async Task<ActionResult<IEnumerable<GisRegionModel.RegionModel>>> GetRegions()
         {
             IList<GisRegionModel.RegionModel> regions = new List<GisRegionModel.RegionModel>();
