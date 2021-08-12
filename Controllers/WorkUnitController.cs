@@ -21,8 +21,8 @@ namespace YaaranutGisApi.Controllers
         public WorkUnitController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
         [HttpGet]
-        [Route("GetWorkUnitTipul")]
-        public string GetWorkUnitTipul()
+        [Route("GetWorkUnitTipul")]        
+        public byte[] GetWorkUnitTipul()
         {
             //IList<WorkUnitModel> WorkUnits = new List<WorkUnitModel>();
             //string queryWhare = "FOR_NO=3303";
@@ -45,12 +45,24 @@ namespace YaaranutGisApi.Controllers
 
             //return rrr;
             string responsebodyForest;
+            byte[] responsebytesForest;
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection
+            {
+                //{"outFields", "*"},
+                //{"spatialRel","esriSpatialRelIntersects" },
+                {"f", "json"},
+            };
             using (WebClient clientForest = new WebClient())
             {
-                byte[] responsebytesForest = clientForest.UploadValues("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/JNFFieldCenterBuildingsPublicView/FeatureServer/0", "POST", null);
+                responsebytesForest = clientForest.UploadValues("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/JNFFieldCenterBuildingsPublicView/FeatureServer/0", "POST", reqparmForest);
                 responsebodyForest = Encoding.UTF8.GetString(responsebytesForest);
             }
-            return responsebodyForest;
+            //var azz = JsonConvert.DeserializeObject (responsebodyForest);
+            //Response.Headers.Add("content-encoding","br");
+            Response.Headers.Add("content-disposition","inline;filename=results.pbf");
+            //Response.Headers.Add("content-type", "application/x-protobuf");
+
+            return responsebytesForest;
         }
         [HttpGet]
         [Route("CheckTest")]

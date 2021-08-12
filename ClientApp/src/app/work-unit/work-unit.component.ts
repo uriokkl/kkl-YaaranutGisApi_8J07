@@ -82,18 +82,23 @@ export class WorkUnitComponent implements OnInit {
 
       //const map: esri.Map = new EsriMap(mapProperties);
       //const map1 = new Map(mapProperties);
-      const webMap = new WebMap({
+      const webMap = new WebMap(
+        //{
         //basemap:  this._basemap,
 
-        portalItem: {
-          //id: "56b5bd522c52409c90d902285732e9f1",
-          url: "https://services2.arcgis.com/utNNrmXb4IZOLXXs/ArcGIS/rest/services/Test_service_9804e1f94e74442fa91c3faaa6c134a7/FeatureServer/0"
+        //portalItem: {
+        //  //id: "56b5bd522c52409c90d902285732e9f1",
+        //  url: "https://services2.arcgis.com/utNNrmXb4IZOLXXs/ArcGIS/rest/services/Test_service_9804e1f94e74442fa91c3faaa6c134a7/FeatureServer/0"
 
-        },
-      });
+        //},
+      //}
+    );
+      //webMap.add(new FeatureLayer({ url: "https://services2.arcgis.com/utNNrmXb4IZOLXXs/ArcGIS/rest/services/Test_service_9804e1f94e74442fa91c3faaa6c134a7/FeatureServer/0" }));
       //webMap.add(new FeatureLayer({ url: "https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/JNFFieldCenterBuildingsPublicView/FeatureServer/0" }));
-      webMap.add(new FeatureLayer({ url: "http://localhost:27552/WorkUnit/GetWorkUnitTipul" }));
+      webMap.add(new FeatureLayer({ url: "https://localhost:44386/WorkUnit/GetWorkUnitTipul" }));
+      //webMap.add(new FeatureLayer({ url: "https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/JNFFieldCenterBuildingsPublicView/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=html&token=" }));
       
+
       // Set type of map view
       //const mapViewProperties: esri.MapViewProperties = {
       //  container: this.mapViewEl.nativeElement,
