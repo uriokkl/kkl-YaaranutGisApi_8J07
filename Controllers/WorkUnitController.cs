@@ -83,7 +83,7 @@ namespace YaaranutGisApi.Controllers
             return new string[] { "aaa", "bbb" };
         }
         [HttpPost]
-        [Route("GetWorkUnits")]
+        [Route("GetWorkUnits")]  
         public async Task<ActionResult<IEnumerable<WorkUnitModel>>> GetWorkUnits(  WorkUnitModelQueryParameter QueryParmeters)
         {
             //var az = @" { ""DistrictName"": null, ""FOR_NO"": null, ""OBJECTID"": null , ""RegionName"": null, ""TRTUnit"": ""T12551"", ""WorkYear"": ""2020"", ""WPFSRequestStatus"": ""אושר על ידי מחלקת יער""} ";
