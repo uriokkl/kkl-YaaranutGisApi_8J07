@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'lib-yaaranutGis',
   template: `
     <p>
-      yaaranut-gis works!
+      yaaranut-gis works!!!!!!!!!
     </p>
   `,
   styles: [

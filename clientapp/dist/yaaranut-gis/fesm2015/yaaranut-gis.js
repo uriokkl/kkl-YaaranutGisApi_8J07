@@ -21,7 +21,7 @@ class YaaranutGisComponent {
 YaaranutGisComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.2", ngImport: i0, type: YaaranutGisComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
 YaaranutGisComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.2", type: YaaranutGisComponent, selector: "lib-yaaranutGis", ngImport: i0, template: `
     <p>
-      yaaranut-gis works!
+      yaaranut-gis works!!!!!!!!!
     </p>
   `, isInline: true });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.2", ngImport: i0, type: YaaranutGisComponent, decorators: [{
@@ -30,7 +30,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.2", ngImpor
                     selector: 'lib-yaaranutGis',
                     template: `
     <p>
-      yaaranut-gis works!
+      yaaranut-gis works!!!!!!!!!
     </p>
   `,
                     styles: []

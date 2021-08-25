@@ -48,12 +48,12 @@
         return YaaranutGisComponent;
     }());
     YaaranutGisComponent.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.2", ngImport: i0__namespace, type: YaaranutGisComponent, deps: [], target: i0__namespace.ɵɵFactoryTarget.Component });
-    YaaranutGisComponent.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.2", type: YaaranutGisComponent, selector: "lib-yaaranutGis", ngImport: i0__namespace, template: "\n    <p>\n      yaaranut-gis works!\n    </p>\n  ", isInline: true });
+    YaaranutGisComponent.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.2", type: YaaranutGisComponent, selector: "lib-yaaranutGis", ngImport: i0__namespace, template: "\n    <p>\n      yaaranut-gis works!!!!!!!!!\n    </p>\n  ", isInline: true });
     i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.2", ngImport: i0__namespace, type: YaaranutGisComponent, decorators: [{
                 type: i0.Component,
                 args: [{
                         selector: 'lib-yaaranutGis',
-                        template: "\n    <p>\n      yaaranut-gis works!\n    </p>\n  ",
+                        template: "\n    <p>\n      yaaranut-gis works!!!!!!!!!\n    </p>\n  ",
                         styles: []
                     }]
             }], ctorParameters: function () { return []; } });
