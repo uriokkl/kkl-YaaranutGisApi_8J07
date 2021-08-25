@@ -7,14 +7,14 @@ namespace YaaranutGisApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [EnableCors("CorsAll")]
+    //[EnableCors("CorsAll")]
     public class DistrictController : BaseController
     {
         public DistrictController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
         [HttpGet]
         [Route("GetDistricts")]
-        [EnableCors("CorsAll")]
+        //[EnableCors("CorsAll")]
         public async Task<ActionResult<IEnumerable<GisDistrictModel.DistrictModel>>> GetDistricts()
         {
             IList<GisDistrictModel.DistrictModel> districts = new List<GisDistrictModel.DistrictModel>();

@@ -19,7 +19,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "yaaranut-gis": [
+        "dist/yaaranut-gis/yaaranut-gis",
+        "dist/yaaranut-gis"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

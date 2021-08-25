@@ -32,7 +32,7 @@ namespace YaaranutGisApi
              
             services.AddScoped<IAppSettings>(_appSettings => appSettings);
             services.AddScoped<IGisApiHelper, GisApiHelper>();
-
+            
             services.AddAuthentication(Microsoft.AspNetCore.Server.HttpSys.HttpSysDefaults.AuthenticationScheme);
 
             services.AddCors(options => options.AddPolicy("CorsAll", builder =>

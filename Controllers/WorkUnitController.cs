@@ -10,20 +10,147 @@ using System.Text;
 
 using static YaaranutGisApi.Controllers.GisWorkUnitModel;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
+using System.IO.Compression;
+using System.IO;
 
 namespace YaaranutGisApi.Controllers
 {
+    public static class pppp  
+        {
+        public static HttpRequestMessage CreateProxyHttpRequest(this HttpContext context, Uri uri)
+        {
+            var request = context.Request;
+
+            var requestMessage = new HttpRequestMessage();
+            var requestMethod = request.Method;
+            if (!HttpMethods.IsGet(requestMethod) &&
+                !HttpMethods.IsHead(requestMethod) &&
+                !HttpMethods.IsDelete(requestMethod) &&
+                !HttpMethods.IsTrace(requestMethod))
+            {
+                var streamContent = new StreamContent(request.Body);
+                requestMessage.Content = streamContent;
+            }
+
+            // Copy the request headers
+            foreach (var header in request.Headers)
+            {
+                if (!requestMessage.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray()) && requestMessage.Content != null)
+                {
+                    requestMessage.Content?.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
+                }
+            }
+
+            requestMessage.Headers.Host = uri.Authority;
+            requestMessage.RequestUri = uri;
+            requestMessage.Method = new HttpMethod(request.Method);
+
+            return requestMessage;
+        }
+        public static async Task CopyProxyHttpResponse(this HttpContext context, HttpResponseMessage responseMessage)
+        {
+
+            if (responseMessage == null)
+            {
+                throw new ArgumentNullException(nameof(responseMessage));
+            }
+
+            var response = context.Response;
+
+            response.StatusCode = (int)responseMessage.StatusCode;
+            response.StatusCode = 202;
+            foreach (var header in responseMessage.Headers)
+            {
+                response.Headers[header.Key] = header.Value.ToArray();
+            }
+
+            foreach (var header in responseMessage.Content.Headers)
+            {
+                response.Headers[header.Key] = header.Value.ToArray();
+            }
+
+            // SendAsync removes chunking from the response. This removes the header so it doesn't expect a chunked response.
+            response.Headers.Remove("transfer-encoding");
+            if (responseMessage.Content.Headers.ContentLength!=null)
+            using (var responseStream = await responseMessage.Content.ReadAsStreamAsync())
+            {
+                //byte[] az = new byte[int.Parse(responseMessage.Content.Headers.ContentLength.ToString())];
+                //var azzz=responseStream.Read(az);
+                //var str = System.Text.Encoding.GetEncoding(1255).GetString(az);
+                //await responseStream.CopyToAsync(response.Body, int.Parse( responseMessage.Content.Headers.ContentLength.ToString()), context.RequestAborted);
+                //string html;
+                //using (BrotliStream bs = new BrotliStream(responseStream, System.IO.Compression.CompressionMode.Decompress))
+                //{
+                //    using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+                //    {
+                //        bs.CopyTo(msOutput);
+                //        msOutput.Seek(0, System.IO.SeekOrigin.Begin);
+                //        using (StreamReader reader = new StreamReader(msOutput))
+                //        {
+                //            html = reader.ReadToEnd();
+                //        }
+                //    }
+                //}
+
+                await responseStream.CopyToAsync(response.Body,int.Parse( responseMessage.Content.Headers.ContentLength.ToString()), context.RequestAborted);
+            }
+        }
+    }
     [ApiController]
     [Route("[controller]")]
     [EnableCors("CorsAll")]
     public class WorkUnitController : BaseController
     {
-        public WorkUnitController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
+         
+        public WorkUnitController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) {   }
 
+
+        [HttpGet]
+        [Route("GetTest")]
+        public async Task<IActionResult> Rewrite()
+        {
+            var _context = HttpContext;
+            HttpClient _client;
+            _client = new HttpClient(new HttpClientHandler()
+            {
+                AllowAutoRedirect = false
+            });
+            var request =pppp.CreateProxyHttpRequest(_context, new Uri("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/Test_HazardInspection_Service/FeatureServer/0/" +   _context.Request.QueryString+"&token="+this.GisApiHelper.GetToken()));
+            var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, HttpContext.RequestAborted);
+            await pppp.CopyProxyHttpResponse(_context, response);
+            //await _context.Response.WriteAsync("azaza");
+            return StatusCode(200);
+        }
+        [HttpGet]
+        [Route("GetTest/{id}/query")]
+        public async Task<IActionResult> Rewrite1(string id)
+        {
+            var _context = HttpContext;
+            HttpClient _client;
+            _client = new HttpClient(new HttpClientHandler()
+            {
+                AllowAutoRedirect = false
+            });
+            var request = pppp.CreateProxyHttpRequest(_context, new Uri("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/Test_HazardInspection_Service/FeatureServer/" + id+"/query"  + _context.Request.QueryString + "&token=" + this.GisApiHelper.GetToken()));
+            request.Headers.Add("Connection", "Keep-Alive");
+            var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, HttpContext.RequestAborted);
+            if (response.StatusCode != HttpStatusCode.NotModified)
+            {
+                await pppp.CopyProxyHttpResponse(_context, response);
+                //await _context.Response.WriteAsync("azaza");
+                return StatusCode(200);
+            }
+            else
+            {
+                return StatusCode(((int)HttpStatusCode.NotModified));
+            }
+        }
         [HttpGet]
         [Route("GetWorkUnitTipul")]        
         public byte[] GetWorkUnitTipul()
         {
+
             //IList<WorkUnitModel> WorkUnits = new List<WorkUnitModel>();
             //string queryWhare = "FOR_NO=3303";
 
@@ -146,7 +273,9 @@ namespace YaaranutGisApi.Controllers
         }
         public class WorkUnitModel
         {
-            public int? OBJECTID { get; set; }
+            //public int? OBJECTID { get; set; }
+            public string GlobalID { get; set; }
+            
             public string FOR_Name { get; set; }       
             public int WorkYear { get; set; }
             public string TRTUnit { get; set; }
