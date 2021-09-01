@@ -232,7 +232,7 @@ namespace YaaranutGisApi.Controllers
                     //{"where", "ObjectID>=6133"},
                     //{ "where",@"FOR_Name='עמק יזרעאל'"},
                     
-                    {"outFields", "OBJECTID,FOR_Name,WorkYear,TRTUnit,WPFSRequestStatus,DistrictName,RegionName,FOR_NO,AgeGr,ForAgeComposition,CurForestType,CurDensity,CurCover,ForStatusMain,AreaDesignation,ReqForestType,VegDesignPrinc,ThinningPurpose,OtherThinningPurpose,ThinFreq,ReqDensity,ReqCover,ThinIntensity,ThinType,PruningType,BurnPermission,WPFSWorkEssence"},
+                    {"outFields", "GlobalID,FOR_Name,WorkYear,TRTUnit,WPFSRequestStatus,DistrictName,RegionName,FOR_NO,AgeGr,ForAgeComposition,CurForestType,CurDensity,CurCover,ForStatusMain,AreaDesignation,ReqForestType,VegDesignPrinc,ThinningPurpose,OtherThinningPurpose,ThinFreq,ReqDensity,ReqCover,ThinIntensity,ThinType,PruningType,BurnPermission,WPFSWorkEssence"},
                     {"returnGeometry", "false"},
                     {"returnExceededLimitFeatures", "true"},
                     //{"orderByFields", "objectid"},
