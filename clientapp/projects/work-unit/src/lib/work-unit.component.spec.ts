@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { YaaranutGisComponent } from './yaaranut-gis.component';
+import { WorkUnitComponent } from './work-unit.component';
 
-describe('YaaranutGisComponent', () => {
-  let component: YaaranutGisComponent;
-  let fixture: ComponentFixture<YaaranutGisComponent>;
+describe('WorkUnitComponent', () => {
+  let component: WorkUnitComponent;
+  let fixture: ComponentFixture<WorkUnitComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ YaaranutGisComponent ]
+      declarations: [ WorkUnitComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(YaaranutGisComponent);
+    fixture = TestBed.createComponent(WorkUnitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

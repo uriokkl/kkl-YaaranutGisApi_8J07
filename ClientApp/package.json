@@ -1,5 +1,5 @@
 {
-  "name": "yaaranut-comp",
+  "name": "yaaranut-gis-lib",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -18,6 +18,7 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "@arcgis/core": "^4.20.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -35,6 +36,6 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
     "ng-packagr": "^12.1.1",
-    "typescript": "~4.3.5"
+    "typescript": "~4.3.5" 
   }
 }

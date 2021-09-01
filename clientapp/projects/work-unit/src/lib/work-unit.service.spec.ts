@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { YaaranutGisService } from './yaaranut-gis.service';
+import { WorkUnitService } from './work-unit.service';
 
-describe('YaaranutGisService', () => {
-  let service: YaaranutGisService;
+describe('WorkUnitService', () => {
+  let service: WorkUnitService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(YaaranutGisService);
+    service = TestBed.inject(WorkUnitService);
   });
 
   it('should be created', () => {

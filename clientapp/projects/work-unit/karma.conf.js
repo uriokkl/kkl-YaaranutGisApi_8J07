@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, '../../coverage/yaaranut-gis'),
+      dir: require('path').join(__dirname, '../../coverage/work-unit'),
       subdir: '.',
       reporters: [
         { type: 'html' },
