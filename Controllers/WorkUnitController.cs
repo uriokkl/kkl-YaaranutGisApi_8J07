@@ -275,7 +275,7 @@ namespace YaaranutGisApi.Controllers
         {
             //public int? OBJECTID { get; set; }
             public string GlobalID { get; set; }
-                 
+                     
             public string FOR_Name { get; set; }       
             public int WorkYear { get; set; }
             public string TRTUnit { get; set; }
