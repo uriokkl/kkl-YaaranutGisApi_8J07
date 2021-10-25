@@ -7,12 +7,9 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
 using System.Text;
-
-using static YaaranutGisApi.Controllers.GisWorkUnitModel;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
-using System.IO.Compression;
-using System.IO;
+ 
 
 namespace YaaranutGisApi.Controllers
 {
@@ -215,7 +212,6 @@ namespace YaaranutGisApi.Controllers
         {
             //var az = @" { ""DistrictName"": null, ""FOR_NO"": null, ""OBJECTID"": null , ""RegionName"": null, ""TRTUnit"": ""T12551"", ""WorkYear"": ""2020"", ""WPFSRequestStatus"": ""אושר על ידי מחלקת יער""} ";
             //QueryParmeters = System.Text.Json.JsonSerializer.Deserialize<WorkUnitModelQueryParameter>(az);
-            IList<WorkUnitModel> WorkUnits = new List<WorkUnitModel>();
             string queryWhare = "1=1";
             queryWhare += !String.IsNullOrEmpty(QueryParmeters.OBJECTID.ToString()) ? " and OBJECTID=" + QueryParmeters.OBJECTID : "";
             queryWhare += !String.IsNullOrEmpty(QueryParmeters.WorkYear) ? " and WorkYear='" + QueryParmeters.WorkYear + "'" : "";
@@ -245,23 +241,56 @@ namespace YaaranutGisApi.Controllers
                 };
 
             
-            var Gisfeatures = System.Text.Json.JsonSerializer.Deserialize<GisWorkUnitModel>(this.GisApiHelper.GetFeatures("KKLForestManagementUnits",0, reqparmForest));
-            if (Gisfeatures.error == null)
+            var Gisfeatures = this.GisApiHelper.GetFeatures<WorkUnitModel>("KKLForestManagementUnits",0, reqparmForest);
+            if (Gisfeatures.GisAttributes.error == null)
             {
-                foreach (var item in Gisfeatures.features)
-                {
-                    WorkUnits.Add(item.attributes);
-                }
-                return Ok(WorkUnits);
+                return Ok(Gisfeatures.Features);
             }
             else
             {
-                return StatusCode(500, Gisfeatures.error.message + " " + Gisfeatures.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
+                return StatusCode(500, Gisfeatures.GisAttributes.error.message + " " + Gisfeatures.GisAttributes.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
             }
         }
     }
 
-    public class GisWorkUnitModel : GisModel
+    public class WorkUnitModel
+    {
+        //public int? OBJECTID { get; set; }
+        public string GlobalID { get; set; }
+
+        public string FOR_Name { get; set; }
+        public int WorkYear { get; set; }
+        public string TRTUnit { get; set; }
+        public string WPFSRequestStatus { get; set; }
+        public string DistrictName { get; set; }
+        public string RegionName { get; set; }
+        public string FOR_NO { get; set; }
+        public string ForAgeComposition { get; set; }
+        public string CurForestType { get; set; }
+        public string CurDensity { get; set; }
+        public string CurCover { get; set; }
+        public string ForStatusMain { get; set; }
+        public string AreaDesignation { get; set; }
+        public string ReqForestType { get; set; }
+        public string VegDesignPrinc { get; set; }
+        public string ThinningPurpose { get; set; }
+        public string OtherThinningPurpose { get; set; }
+        public string ThinFreq { get; set; }
+        public string ReqDensity { get; set; }
+        public string ReqCover { get; set; }
+        public string ThinIntensity { get; set; }
+        public string ThinType { get; set; }
+        public string PruningType { get; set; }
+        public string BurnPermission { get; set; }
+        public string WPFSWorkEssence { get; set; }
+        public string Date { get; set; }
+        public string ReporterName { get; set; }
+        public string TRTPriority { get; set; }
+        public string OtherCurForestType { get; set; }
+        public string Stands { get; set; }
+    }
+
+    public class GisWorkUnitModel11111 : GisModel
     {      
         public Features[] features { get; set; }
         public class Features

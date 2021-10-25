@@ -15,14 +15,12 @@ namespace YaaranutGisApi.Controllers
         [HttpGet]
         [Route("GetDistricts")]
         //[EnableCors("CorsAll")]
-        public async Task<ActionResult<IEnumerable<GisDistrictModel.DistrictModel>>> GetDistricts()
+        public async Task<ActionResult<IEnumerable<DistrictModel>>> GetDistricts()
         {
-            IList<GisDistrictModel.DistrictModel> districts = new List<GisDistrictModel.DistrictModel>();
-
             var reqparmForest = new System.Collections.Specialized.NameValueCollection
                 {
                     {"where", "1=1" },
-                    {"outFields", YaaranutGisApi.GisApiHelper.GetModelFields(typeof( GisDistrictModel.DistrictModel))},
+                    {"outFields", YaaranutGisApi.GisApiHelper.GetModelFields(typeof( DistrictModel))},
                     {"returnGeometry", "false"},
                     {"returnExceededLimitFeatures", "true"},
                     {"token", this.GisApiHelper.GetToken()},
@@ -30,23 +28,26 @@ namespace YaaranutGisApi.Controllers
                     {"geometryType","esriGeometryPoint"},
                 };
 
-            var Gisfeatures = System.Text.Json.JsonSerializer.Deserialize<GisDistrictModel>(this.GisApiHelper.GetFeatures("JNFDistricts",0, reqparmForest));
-            if (Gisfeatures.error == null)
+            var Gisfeatures =  this.GisApiHelper.GetFeatures< DistrictModel>("JNFDistricts",0, reqparmForest);
+            if (Gisfeatures.GisAttributes.error == null)
             {
-                foreach (var item in Gisfeatures.features)
-                {
-                    districts.Add(item.attributes);
-                }
-                return Ok(districts);
+                return Ok(Gisfeatures.Features);
             }
             else
             {
-                return StatusCode(500, Gisfeatures.error.message + " " + Gisfeatures.error.details[0] +" where:"+ reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
+                return StatusCode(500, Gisfeatures.GisAttributes.error.message + " " + Gisfeatures.GisAttributes.error.details[0] +" where:"+ reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
             }
         }
     }
 
-    public class GisDistrictModel : GisModel
+    public class DistrictModel
+    {
+        public int? OBJECTID { get; set; }
+        public int merchav_co { get; set; }
+        public string merchav_na { get; set; }
+    }
+
+    public class GisDistrictModel11111 : GisModel
     {
         public Features[] features { get; set; }
         public class Features

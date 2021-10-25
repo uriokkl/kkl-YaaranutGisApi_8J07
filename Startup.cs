@@ -41,17 +41,21 @@ namespace YaaranutGisApi
                         .AllowAnyMethod()
                         .AllowAnyHeader();
             }));
-
-            services.AddControllers();
+            
+            services.AddControllers()
+            //    .AddJsonOptions(options =>
+            //{
+            //    options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+            //    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            //    options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+            //    options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
+            //   // options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.);
+            //});
+            ;
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "YaaranutGisApi", Version = "v1" });
             });
-            //services.AddMvc(options =>
-            //{
-            //    options.ReturnHttpNotAcceptable = true;
-            //});
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +68,8 @@ namespace YaaranutGisApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "YaaranutGisApi v1"));
             }
 
+            //app.UseAppMiddleware();
+            app.UseMiddleware<ReverseProxyApplication.ReverseProxyMiddleware>();
             app.UseRouting();
             app.UseCors("CorsAll"); 
 

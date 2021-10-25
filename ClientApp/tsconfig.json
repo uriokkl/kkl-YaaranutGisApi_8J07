@@ -21,9 +21,14 @@
       "dom"
     ],
     "paths": {
+      
+      "seeds-collect": [
+        "dist/seeds-collect/seeds-collect",
+        "dist/seeds-collect"
+      ],
       "work-unit": [
-        "dist/work-unit/work-unit",
-        "dist/work-unit"
+        "dist/YaaranutGis/YaaranutGis",
+        "dist/YaaranutGis"
       ]
     }
   },

@@ -30,8 +30,8 @@ namespace YaaranutGisApi.Controllers
                     {"geometryType","esriGeometryPoint"},
                 };
 
-            var Gisfeatures = System.Text.Json.JsonSerializer.Deserialize<GisHazardModel>(this.GisApiHelper.GetFeatures("service_9804e1f94e74442fa91c3faaa6c134a7",0, reqparmForest));
-            return Gisfeatures.features.First().attributes;
+            var Gisfeatures = this.GisApiHelper.GetFeatures< GisHazardModel.HazardModel>("service_9804e1f94e74442fa91c3faaa6c134a7",0, reqparmForest);
+            return (GisHazardModel.HazardModel)Gisfeatures.Features;
             //if (Gisfeatures.error == null)
             //{
             //    foreach (var item in Gisfeatures.features)
@@ -60,13 +60,13 @@ namespace YaaranutGisApi.Controllers
                     {"geometryType","esriGeometryPoint"},
                 };
 
-            var Gisfeatures = System.Text.Json.JsonSerializer.Deserialize<GisHazardsInspectionModel>(this.GisApiHelper.GetFeatures("service_9804e1f94e74442fa91c3faaa6c134a7", 1, reqparmForest));
-            return Gisfeatures.features.First().attributes;
+            var Gisfeatures = this.GisApiHelper.GetFeatures< GisHazardsInspectionModel.HazardsInspectionModel>("service_9804e1f94e74442fa91c3faaa6c134a7", 1, reqparmForest);
+            return (GisHazardsInspectionModel.HazardsInspectionModel)Gisfeatures.Features;
         }
 
             [HttpPost]
         [Route("UpdateHazardInspection/{globalid}")]
-        public async Task<ActionResult<IEnumerable<GisDistrictModel.DistrictModel>>> UpdateHazardInspection(string globalid)//, HazardDetailModel.HazardModel HazardValue)
+        public async Task<ActionResult<IEnumerable<GisHazardModel.HazardModel>>> UpdateHazardInspection(string globalid)//, HazardDetailModel.HazardModel HazardValue)
         {
             List<GisHazardModel.HazardModel> Hazards = new List<GisHazardModel.HazardModel>();
             GisHazardsInspectionModel.HazardsInspectionModel HazardsInspection;
@@ -149,9 +149,9 @@ namespace YaaranutGisApi.Controllers
                     {"token", this.GisApiHelper.GetToken()},
                     {"f", "json"}
                 };
-            string Gisfeatures = this.GisApiHelper.GetFeatures("service_9804e1f94e74442fa91c3faaa6c134a7", 1, reqparmForest);
+            var Gisfeatures = this.GisApiHelper.GetFeatures<string>("service_9804e1f94e74442fa91c3faaa6c134a7", 1, reqparmForest);
 
-            return (int)Newtonsoft.Json.Linq.JObject.Parse(Gisfeatures)["count"];
+            return (int)Newtonsoft.Json.Linq.JObject.Parse(Gisfeatures.Features[0])["count"];
         }
         public class HazardDetailModel// : GisModel
         {

@@ -5,21 +5,21 @@
   "projects": {
     "workUnit": {
       "projectType": "library",
-      "root": "projects/work-unit",
-      "sourceRoot": "projects/work-unit/src",
-      "prefix": "lib",
+      "root": "projects/Librarys",
+      "sourceRoot": "projects/Librarys/src",
+      "prefix": "yaaranut-gis",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/work-unit/ng-package.json"
+            "project": "projects/Librarys/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/work-unit/tsconfig.lib.prod.json"
+              "tsConfig": "projects/Librarys/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/work-unit/tsconfig.lib.json"
+              "tsConfig": "projects/Librarys/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -27,13 +27,48 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/work-unit/src/test.ts",
-            "tsConfig": "projects/work-unit/tsconfig.spec.json",
-            "karmaConfig": "projects/work-unit/karma.conf.js"
+            "main": "projects/Librarys/src/test.ts",
+            "tsConfig": "projects/Librarys/tsconfig.spec.json",
+            "karmaConfig": "projects/Librarys/karma.conf.js"
           }
         }
       }
-    }
+    },
+  
+    "SeedsCollect": {
+      "projectType": "library",
+      "root": "projects/seeds-collect",
+      "sourceRoot": "projects/seeds-collect/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/seeds-collect/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/seeds-collect/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/seeds-collect/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/seeds-collect/src/test.ts",
+            "tsConfig": "projects/seeds-collect/tsconfig.spec.json",
+            "karmaConfig": "projects/seeds-collect/karma.conf.js"
+          }
+        }
+      }
+    },
+    
+  
+   
   },
   "defaultProject": "workUnit"
 }
