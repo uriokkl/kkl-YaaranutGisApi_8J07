@@ -1,6 +1,6 @@
 using System;
 
-namespace YaaranutGisApi
+namespace MedaTichnonyWeb
 {
     public class WeatherForecast
     {
