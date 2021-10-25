@@ -13,7 +13,7 @@ namespace YaaranutGisApi.Controllers
 
         //[HttpPost]
         //[Route("UpdateHazard/{objectid}")]
-        public async Task<ActionResult<IEnumerable<GisDistrictModel.DistrictModel>>> InsertHazardsInspection(int objectid,   GisHazardsInspectionModel.HazardsInspectionModel HazardsInspectionValue)
+        public async Task<ActionResult<IEnumerable<GisHazardsInspectionModel.HazardsInspectionModel>>> InsertHazardsInspection(int objectid,   GisHazardsInspectionModel.HazardsInspectionModel HazardsInspectionValue)
         {
             //var UpdateFeatureLayerData = new System.Collections.Specialized.NameValueCollection
             //    {

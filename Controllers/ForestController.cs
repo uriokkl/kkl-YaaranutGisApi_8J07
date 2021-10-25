@@ -15,14 +15,12 @@ namespace YaaranutGisApi.Controllers
         [HttpGet]
         [Route("GetForests")]
         [EnableCors("CorsAll")]
-        public async Task<ActionResult<IEnumerable<GisForestModel.ForestModel>>> GetForests()
+        public async Task<ActionResult<IEnumerable<ForestModel>>> GetForests()
         {
-            IList<GisForestModel.ForestModel> forests = new List<GisForestModel.ForestModel>();
-
             var reqparmForest = new System.Collections.Specialized.NameValueCollection
                 {
                     {"where", "1=1" },
-                    {"outFields", YaaranutGisApi.GisApiHelper.GetModelFields(typeof( GisForestModel.ForestModel))},
+                    {"outFields", YaaranutGisApi.GisApiHelper.GetModelFields(typeof( ForestModel))},
                     {"returnGeometry", "false"},
                     {"returnExceededLimitFeatures", "true"},
                     {"token", this.GisApiHelper.GetToken()},
@@ -30,24 +28,28 @@ namespace YaaranutGisApi.Controllers
                     {"geometryType","esriGeometryPoint"},
                 };
 
-            var Gisfeatures = System.Text.Json.JsonSerializer.Deserialize<GisForestModel>(this.GisApiHelper.GetFeatures("JNFILForest",0, reqparmForest));
-            if (Gisfeatures.error == null)
+            var Gisfeatures = this.GisApiHelper.GetFeatures<ForestModel>("JNFILForest",0, reqparmForest);
+            if (Gisfeatures.GisAttributes.error == null)
             {
-                foreach (var item in Gisfeatures.features)
-                {
-                    forests.Add(item.attributes);
-                }
-
-                return Ok(forests);
+                return Ok(Gisfeatures.Features);
             }
             else
             {
-                return StatusCode(500, Gisfeatures.error.message + " " + Gisfeatures.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
+                return StatusCode(500, Gisfeatures.GisAttributes.error.message + " " + Gisfeatures.GisAttributes.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
             }
         }
     }
 
-    public class GisForestModel : GisModel
+    public class ForestModel
+    {
+        public int? FID { get; set; }
+        public int? District_C { get; set; }
+        public int Region_Cod { get; set; }
+        public int FOR_Num { get; set; }
+        public string FOR_Name { get; set; }
+    }
+
+    public class GisForestModel1111 : GisModel
     {
         public Features[] features { get; set; }
         public class Features

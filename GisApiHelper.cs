@@ -1,18 +1,22 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
+ 
+using static YaaranutGisApi.GisApiHelper;
 
 namespace YaaranutGisApi
 {
     public interface IGisApiHelper
     {
-        public string GetFeatures(string LayerName,int SubData, System.Collections.Specialized.NameValueCollection ParmQuery);
+        public GisResult<GisModel, TFeatures> GetFeatures<TFeatures>(string LayerName, int SubData, System.Collections.Specialized.NameValueCollection ParmQuery);
+        public T GetFeatureAttachments<T>(string LayerName, int SubData, System.Collections.Specialized.NameValueCollection ParmQuery);
         public InsertRetModel InsertFeature(string LayerName, int SubData, string UpdateValues);
         public InsertRetModel UpdateFeature(string LayerName, int SubData, string UpdateValues);
         public string GetToken();
@@ -29,17 +33,45 @@ namespace YaaranutGisApi
             //if (env.IsDevelopment() || env.IsStaging()) this.GisEnvPrefix = "Test_";
         }
 
-        public string GetFeatures(string LayerName, int SubData, System.Collections.Specialized.NameValueCollection ParmQuery)
+        public GisResult<GisModel, TFeatures> GetFeatures<TFeatures>(string LayerName, int SubData, System.Collections.Specialized.NameValueCollection ParmQuery)  
         {
-            string responsebodyForest = "";
-
-            using (WebClient clientForest = new WebClient())
+            //var T1Type = Type.GetType(typeof(List<TFeatures>).AssemblyQualifiedName);
+            GisResult<GisModel, TFeatures> result= new GisResult<GisModel, TFeatures>();
+             
+            using (WebClient clientGis = new WebClient())
             {
-                byte[] responsebytesForest = clientForest.UploadValues(this.appSettings.GisApiUrl + "/" + this.GisEnvPrefix + LayerName.ToString() + "/FeatureServer/" + SubData.ToString() + "/query", "POST", ParmQuery);
-                responsebodyForest = Encoding.UTF8.GetString(responsebytesForest);
+                byte[] responsebytesGis = clientGis.UploadValues(this.appSettings.GisApiUrl + "/" + this.GisEnvPrefix + LayerName.ToString() + "/FeatureServer/" + SubData.ToString() + "/query", "POST", ParmQuery);
+                string responsebodyGis = Encoding.UTF8.GetString(responsebytesGis);
+                
+                result.GisAttributes = JsonConvert.DeserializeObject<GisModel>(responsebodyGis);
+                result.Features = (List<TFeatures>)Activator.CreateInstance(typeof (List<TFeatures>) );
+                //var azzz = result.GisModel.features.First().attributes;
+                //JObject FeatureObjects = JObject.Parse(responsebodyGis);
+                //var az= FeatureObjects["features"].ToObject(typeof(List<TFeatures>));
+                //result.FeatureModel = (List<TFeatures>)FeatureObjects["features"].ToObject(typeof(List<TFeatures>));
+
+                foreach (var item in result.GisAttributes.features)
+                {
+                    ((List<TFeatures>)result.Features).Add(((JObject)item.attributes).ToObject<TFeatures>());
+                }
             }
-            return responsebodyForest;
+            return result;
         }
+        
+        public T  GetFeatureAttachments<T>(string LayerName, int SubData, System.Collections.Specialized.NameValueCollection ParmQuery)  
+        {
+            T result = default(T);
+
+            using (WebClient clientGis = new WebClient())
+            {
+                byte[] responsebytesGis = clientGis.UploadValues(this.appSettings.GisApiUrl + "/" + this.GisEnvPrefix + LayerName.ToString() + "/FeatureServer/" + SubData.ToString() + "/queryAttachments", "POST", ParmQuery);
+                string responsebodyGis = Encoding.UTF8.GetString(responsebytesGis);
+                result = JsonConvert.DeserializeObject<T>(responsebodyGis);
+            }
+            
+            return result;
+        }
+         
         public InsertRetModel InsertFeature(string LayerName, int SubData, string InsertValues)
         {
             InsertRetModel InsertRet = null;
@@ -113,6 +145,29 @@ namespace YaaranutGisApi
         {
             return string.Join(",", T.GetProperties().Select(a => a.Name));
         }
+
+        public class GisResult<T, T1>
+        {
+            public T GisAttributes;
+            public IList<T1> Features;
+
+        }
+
+        public class DateTimeConverter : DateTimeConverterBase
+        {
+            private static readonly DateTime _epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                // writer.WriteRawValue(((DateTime)value - _epoch).TotalMilliseconds + "000");
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                if (reader.Value == null) { return null; }
+                return _epoch.AddMilliseconds((long)reader.Value);
+            }
+        }
     }
 
     public class GisErrorModel
@@ -139,8 +194,13 @@ namespace YaaranutGisApi
         public string objectIdFieldName { get; set; }
         public UniqueIdField uniqueIdField { get; set; }
         public Fields[] fields { get; set; }
-
-    }    
+        public attachmentGroups[] attachmentGroups { get; set; }
+        public Features[] features { get; set; }
+    }
+    public class Features
+    {
+        public dynamic  attributes { get; set; }
+    }
     public class UniqueIdField
     {
         public string name { get; set; }
@@ -153,7 +213,26 @@ namespace YaaranutGisApi
         public string alias { get; set; }
         public string sqlType { get; set; }
         public int length { get; set; }
+    }
 
+    public class attachmentGroups
+    {
+        public long parentObjectId { get; set; }
+        public string parentGlobalId { get; set; }
+        public attachmentInfos[] attachmentInfos { get; set; }
+
+    }
+
+    public class attachmentInfos
+    {
+        public long id { get; set; }
+        public string globalId { get; set; }
+        public string contentType { get; set; }
+        public long size { get; set; }
+        public string keywords { get; set; }
+        public string exifInfo { get; set; }
+        public string url { get; set; }
+        
     }
 
 }
