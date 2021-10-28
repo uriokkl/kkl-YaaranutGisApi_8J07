@@ -5,11 +5,11 @@ import { YaaranutService } from '../yaaranut.service';
 import * as i0 from "@angular/core";
 export declare class SeedsCollectComponent implements OnInit {
     private ys;
-    set content(content: ElementRef);
-    mapLoaded: EventEmitter<boolean>;
     private mapViewEl;
     private _SeedsCollects;
     private firstTime;
+    set content(content: ElementRef);
+    mapLoaded: EventEmitter<boolean>;
     set seedsCollects(SeedsCollects: string[]);
     get seedsCollects(): string[];
     featerLayer: FeatureLayer;

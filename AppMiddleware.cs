@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -15,16 +16,16 @@ namespace ReverseProxyApplication
         private static readonly HttpClient _httpClient = new HttpClient();
         private readonly RequestDelegate _nextMiddleware;
         private IGisApiHelper GisApiHelper;
-
+        private IHostEnvironment env;
         public ReverseProxyMiddleware(RequestDelegate nextMiddleware)
         {
             _nextMiddleware = nextMiddleware;
         }
 
-        public async Task Invoke(HttpContext context,  IGisApiHelper GisApiHelper)
+        public async Task Invoke(HttpContext context,  IGisApiHelper GisApiHelper, IHostEnvironment env)
         {
             this.GisApiHelper = GisApiHelper;
-
+            
             var targetUri = BuildTargetUri(context.Request);
 
             if (targetUri != null)
@@ -124,7 +125,7 @@ namespace ReverseProxyApplication
 
                 var requestArr= request.Path.Value.Split("/");
                 arcgisServicesUrl = @"https://services2.arcgis.com/utNNrmXb4IZOLXXs/ArcGIS/rest/services/";
-                arcgisServicesUrl += "Test_";
+                if (!this.env.IsProduction()) arcgisServicesUrl += "Test_";
                 arcgisServicesUrl += requestArr[4];
                 arcgisServicesUrl += "/FeatureServer/";
                 arcgisServicesUrl += "" + requestArr[6];

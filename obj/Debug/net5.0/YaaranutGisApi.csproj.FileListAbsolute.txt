@@ -78,3 +78,4 @@ C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\clientapp\projects\Librarys\package.
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\clientapp\projects\Librarys\tsconfig.lib.json
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\clientapp\projects\Librarys\tsconfig.lib.prod.json
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\clientapp\projects\Librarys\tsconfig.spec.json
+C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\clientapp\projects\Librarys\tsconfig.lib.test.json

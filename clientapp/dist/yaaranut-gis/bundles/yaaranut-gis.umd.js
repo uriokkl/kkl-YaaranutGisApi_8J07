@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@arcgis/core/WebMap'), require('@arcgis/core/views/MapView'), require('@arcgis/core/layers/FeatureLayer'), require('@arcgis/core/Basemap'), require('@arcgis/core/layers/support/LabelClass'), require('@arcgis/core/symbols'), require('@arcgis/core/Color'), require('@arcgis/core/renderers/SimpleRenderer'), require('@angular/platform-browser'), require('@angular/forms')) :
-    typeof define === 'function' && define.amd ? define('yaaranut-gis', ['exports', '@angular/core', '@arcgis/core/WebMap', '@arcgis/core/views/MapView', '@arcgis/core/layers/FeatureLayer', '@arcgis/core/Basemap', '@arcgis/core/layers/support/LabelClass', '@arcgis/core/symbols', '@arcgis/core/Color', '@arcgis/core/renderers/SimpleRenderer', '@angular/platform-browser', '@angular/forms'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['yaaranut-gis'] = {}, global.ng.core, global.WebMap, global.MapView, global.FeatureLayer, global.Basemap, global.LabelClass, global.symbols, global.Color, global.SimpleRenderer, global.ng.platformBrowser, global.ng.forms));
-}(this, (function (exports, i0, WebMap, MapView, FeatureLayer, Basemap, LabelClass, symbols, Color, SimpleRenderer, platformBrowser, forms) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/core/testing'), require('@arcgis/core/WebMap'), require('@arcgis/core/views/MapView'), require('@arcgis/core/layers/FeatureLayer'), require('@arcgis/core/Basemap'), require('@arcgis/core/layers/support/LabelClass'), require('@arcgis/core/symbols'), require('@arcgis/core/Color'), require('@arcgis/core/renderers/SimpleRenderer'), require('@angular/platform-browser'), require('@angular/forms')) :
+    typeof define === 'function' && define.amd ? define('yaaranut-gis', ['exports', '@angular/core', '@angular/core/testing', '@arcgis/core/WebMap', '@arcgis/core/views/MapView', '@arcgis/core/layers/FeatureLayer', '@arcgis/core/Basemap', '@arcgis/core/layers/support/LabelClass', '@arcgis/core/symbols', '@arcgis/core/Color', '@arcgis/core/renderers/SimpleRenderer', '@angular/platform-browser', '@angular/forms'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['yaaranut-gis'] = {}, global.ng.core, global.ng.core.testing, global.WebMap, global.MapView, global.FeatureLayer, global.Basemap, global.LabelClass, global.symbols, global.Color, global.SimpleRenderer, global.ng.platformBrowser, global.ng.forms));
+}(this, (function (exports, i0, i1, WebMap, MapView, FeatureLayer, Basemap, LabelClass, symbols, Color, SimpleRenderer, platformBrowser, forms) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -27,6 +27,7 @@
     }
 
     var i0__namespace = /*#__PURE__*/_interopNamespace(i0);
+    var i1__namespace = /*#__PURE__*/_interopNamespace(i1);
     var WebMap__default = /*#__PURE__*/_interopDefaultLegacy(WebMap);
     var MapView__default = /*#__PURE__*/_interopDefaultLegacy(MapView);
     var FeatureLayer__default = /*#__PURE__*/_interopDefaultLegacy(FeatureLayer);
@@ -51,18 +52,43 @@
      */
     // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
 
+    var environmentTest = {
+        production: false,
+        apiUrl: 'https://kkl-yaaranutgisapi.azurewebsites.net',
+    };
+
+    var environmentProd = {
+        production: true,
+        apiUrl: 'https://kkl-yaaranutgisapi.azurewebsites.net',
+    };
+
     var YaaranutService = /** @class */ (function () {
-        function YaaranutService() {
+        function YaaranutService(testBed) {
             this.apiUrl = "";
-            this.apiUrl = environment.apiUrl;
+            if (i0.isDevMode()) {
+                alert("isDevMode");
+                this.apiUrl = environment.apiUrl;
+            }
+            else if (testBed !== null) {
+                alert("testBed");
+                this.apiUrl = environmentTest.apiUrl;
+            }
+            else {
+                alert("Prod");
+                this.apiUrl = environmentProd.apiUrl;
+            }
         }
         return YaaranutService;
     }());
-    YaaranutService.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: YaaranutService, deps: [], target: i0__namespace.ɵɵFactoryTarget.Injectable });
+    YaaranutService.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: YaaranutService, deps: [{ token: i1__namespace.TestBed, optional: true }], target: i0__namespace.ɵɵFactoryTarget.Injectable });
     YaaranutService.ɵprov = i0__namespace.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: YaaranutService });
     i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: YaaranutService, decorators: [{
                 type: i0.Injectable
-            }], ctorParameters: function () { return []; } });
+            }], ctorParameters: function () {
+            return [{ type: i1__namespace.TestBed, decorators: [{
+                            type: i0.Optional
+                        }] }];
+        } });
 
     var WorkUnitService = /** @class */ (function () {
         function WorkUnitService() {
@@ -508,6 +534,7 @@
                         //});
                     }
                     catch (error) {
+                        console.error(error);
                         alert('We have an error: ' + error);
                     }
                     return [2 /*return*/];
@@ -519,12 +546,12 @@
         return WorkUnitComponent;
     }());
     WorkUnitComponent.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: WorkUnitComponent, deps: [{ token: YaaranutService }], target: i0__namespace.ɵɵFactoryTarget.Component });
-    WorkUnitComponent.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.3", type: WorkUnitComponent, selector: "YaaranutGis-workUnit", inputs: { zz: "zz", workUnits: "workUnits" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewNode"], descendants: true, static: true }], ngImport: i0__namespace, template: "11111\n  <div #mapViewNode style=\"width:100%;height: 100%;background-color:yellow\"></div>\n  ", isInline: true });
+    WorkUnitComponent.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.3", type: WorkUnitComponent, selector: "YaaranutGis-workUnit", inputs: { zz: "zz", workUnits: "workUnits" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewNode"], descendants: true, static: true }], ngImport: i0__namespace, template: "\n  <div #mapViewNode style=\"width:100%;height: 100%;background-color:yellow\"></div>\n  ", isInline: true });
     i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: WorkUnitComponent, decorators: [{
                 type: i0.Component,
                 args: [{
                         selector: 'YaaranutGis-workUnit',
-                        template: "11111\n  <div #mapViewNode style=\"width:100%;height: 100%;background-color:yellow\"></div>\n  ",
+                        template: "\n  <div #mapViewNode style=\"width:100%;height: 100%;background-color:yellow\"></div>\n  ",
                         styles: []
                     }]
             }], ctorParameters: function () { return [{ type: YaaranutService }]; }, propDecorators: { content: [{
@@ -584,9 +611,9 @@
     var SeedsCollectComponent = /** @class */ (function () {
         function SeedsCollectComponent(ys) {
             this.ys = ys;
-            this.mapLoaded = new i0.EventEmitter();
             this._SeedsCollects = [];
             this.firstTime = true;
+            this.mapLoaded = new i0.EventEmitter();
             this.featerLayer = new FeatureLayer__default['default']();
             this.mapView = new MapView__default['default']();
         }
@@ -670,7 +697,7 @@
                         polygonsSimpleFillSymbol.outline.width = 2;
                         featerRenderer.symbol = polygonsSimpleFillSymbol;
                         labelClass = new LabelClass__default['default']();
-                        labelClass.labelExpressionInfo = { expression: "$feature.Site + ',' +  $feature.HebNic " };
+                        labelClass.labelExpressionInfo = { expression: "$feature.Site + ', ' +  $feature.HebNic " };
                         this.featerLayer.labelingInfo = [labelClass];
                         //this.featerLayer.renderer = featerRenderer;
                         webMap.add(this.featerLayer);
@@ -682,6 +709,7 @@
                         //});
                     }
                     catch (error) {
+                        console.error(error);
                         alert('We have an error: ' + error);
                     }
                     return [2 /*return*/];

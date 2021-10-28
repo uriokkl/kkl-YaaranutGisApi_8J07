@@ -18,6 +18,9 @@
             "production": {
               "tsConfig": "projects/Librarys/tsconfig.lib.prod.json"
             },
+            "test": {
+              "tsConfig": "projects/Librarys/tsconfig.lib.test.json"
+            },
             "development": {
               "tsConfig": "projects/Librarys/tsconfig.lib.json"
             }

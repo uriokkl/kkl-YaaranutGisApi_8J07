@@ -1,4 +1,4 @@
-export const environment = {
+export const environmentProd = {
   production: true,
-  apiUrl: 'http://localhost:26652',
+    apiUrl: 'https://kkl-yaaranutgisapi.azurewebsites.net',
 };

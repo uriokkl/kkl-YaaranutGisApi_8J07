@@ -1,5 +1,6 @@
 import * as i0 from '@angular/core';
-import { Injectable, EventEmitter, Component, ViewChild, Output, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { isDevMode, Injectable, Optional, EventEmitter, Component, ViewChild, Output, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import * as i1 from '@angular/core/testing';
 import { __awaiter } from 'tslib';
 import WebMap from '@arcgis/core/WebMap';
 import MapView from '@arcgis/core/views/MapView';
@@ -28,17 +29,40 @@ const environment = {
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
 
+const environmentTest = {
+    production: false,
+    apiUrl: 'https://kkl-yaaranutgisapi.azurewebsites.net',
+};
+
+const environmentProd = {
+    production: true,
+    apiUrl: 'https://kkl-yaaranutgisapi.azurewebsites.net',
+};
+
 class YaaranutService {
-    constructor() {
+    constructor(testBed) {
         this.apiUrl = "";
-        this.apiUrl = environment.apiUrl;
+        if (isDevMode()) {
+            alert("isDevMode");
+            this.apiUrl = environment.apiUrl;
+        }
+        else if (testBed !== null) {
+            alert("testBed");
+            this.apiUrl = environmentTest.apiUrl;
+        }
+        else {
+            alert("Prod");
+            this.apiUrl = environmentProd.apiUrl;
+        }
     }
 }
-YaaranutService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: YaaranutService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+YaaranutService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: YaaranutService, deps: [{ token: i1.TestBed, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
 YaaranutService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: YaaranutService });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: YaaranutService, decorators: [{
             type: Injectable
-        }], ctorParameters: function () { return []; } });
+        }], ctorParameters: function () { return [{ type: i1.TestBed, decorators: [{
+                    type: Optional
+                }] }]; } });
 
 class WorkUnitService {
     constructor() { }
@@ -154,6 +178,7 @@ class WorkUnitComponent {
                 //});
             }
             catch (error) {
+                console.error(error);
                 alert('We have an error: ' + error);
             }
         });
@@ -162,14 +187,14 @@ class WorkUnitComponent {
     }
 }
 WorkUnitComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitComponent, deps: [{ token: YaaranutService }], target: i0.ɵɵFactoryTarget.Component });
-WorkUnitComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.3", type: WorkUnitComponent, selector: "YaaranutGis-workUnit", inputs: { zz: "zz", workUnits: "workUnits" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewNode"], descendants: true, static: true }], ngImport: i0, template: `11111
+WorkUnitComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.3", type: WorkUnitComponent, selector: "YaaranutGis-workUnit", inputs: { zz: "zz", workUnits: "workUnits" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewNode"], descendants: true, static: true }], ngImport: i0, template: `
   <div #mapViewNode style="width:100%;height: 100%;background-color:yellow"></div>
   `, isInline: true });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitComponent, decorators: [{
             type: Component,
             args: [{
                     selector: 'YaaranutGis-workUnit',
-                    template: `11111
+                    template: `
   <div #mapViewNode style="width:100%;height: 100%;background-color:yellow"></div>
   `,
                     styles: []
@@ -226,9 +251,9 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImpor
 class SeedsCollectComponent {
     constructor(ys) {
         this.ys = ys;
-        this.mapLoaded = new EventEmitter();
         this._SeedsCollects = [];
         this.firstTime = true;
+        this.mapLoaded = new EventEmitter();
         this.featerLayer = new FeatureLayer();
         this.mapView = new MapView();
     }
@@ -306,7 +331,7 @@ class SeedsCollectComponent {
                 polygonsSimpleFillSymbol.outline.width = 2;
                 featerRenderer.symbol = polygonsSimpleFillSymbol;
                 const labelClass = new LabelClass();
-                labelClass.labelExpressionInfo = { expression: "$feature.Site + ',' +  $feature.HebNic " };
+                labelClass.labelExpressionInfo = { expression: "$feature.Site + ', ' +  $feature.HebNic " };
                 this.featerLayer.labelingInfo = [labelClass];
                 //this.featerLayer.renderer = featerRenderer;
                 webMap.add(this.featerLayer);
@@ -318,6 +343,7 @@ class SeedsCollectComponent {
                 //});
             }
             catch (error) {
+                console.error(error);
                 alert('We have an error: ' + error);
             }
         });
