@@ -25,7 +25,8 @@ namespace ReverseProxyApplication
         public async Task Invoke(HttpContext context,  IGisApiHelper GisApiHelper, IHostEnvironment env)
         {
             this.GisApiHelper = GisApiHelper;
-            
+            this.env = env;
+
             var targetUri = BuildTargetUri(context.Request);
 
             if (targetUri != null)
