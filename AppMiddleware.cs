@@ -123,7 +123,7 @@ namespace ReverseProxyApplication
 
                 //targetUri = new Uri("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services" + "/" + "Test_SeedCollect2021" + "/FeatureServer/" + 0.ToString() + "/query?token="+ this.GetToken() +"&where=1=1"+ remainingPath);
                 //targetUri = new Uri(System.Net.WebUtility.UrlDecode(@"https://services2.arcgis.com" + request.Path + request.QueryString + "&token=" + this.GetToken()));
-
+                  
                 var requestArr= request.Path.Value.Split("/");
                 arcgisServicesUrl = @"https://services2.arcgis.com/utNNrmXb4IZOLXXs/ArcGIS/rest/services/";
                 //if (!this.env.IsProduction()) arcgisServicesUrl += "Test_";
