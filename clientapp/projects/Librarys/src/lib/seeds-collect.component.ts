@@ -98,10 +98,12 @@ export class SeedsCollectComponent implements OnInit {
 
     try {
       //esriConfig.apiKey = "AAPK9a3f55c380f94d1bb10a7566c7b32f941X_pcZKXmWY7Grjs6oA9AqufsDHrvRDYaOlUG8gvyD5fhZv-OGYyIgXEO-ihuO4T";
-
-      this.featerLayer = new FeatureLayer({
+        
+        this.featerLayer = new FeatureLayer({
+            
         url: this.ys.apiUrl + "/ArcGIS/rest/services/SeedCollect2021/FeatureServer/0"
-      }); 
+        });
+        alert(this.featerLayer.url);
       this.featerLayer.opacity = 0.5;
       this.featerLayer.definitionExpression = "1=2";
       //this.featerLayer.displayField = "FOR_NO";
