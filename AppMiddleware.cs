@@ -12,7 +12,7 @@ using YaaranutGisApi;
 namespace ReverseProxyApplication
 {
     public class ReverseProxyMiddleware
-    {
+    {   
         private static readonly HttpClient _httpClient = new HttpClient();
         private readonly RequestDelegate _nextMiddleware;
         private IGisApiHelper GisApiHelper;
