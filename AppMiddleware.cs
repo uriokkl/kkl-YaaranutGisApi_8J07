@@ -127,7 +127,7 @@ namespace ReverseProxyApplication
                 var requestArr= request.Path.Value.Split("/");
                 arcgisServicesUrl = @"https://services2.arcgis.com/utNNrmXb4IZOLXXs/ArcGIS/rest/services/";
                 //if (!this.env.IsProduction()) arcgisServicesUrl += "Test_";
-                arcgisServicesUrl += requestArr[4];
+                arcgisServicesUrl += requestArr[4];     
                 arcgisServicesUrl += "/FeatureServer/";
                 arcgisServicesUrl += "" + requestArr[6];
                 if (requestArr.Length>7) arcgisServicesUrl += "/"+ requestArr[7];

@@ -43,15 +43,13 @@ class YaaranutService {
     constructor(testBed) {
         this.apiUrl = "";
         if (isDevMode()) {
-            alert("isDevMode");
             this.apiUrl = environment.apiUrl;
+            this.apiUrl = environmentTest.apiUrl;
         }
         else if (testBed !== null) {
-            alert("testBed");
             this.apiUrl = environmentTest.apiUrl;
         }
         else {
-            alert("Prod");
             this.apiUrl = environmentProd.apiUrl;
         }
     }
@@ -314,7 +312,7 @@ class SeedsCollectComponent {
             try {
                 //esriConfig.apiKey = "AAPK9a3f55c380f94d1bb10a7566c7b32f941X_pcZKXmWY7Grjs6oA9AqufsDHrvRDYaOlUG8gvyD5fhZv-OGYyIgXEO-ihuO4T";
                 this.featerLayer = new FeatureLayer({
-                    url: this.ys.apiUrl + "/ArcGIS/rest/services/SeedCollect2021/FeatureServer/0"
+                    url: this.ys.apiUrl + "/ArcGIS/rest/services/SeedCollect2021/FeatureServer/0/"
                 });
                 this.featerLayer.opacity = 0.5;
                 this.featerLayer.definitionExpression = "1=2";
