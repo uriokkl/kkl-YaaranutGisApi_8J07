@@ -4,3 +4,4 @@
 
 /.vs
 /clientapp/node_modules
+/.git/objects
