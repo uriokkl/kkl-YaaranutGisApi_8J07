@@ -9,7 +9,7 @@ namespace YaaranutGisApi.Controllers
 {
     //[ApiController]
     //[Route("[controller]")]
-    public class WeatherForecastC_ontroller : ControllerBase
+    public class WeatherForecastC_ontroller : ControllerBase  
     {
         private static readonly string[] Summaries = new[]
         {

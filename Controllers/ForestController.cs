@@ -38,7 +38,7 @@ namespace YaaranutGisApi.Controllers
                 return StatusCode(500, Gisfeatures.GisAttributes.error.message + " " + Gisfeatures.GisAttributes.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
             }
         }
-    }
+    }   
 
     public class ForestModel
     {

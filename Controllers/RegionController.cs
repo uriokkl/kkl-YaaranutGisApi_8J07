@@ -9,7 +9,7 @@ namespace YaaranutGisApi.Controllers
     [Route("[controller]")]
     [EnableCors("CorsAll")]
     public class RegionController : BaseController
-    {
+    {   
         public RegionController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
         [HttpGet]

@@ -8,7 +8,7 @@ namespace YaaranutGisApi.Controllers
     //[ApiController]
     //[Route("[controller]")]
     public class HazardsInspectionController : BaseController
-    {
+    {   
         public HazardsInspectionController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
         //[HttpPost]

@@ -11,7 +11,7 @@ namespace YaaranutGisApi.Controllers
     public class DistrictController : BaseController
     {
         public DistrictController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
-
+           
         [HttpGet]
         [Route("GetDistricts")]
         //[EnableCors("CorsAll")]

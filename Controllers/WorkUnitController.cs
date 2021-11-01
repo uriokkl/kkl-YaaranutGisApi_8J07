@@ -253,7 +253,7 @@ namespace YaaranutGisApi.Controllers
         }
     }
 
-    public class WorkUnitModel
+    public class WorkUnitModel   
     {
         //public int? OBJECTID { get; set; }
         public string GlobalID { get; set; }

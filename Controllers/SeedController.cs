@@ -74,7 +74,7 @@ namespace YaaranutGisApi.Controllers
                     return Ok((List<SeedModel>)Gisfeatures.Features);
             }
             else
-            {
+            {   
                 return StatusCode(500, Gisfeatures.GisAttributes.error.message + " " + Gisfeatures.GisAttributes.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
             }
         }
