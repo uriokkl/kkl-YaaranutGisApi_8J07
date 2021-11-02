@@ -1,4 +1,3 @@
-C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Publish\web.config
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\appsettings.Development.json
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\appsettings.json
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\clientapp\angular.json
@@ -12,16 +11,6 @@ C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\clientapp\projects\Librarys\tsconfig
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\clientapp\projects\Librarys\tsconfig.lib.test.json
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\clientapp\projects\Librarys\tsconfig.spec.json
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\clientapp\tsconfig.json
-C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Publish\appsettings.Development.json
-C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Publish\appsettings.json
-C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Publish\ClientApp\angular.json
-C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Publish\ClientApp\package-lock.json
-C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Publish\ClientApp\package.json
-C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Publish\ClientApp\tsconfig.app.json
-C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Publish\ClientApp\tsconfig.json
-C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Publish\ClientApp\tsconfig.spec.json
-C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Publish\YaaranutGisApi.deps.json
-C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Publish\YaaranutGisApi.runtimeconfig.json
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\YaaranutGisApi.exe
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\YaaranutGisApi.deps.json
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\YaaranutGisApi.runtimeconfig.json
@@ -34,7 +23,6 @@ C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.csproj.AssemblyReference.cache
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.GeneratedMSBuildEditorConfig.editorconfig
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.AssemblyInfoInputs.cache
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.AssemblyInfo.cs
