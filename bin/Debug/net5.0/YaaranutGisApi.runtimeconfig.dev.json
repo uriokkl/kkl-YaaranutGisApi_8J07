@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "C:\\Users\\urio\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\urio\\.nuget\\packages"
-    ]
-  }
-}
