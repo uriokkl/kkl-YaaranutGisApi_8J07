@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace YaaranutGisApi.Controllers
 {
-    [ApiController]
+    [ApiController]     
     [Route("[controller]")]
     [EnableCors("CorsAll")]
     public class RegionController : BaseController
