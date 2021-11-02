@@ -15,7 +15,7 @@ on:
 #
 # 2. Change these variables for your configuration:
 env:
-  AZURE_WEBAPP_NAME: 'kkl-YaaranutGisApi'
+  AZURE_WEBAPP_NAME: kkl-YaaranutGisApi   
   AZURE_WEBAPP_PACKAGE_PATH: './publish'      
   DOTNET_VERSION: '5.0'          
   
