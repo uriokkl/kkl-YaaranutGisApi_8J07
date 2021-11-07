@@ -110,7 +110,7 @@ export class WorkUnitComponent implements OnInit {
     try {
      // this.featerLayer = new FeatureLayer({ url: "http://localhost:27552/utNNrmXb4IZOLXXs/ArcGIS/rest/services/Test_KKLForestManagementUnits/FeatureServer/0/query" });
       this.featerLayer = new FeatureLayer({
-        url: this.ys.apiUrl + "/ArcGIS/rest/services/KKLForestManagementUnits/FeatureServer/0"          
+          url: this.ys.apiUrl + "/ArcGIS/rest/services/KKLForestManagementUnits/FeatureServer/0"          
       });
      this.featerLayer.opacity = 0.5;
      this.featerLayer.definitionExpression = "1=2";

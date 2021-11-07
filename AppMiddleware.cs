@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -26,22 +27,95 @@ namespace ReverseProxyApplication
         {
             this.GisApiHelper = GisApiHelper;
             this.env = env;
+            try
+            {
+                var targetUri = BuildTargetUri(context.Request);
+                string azzz = "";
+                if (targetUri != null)
+                {//פניה ל שרות של ESRI
 
-            var targetUri = BuildTargetUri(context.Request);
+                    azzz = @"{""token"":""ND0U97_dcABsIJuT5bmCiL3fUqONL4YwUdPzehbrNbFbfJRz-6u72Fa5FtqDh6kTURHlb2LHYtVImZF_DE4LG-VrR3BI2Xn9SrGShj_PsfcrtjSF9m4wQRVVBWNuGxCtAhax7ntvf9J3TXGRw8ataCLp-zjCepFolwKXvNU7VgM.""}";
+                    StringContent data = new StringContent(azzz, Encoding.UTF8, "application/json");
+                    System.Net.Http.Json.JsonContent az1 =  System.Net.Http.Json.JsonContent.Create(azzz);
+                    IList<KeyValuePair<string, string>> nameValueCollection = new List<KeyValuePair<string, string>> {
+    { new KeyValuePair<string, string>("token", this.GisApiHelper.GetToken()) }
 
-            if (targetUri != null)
-            {//פניה ל שרות של ESRI
-                var targetRequestMessage = CreateTargetMessage(context, targetUri);
+};
+                    //var az2 = new FormUrlEncodedContent(nameValueCollection);
+                    //using (var responseMessage = await _httpClient.PostAsync("https://services2.arcgis.com/utNNrmXb4IZOLXXs/ArcGIS/rest/services/KKLForestManagementUnits/FeatureServer/0/query",az2))
+                    //{
+                    //    var listOfWorkUnit = responseMessage.Content.ReadAsStringAsync();
+                    //    string bodyContent = new System.IO.StreamReader(responseMessage.Content.ReadAsStream()).ReadToEnd();
+                    //    string bodyContent2 = new System.IO.StreamReader(responseMessage.RequestMessage.Content.ReadAsStream()).ReadToEnd();
+                    //}
 
-                using (var responseMessage = await _httpClient.SendAsync(targetRequestMessage, HttpCompletionOption.ResponseHeadersRead, context.RequestAborted))
-                {
-                    context.Response.StatusCode = (int)responseMessage.StatusCode;
-                    CopyFromTargetResponseHeaders(context, responseMessage);
-                    await responseMessage.Content.CopyToAsync(context.Response.Body);
+
+                    var targetRequestMessage = CreateTargetMessage(context, targetUri);
+
+                    IList<KeyValuePair<string, string>> formValueCollection = new List<KeyValuePair<string, string>>();
+                    if (context.Request.ContentLength != null)
+                    {
+                        IFormCollection form;
+                        Microsoft.Extensions.Primitives.StringValues kv = "";
+                        form = context.Request.Form;
+
+                        foreach (var k in form.Keys)
+                        {
+                            var v = form.TryGetValue(k, out kv);
+                            azzz += @"""" + k + @""":""" + kv.ToString().Replace(@"""", @"\""") + @""",";
+                            formValueCollection.Add(new KeyValuePair<string, string>(k,   kv.ToString() ));
+                        }
+                        formValueCollection.Add(new KeyValuePair<string, string>("token", this.GisApiHelper.GetToken()));
+
+                        //var az = new System.Collections.Generic.KeyValuePair<string, Microsoft.Extensions.Primitives.StringValues>("token", this.GisApiHelper.GetToken());
+                        ////form.Append(az);
+                        //var azz = new FormCollection(null);
+                        
+                        //form.Select(k => azzz += @"""" + k.Key + @""":""" + k.Value + @""",");
+                        //Microsoft.Extensions.Primitives.StringValues kv = "";
+                        //foreach (var k in form.Keys)
+                        //{
+                        //    var v = form.TryGetValue(k, out kv);
+                        //    azzz += @"""" + k + @""":""" + kv.ToString().Replace(@"""", @"\""") + @""",";
+                        //}
+
+                        //azzz += @"""token "":""" + this.GisApiHelper.GetToken() + @"""";
+                        //azzz = "{" + azzz + "}";
+                        //azzz = "{" + @"""token "":""" + this.GisApiHelper.GetToken() + @"""" + "}";
+
+                        
+                    }
+                        //requestMessage.Content = new StringContent("{\"name\":\"John Doe\",\"age\":33}", Encoding.UTF8, "application/json");  
+                        //requestMessage.Content = new StringContent(azzz, Encoding.UTF8, "application/json");
+                        
+                   // using (var stringContent = new StringContent(azzz, Encoding.UTF8, "application/json"))
+                        {
+
+                        if (targetRequestMessage.Method.ToString()!="GET") targetRequestMessage.Content =   new FormUrlEncodedContent(formValueCollection);
+                        
+
+                            using (var responseMessage = await _httpClient.SendAsync(targetRequestMessage, HttpCompletionOption.ResponseHeadersRead, context.RequestAborted))
+                            {
+                                context.Response.StatusCode = (int)responseMessage.StatusCode;
+                                CopyFromTargetResponseHeaders(context, responseMessage);
+                                if (context.Request.ContentLength != null)
+                                {
+                                    //string bodyContent = new System.IO.StreamReader(responseMessage.Content.ReadAsStream()).ReadToEnd();
+                                    //string bodyContent1 = new System.IO.StreamReader(targetRequestMessage.Content.ReadAsStream()).ReadToEnd();
+                                    //string bodyContent2 = new System.IO.StreamReader(responseMessage.RequestMessage.Content.ReadAsStream()).ReadToEnd();
+                                }
+                                await responseMessage.Content.CopyToAsync(context.Response.Body);
+                            }
+                        }
+                    
+                    return;
                 }
-                return;
+                await _nextMiddleware(context);
             }
-            await _nextMiddleware(context);
+            catch (Exception e)
+            {
+
+            }
         }
 
         private HttpRequestMessage CreateTargetMessage(HttpContext context, Uri targetUri)
@@ -53,6 +127,7 @@ namespace ReverseProxyApplication
             requestMessage.Headers.Host = targetUri.Host;
             requestMessage.Method = GetMethod(context.Request.Method);
 
+            
             return requestMessage;
         }
 
@@ -125,14 +200,22 @@ namespace ReverseProxyApplication
                 //targetUri = new Uri(System.Net.WebUtility.UrlDecode(@"https://services2.arcgis.com" + request.Path + request.QueryString + "&token=" + this.GetToken()));
                   
                 var requestArr= request.Path.Value.Split("/");
-                arcgisServicesUrl = @"https://services2.arcgis.com/utNNrmXb4IZOLXXs/ArcGIS/rest/services/";
+                if (true || request.Method == "GET")
+                {
+                    arcgisServicesUrl = @"https://services2.arcgis.com/utNNrmXb4IZOLXXs/ArcGIS/rest/services/";
+                }
+                else
+                {
+                    arcgisServicesUrl = "http://localhost:27552"+ "/ArcGIS/rest/services/KKLForestManagementUnits/FeatureServer/99";
+                }
                 //if (!this.env.IsProduction()) arcgisServicesUrl += "Test_";
                 arcgisServicesUrl += requestArr[4];     
                 arcgisServicesUrl += "/FeatureServer/";
                 arcgisServicesUrl += "" + requestArr[6];
                 if (requestArr.Length>7) arcgisServicesUrl += "/"+ requestArr[7];
                 arcgisServicesUrl += request.QueryString;
-                arcgisServicesUrl += "&token=" + this.GisApiHelper.GetToken();
+                //if (request.QueryString.ToString() == "?f=json")   arcgisServicesUrl += "&token=" + this.GisApiHelper.GetToken();
+                if (request.Method=="GET") arcgisServicesUrl += "&token=" + this.GisApiHelper.GetToken();
                 targetUri = new Uri(System.Net.WebUtility.UrlDecode(arcgisServicesUrl ));
             }
 

@@ -38,3 +38,5 @@ C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.dll
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\ref\YaaranutGisApi.dll
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.pdb
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.genruntimeconfig.cache
+C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\web.config
+C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.csproj.AssemblyReference.cache

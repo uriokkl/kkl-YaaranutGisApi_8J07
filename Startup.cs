@@ -33,8 +33,8 @@ namespace YaaranutGisApi
             services.AddScoped<IAppSettings>(_appSettings => appSettings);
             services.AddScoped<IGisApiHelper, GisApiHelper>();
             
-            services.AddAuthentication(Microsoft.AspNetCore.Server.HttpSys.HttpSysDefaults.AuthenticationScheme);
-
+            //services.AddAuthentication(Microsoft.AspNetCore.Server.HttpSys.HttpSysDefaults.AuthenticationScheme);
+            services.AddAuthentication(Microsoft.AspNetCore.Server.IISIntegration.IISDefaults.AuthenticationScheme);
             services.AddCors(options => options.AddPolicy("CorsAll", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -74,7 +74,7 @@ namespace YaaranutGisApi
             app.UseCors("CorsAll"); 
 
             app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthorization();
             app.UseHsts();
             app.UseDefaultFiles();
             app.UseStaticFiles();
