@@ -30,7 +30,6 @@ C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.csproj.CoreCompileInp
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.MvcApplicationPartsAssemblyInfo.cs
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.MvcApplicationPartsAssemblyInfo.cache
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\staticwebassets\YaaranutGisApi.StaticWebAssets.Manifest.cache
-C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\staticwebassets\YaaranutGisApi.StaticWebAssets.xml
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\scopedcss\bundle\YaaranutGisApi.styles.css
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.RazorTargetAssemblyInfo.cache
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.csproj.CopyComplete
@@ -39,4 +38,3 @@ C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\ref\YaaranutGisApi.dll
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.pdb
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.genruntimeconfig.cache
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\web.config
-C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.csproj.AssemblyReference.cache

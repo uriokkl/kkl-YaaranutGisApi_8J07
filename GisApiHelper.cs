@@ -233,7 +233,13 @@ namespace YaaranutGisApi
         public string keywords { get; set; }
         public string exifInfo { get; set; }
         public string url { get; set; }
-        
-    }
+        public string Name { get; set; }
 
+    }
+    public class FilesAttachments
+    {
+        public string Url { get; set; }
+        public string Type { get; set; }
+        public string Name { get; set; }
+    }
 }
