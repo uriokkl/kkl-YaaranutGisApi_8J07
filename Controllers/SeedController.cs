@@ -66,7 +66,7 @@ namespace YaaranutGisApi.Controllers
                         foreach (var attachmentInfos in attachmentGroups.attachmentInfos)
                         {
                             seedRow.FilesAttachments = new List<FilesAttachments>();
-                            seedRow.FilesAttachments.Add(new FilesAttachments() {Url= attachmentInfos.url + "?token=" + token,Type= attachmentInfos.contentType });
+                            seedRow.FilesAttachments.Add(new FilesAttachments() {Url= attachmentInfos.url + "?token=" + token,Type= attachmentInfos.contentType, Name = attachmentInfos.Name });
                         }
                         
                     }
@@ -116,11 +116,7 @@ namespace YaaranutGisApi.Controllers
         public List<FilesAttachments> FilesAttachments { get; set; }
 
     }
-    public class FilesAttachments
-    {
-        public string Url { get; set; }
-        public string Type { get; set; }
-    }
+    
 
     public class GisSeedModel1111 : GisModel
     {

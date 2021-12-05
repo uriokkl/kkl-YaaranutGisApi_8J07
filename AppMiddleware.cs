@@ -30,69 +30,14 @@ namespace ReverseProxyApplication
             try
             {
                 var targetUri = BuildTargetUri(context.Request);
-                string azzz = "";
+                
                 if (targetUri != null)
                 {//פניה ל שרות של ESRI
 
-                    azzz = @"{""token"":""ND0U97_dcABsIJuT5bmCiL3fUqONL4YwUdPzehbrNbFbfJRz-6u72Fa5FtqDh6kTURHlb2LHYtVImZF_DE4LG-VrR3BI2Xn9SrGShj_PsfcrtjSF9m4wQRVVBWNuGxCtAhax7ntvf9J3TXGRw8ataCLp-zjCepFolwKXvNU7VgM.""}";
-                    StringContent data = new StringContent(azzz, Encoding.UTF8, "application/json");
-                    System.Net.Http.Json.JsonContent az1 =  System.Net.Http.Json.JsonContent.Create(azzz);
-                    IList<KeyValuePair<string, string>> nameValueCollection = new List<KeyValuePair<string, string>> {
-    { new KeyValuePair<string, string>("token", this.GisApiHelper.GetToken()) }
-
-};
-                    //var az2 = new FormUrlEncodedContent(nameValueCollection);
-                    //using (var responseMessage = await _httpClient.PostAsync("https://services2.arcgis.com/utNNrmXb4IZOLXXs/ArcGIS/rest/services/KKLForestManagementUnits/FeatureServer/0/query",az2))
-                    //{
-                    //    var listOfWorkUnit = responseMessage.Content.ReadAsStringAsync();
-                    //    string bodyContent = new System.IO.StreamReader(responseMessage.Content.ReadAsStream()).ReadToEnd();
-                    //    string bodyContent2 = new System.IO.StreamReader(responseMessage.RequestMessage.Content.ReadAsStream()).ReadToEnd();
-                    //}
-
-
+ 
                     var targetRequestMessage = CreateTargetMessage(context, targetUri);
 
-                    IList<KeyValuePair<string, string>> formValueCollection = new List<KeyValuePair<string, string>>();
-                    if (context.Request.ContentLength != null)
-                    {
-                        IFormCollection form;
-                        Microsoft.Extensions.Primitives.StringValues kv = "";
-                        form = context.Request.Form;
-
-                        foreach (var k in form.Keys)
-                        {
-                            var v = form.TryGetValue(k, out kv);
-                            azzz += @"""" + k + @""":""" + kv.ToString().Replace(@"""", @"\""") + @""",";
-                            formValueCollection.Add(new KeyValuePair<string, string>(k,   kv.ToString() ));
-                        }
-                        formValueCollection.Add(new KeyValuePair<string, string>("token", this.GisApiHelper.GetToken()));
-
-                        //var az = new System.Collections.Generic.KeyValuePair<string, Microsoft.Extensions.Primitives.StringValues>("token", this.GisApiHelper.GetToken());
-                        ////form.Append(az);
-                        //var azz = new FormCollection(null);
-                        
-                        //form.Select(k => azzz += @"""" + k.Key + @""":""" + k.Value + @""",");
-                        //Microsoft.Extensions.Primitives.StringValues kv = "";
-                        //foreach (var k in form.Keys)
-                        //{
-                        //    var v = form.TryGetValue(k, out kv);
-                        //    azzz += @"""" + k + @""":""" + kv.ToString().Replace(@"""", @"\""") + @""",";
-                        //}
-
-                        //azzz += @"""token "":""" + this.GisApiHelper.GetToken() + @"""";
-                        //azzz = "{" + azzz + "}";
-                        //azzz = "{" + @"""token "":""" + this.GisApiHelper.GetToken() + @"""" + "}";
-
-                        
-                    }
-                        //requestMessage.Content = new StringContent("{\"name\":\"John Doe\",\"age\":33}", Encoding.UTF8, "application/json");  
-                        //requestMessage.Content = new StringContent(azzz, Encoding.UTF8, "application/json");
-                        
-                   // using (var stringContent = new StringContent(azzz, Encoding.UTF8, "application/json"))
-                        {
-
-                        if (targetRequestMessage.Method.ToString()!="GET") targetRequestMessage.Content =   new FormUrlEncodedContent(formValueCollection);
-                        
+                      
 
                             using (var responseMessage = await _httpClient.SendAsync(targetRequestMessage, HttpCompletionOption.ResponseHeadersRead, context.RequestAborted))
                             {
@@ -106,7 +51,7 @@ namespace ReverseProxyApplication
                                 }
                                 await responseMessage.Content.CopyToAsync(context.Response.Body);
                             }
-                        }
+                        
                     
                     return;
                 }
@@ -114,7 +59,7 @@ namespace ReverseProxyApplication
             }
             catch (Exception e)
             {
-
+                throw new Exception(YaaranutGisApi.General.baseUtil.GetExceptionmessage(e) );
             }
         }
 
@@ -122,7 +67,7 @@ namespace ReverseProxyApplication
         {
             var requestMessage = new HttpRequestMessage();
             CopyFromOriginalRequestContentAndHeaders(context, requestMessage);
-
+            CopyFromOrginalRequestForm(context, requestMessage);
             requestMessage.RequestUri = targetUri;
             requestMessage.Headers.Host = targetUri.Host;
             requestMessage.Method = GetMethod(context.Request.Method);
@@ -150,6 +95,28 @@ namespace ReverseProxyApplication
             }
         }
 
+        private void CopyFromOrginalRequestForm(HttpContext context, HttpRequestMessage requestMessage)
+        {
+            IList<KeyValuePair<string, string>> formValueCollection = new List<KeyValuePair<string, string>>();
+
+            if (context.Request.Method.ToString() != "GET")
+            {
+                if (context.Request.ContentLength != null)
+                {
+                    IFormCollection form;
+                    Microsoft.Extensions.Primitives.StringValues kv = "";
+                    form = context.Request.Form;
+
+                    foreach (var k in form.Keys)
+                    {
+                        var v = form.TryGetValue(k, out kv);
+                        formValueCollection.Add(new KeyValuePair<string, string>(k, kv.ToString()));
+                    }
+                    formValueCollection.Add(new KeyValuePair<string, string>("token", this.GisApiHelper.GetToken()));
+                }
+                requestMessage.Content = new FormUrlEncodedContent(formValueCollection);
+            }
+        }
         private void CopyFromTargetResponseHeaders(HttpContext context, HttpResponseMessage responseMessage)
         {
             foreach (var header in responseMessage.Headers)
