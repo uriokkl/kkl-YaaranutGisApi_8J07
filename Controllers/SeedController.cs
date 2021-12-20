@@ -20,15 +20,26 @@ namespace YaaranutGisApi.Controllers
         [HttpGet]
         [Route("GetSeedsCollect")]
         [EnableCors("CorsAll")]
-        public async Task<ActionResult<IEnumerable<SeedModel>>> GetSeedsCollect(DateTime? FromDate,DateTime?  ToDate)
+        public async Task<ActionResult<IEnumerable<SeedModel>>> GetSeedsCollect(string QueryStr)//DateTime? FromDate,DateTime?  ToDate)
         {
-            string whr = "1=1 ";
+            string whr = "";
             string AttachmentsGlobalIDs = "";
             string token= this.GisApiHelper.GetToken();
 
-            if (FromDate != null) whr += " and EditDate>=date'" + ((DateTime)FromDate).ToString("yyyy/MM/dd hh:mm:ss")+"'";
-            if (ToDate != null) whr += " and EditDate<=date'" + ((DateTime)ToDate).ToString("yyyy/MM/dd hh:mm:ss") + "'";
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection
+            //if (FromDate != null) whr += " and EditDate>=date'" + ((DateTime)FromDate).ToString("yyyy/MM/dd hh:mm:ss")+"'";
+            //if (ToDate != null) whr += " and EditDate<=date'" + ((DateTime)ToDate).ToString("yyyy/MM/dd hh:mm:ss") + "'";
+
+            whr += "LatinNam like '%" + QueryStr + "%'";
+            whr += " or HebNic like '%" + QueryStr + "%'";
+            whr += " or FamilyHeb like '%" + QueryStr + "%'";
+            whr += " or Site like '%" + QueryStr + "%'";
+            whr += " or Comments like '%" + QueryStr + "%'";
+            whr += " or TreeIDText like '%" + QueryStr + "%'";            
+            whr += " or Creator like '%" + QueryStr + "%'";
+            whr += " or Editor like '%" + QueryStr + "%'";
+              
+
+           var reqparmForest = new System.Collections.Specialized.NameValueCollection
                 {
                     {"where", whr  },//"OBJECTID=246"
                     {"outFields", "*"},
@@ -79,7 +90,7 @@ namespace YaaranutGisApi.Controllers
             }
         }
     }
-
+    
     public class SeedModel
     {
         public int? OBJECTID { get; set; }
