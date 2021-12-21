@@ -55,7 +55,7 @@ namespace YaaranutGisApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "YaaranutGisApi", Version = "v1" });
-                c.IncludeXmlComments(@"C:\MedaTichnonyWeb\Documentation.xml",true);
+                c.IncludeXmlComments(@"Documentation.xml",true);
             });
         }
 
