@@ -65,6 +65,11 @@ namespace YaaranutGisApi.Controllers
 
         }
 
+        /// <summary>
+        /// קבלת איסוף זרעים מסויים
+        /// </summary>
+        /// <param name="GlobalID"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetSeedsCollect")]
         [EnableCors("CorsAll")]
