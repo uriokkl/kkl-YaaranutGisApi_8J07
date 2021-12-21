@@ -50,9 +50,12 @@ namespace YaaranutGisApi
                 //var az= FeatureObjects["features"].ToObject(typeof(List<TFeatures>));
                 //result.FeatureModel = (List<TFeatures>)FeatureObjects["features"].ToObject(typeof(List<TFeatures>));
 
-                foreach (var item in result.GisAttributes.features)
+                if (result.GisAttributes.features != null)
                 {
-                    ((List<TFeatures>)result.Features).Add(((JObject)item.attributes).ToObject<TFeatures>());
+                    foreach (var item in result.GisAttributes.features)
+                    {
+                        ((List<TFeatures>)result.Features).Add(((JObject)item.attributes).ToObject<TFeatures>());
+                    }
                 }
             }
             return result;

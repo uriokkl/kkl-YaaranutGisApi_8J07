@@ -18,26 +18,78 @@ namespace YaaranutGisApi.Controllers
         public SeedController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
         [HttpGet]
-        [Route("GetSeedsCollect")]
+        [Route("GetSeedsCollects")]
         [EnableCors("CorsAll")]
-        public async Task<ActionResult<IEnumerable<SeedModel>>> GetSeedsCollect(string QueryStr)//DateTime? FromDate,DateTime?  ToDate)
+        public async Task<ActionResult<IEnumerable<SeedModel>>> GetSeedsCollects(string QueryStr) 
         {
             string whr = "";
+
+            try
+            {
+                QueryStr = QueryStr.Replace("'", "''");
+                whr += "LatinNam like '%" + QueryStr + "%'";
+                whr += " or HebNic like '%" + QueryStr + "%'";
+                whr += " or FamilyHeb like '%" + QueryStr + "%'";
+                whr += " or Site like '%" + QueryStr + "%'";
+                whr += " or Comments like '%" + QueryStr + "%'";
+                whr += " or TreeIDText like '%" + QueryStr + "%'";
+                whr += " or Creator like '%" + QueryStr + "%'";
+                whr += " or Editor like '%" + QueryStr + "%'";
+
+                return Ok((List<SeedModel>)this.SearchSeedsCollects(whr));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500,General.baseUtil.GetExceptionmessage( ex) );
+            }
+             
+        }
+        [HttpGet]
+        [Route("GetSeedsCollectsDateRange")]
+        [EnableCors("CorsAll")]
+        public async Task<ActionResult<IEnumerable<SeedModel>>> GetSeedsCollectsDateRange(DateTime? FromDate,DateTime?  ToDate)
+        {
+            string whr = "";
+
+            try
+            {
+                if (FromDate != null) whr += "EditDate>=date'" + ((DateTime)FromDate).ToString("yyyy/MM/dd hh:mm:ss")+"'";
+                if (ToDate != null) whr += " and EditDate<=date'" + ((DateTime)ToDate).ToString("yyyy/MM/dd hh:mm:ss") + "'";
+
+                return Ok((List<SeedModel>)this.SearchSeedsCollects(whr));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, General.baseUtil.GetExceptionmessage(ex));
+            }
+
+        }
+
+        [HttpGet]
+        [Route("GetSeedsCollect")]
+        [EnableCors("CorsAll")]
+        public async Task<ActionResult<IEnumerable<SeedModel>>> GetSeedsCollect(string GlobalID)
+        {
+            string whr = "";
+
+            try
+            {
+                whr += "GlobalID_2 = '" + GlobalID + "'";
+                
+                return Ok((List<SeedModel>)this.SearchSeedsCollects(whr));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, General.baseUtil.GetExceptionmessage(ex));
+            }
+
+        }
+
+        internal IEnumerable<SeedModel> SearchSeedsCollects(string whr)
+        {
+            
             string AttachmentsGlobalIDs = "";
-            string token= this.GisApiHelper.GetToken();
-
-            //if (FromDate != null) whr += " and EditDate>=date'" + ((DateTime)FromDate).ToString("yyyy/MM/dd hh:mm:ss")+"'";
-            //if (ToDate != null) whr += " and EditDate<=date'" + ((DateTime)ToDate).ToString("yyyy/MM/dd hh:mm:ss") + "'";
-
-            whr += "LatinNam like '%" + QueryStr + "%'";
-            whr += " or HebNic like '%" + QueryStr + "%'";
-            whr += " or FamilyHeb like '%" + QueryStr + "%'";
-            whr += " or Site like '%" + QueryStr + "%'";
-            whr += " or Comments like '%" + QueryStr + "%'";
-            whr += " or TreeIDText like '%" + QueryStr + "%'";            
-            whr += " or Creator like '%" + QueryStr + "%'";
-            whr += " or Editor like '%" + QueryStr + "%'";
-              
+            string token= this.GisApiHelper.GetToken();              
 
            var reqparmForest = new System.Collections.Specialized.NameValueCollection
                 {
@@ -82,11 +134,11 @@ namespace YaaranutGisApi.Controllers
                         
                     }
                 }
-                    return Ok((List<SeedModel>)Gisfeatures.Features);
+                    return Gisfeatures.Features;
             }
             else
-            {   
-                return StatusCode(500, Gisfeatures.GisAttributes.error.message + " " + Gisfeatures.GisAttributes.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
+            {
+                throw new Exception( Gisfeatures.GisAttributes.error.message + " " + Gisfeatures.GisAttributes.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);                
             }
         }
     }
