@@ -17,6 +17,10 @@ namespace YaaranutGisApi.Controllers
     {
         public SeedController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
+        /// <summary>
+        /// קבלת רשימה של פרטי איסוף זרעים לפי טקסט חופשי
+        /// </summary>
+        /// <remarks>מחזיר רשימה של פרטי איסוף זרעים לפי טקסט חופשי   </remarks>
         [HttpGet]
         [Route("GetSeedsCollects")]
         [EnableCors("CorsAll")]
@@ -44,6 +48,11 @@ namespace YaaranutGisApi.Controllers
             }
              
         }
+
+        /// <summary>
+        /// קבלת רשימה של פרטי איסוף זרעים לפי תאריכים
+        /// </summary>
+        /// <remarks>מחזיר רשימה של פרטי איסוף זרעים לפי תאריכים   </remarks>
         [HttpGet]
         [Route("GetSeedsCollectsDateRange")]
         [EnableCors("CorsAll")]
@@ -66,10 +75,9 @@ namespace YaaranutGisApi.Controllers
         }
 
         /// <summary>
-        /// קבלת איסוף זרעים מסויים
+        /// מחזיר פרטי איסוף זרעים מסויים
         /// </summary>
-        /// <param name="GlobalID"></param>
-        /// <returns></returns>
+        /// <remarks>GlobalID_2 מחזיר פרטי איסוף זרעים לפי </remarks>
         [HttpGet]
         [Route("GetSeedsCollect")]
         [EnableCors("CorsAll")]
