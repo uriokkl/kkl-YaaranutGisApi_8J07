@@ -26,11 +26,15 @@ namespace YaaranutGisApi.Controllers
         {
             string whr = "";
 
-            if (int.TryParse(QueryParm, out _))
+            if (string.IsNullOrWhiteSpace( QueryParm) )
+            {
+                whr = "1=1";
+            }
+            else if (int.TryParse(QueryParm, out _))
             {
                 whr = "TenderID like '%" + QueryParm + "%' or SubTenderID=" + QueryParm + " or  SubTenderYear=" + QueryParm;
             }
-            else
+            else 
             {
                 QueryParm = QueryParm.Replace("'", "''");
                 whr = "TenderID like '%" + QueryParm + "%' or SubTenderName like '%" + QueryParm + "%' or STDistrictName like '%" + QueryParm + "%' or STRegionName like '%" + QueryParm + "%' or STStageStatus like '%" + QueryParm + "%'";
