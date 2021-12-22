@@ -28,7 +28,7 @@ namespace YaaranutGisApi.Controllers
                     {"geometryType","esriGeometryPoint"},
                 };
 
-            var Gisfeatures = this.GisApiHelper.GetFeatures< RegionModel>("JNFRegions",0, reqparmForest);
+            var Gisfeatures = this.GisApiHelper.GetFeatures< RegionModel>("JNFRegions","", reqparmForest);
             if (Gisfeatures.GisAttributes.error == null)
             {
                 return Ok(Gisfeatures.Features);

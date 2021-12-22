@@ -30,7 +30,7 @@ namespace YaaranutGisApi.Controllers
                     {"geometryType","esriGeometryPoint"},
                 };
 
-            var Gisfeatures = this.GisApiHelper.GetFeatures< GisHazardModel.HazardModel>("service_9804e1f94e74442fa91c3faaa6c134a7",0, reqparmForest);
+            var Gisfeatures = this.GisApiHelper.GetFeatures< GisHazardModel.HazardModel>("service_9804e1f94e74442fa91c3faaa6c134a7", "", reqparmForest);
             return (GisHazardModel.HazardModel)Gisfeatures.Features;
             //if (Gisfeatures.error == null)
             //{
@@ -60,7 +60,7 @@ namespace YaaranutGisApi.Controllers
                     {"geometryType","esriGeometryPoint"},
                 };
 
-            var Gisfeatures = this.GisApiHelper.GetFeatures< GisHazardsInspectionModel.HazardsInspectionModel>("service_9804e1f94e74442fa91c3faaa6c134a7", 1, reqparmForest);
+            var Gisfeatures = this.GisApiHelper.GetFeatures< GisHazardsInspectionModel.HazardsInspectionModel>("service_9804e1f94e74442fa91c3faaa6c134a7", "1", reqparmForest);
             return (GisHazardsInspectionModel.HazardsInspectionModel)Gisfeatures.Features;
         }
 
@@ -82,7 +82,7 @@ namespace YaaranutGisApi.Controllers
             //this.insertUpdateHazardDetail(globalid, HazardDetail);
             //this.InsertHazardsInspection(globalid, new GisHazardsInspectionModel.HazardsInspectionModel() { parentglobalid = HazardDetail.globalid, InspectionDate = InspectionDate, InspectorName = HazardValue.InspectorName, HazardTreatSatus = HazardValue.HazardTreatSatus, SevereHazard = HazardValue.SevereHazard }, InspectionDate);
             Hazards.Add(HazardDetail);
-            this.GisApiHelper.UpdateFeature("service_9804e1f94e74442fa91c3faaa6c134a7", 0, JsonConvert.SerializeObject(Hazards));
+            this.GisApiHelper.UpdateFeature("service_9804e1f94e74442fa91c3faaa6c134a7", "", JsonConvert.SerializeObject(Hazards));
             return Ok();
         }
 
@@ -149,7 +149,7 @@ namespace YaaranutGisApi.Controllers
                     {"token", this.GisApiHelper.GetToken()},
                     {"f", "json"}
                 };
-            var Gisfeatures = this.GisApiHelper.GetFeatures<string>("service_9804e1f94e74442fa91c3faaa6c134a7", 1, reqparmForest);
+            var Gisfeatures = this.GisApiHelper.GetFeatures<string>("service_9804e1f94e74442fa91c3faaa6c134a7", "1", reqparmForest);
 
             return (int)Newtonsoft.Json.Linq.JObject.Parse(Gisfeatures.Features[0])["count"];
         }

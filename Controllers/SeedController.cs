@@ -75,7 +75,7 @@ namespace YaaranutGisApi.Controllers
         }
 
         /// <summary>
-        /// מחזיר פרטי איסוף זרעים מסויים
+        /// קבלת פרטי איסוף זרעים מסויים
         /// </summary>
         /// <remarks>GlobalID_2 מחזיר פרטי איסוף זרעים לפי </remarks>
         [HttpGet]
@@ -115,7 +115,7 @@ namespace YaaranutGisApi.Controllers
                     {"geometryType","esriGeometryPoint"},
                 };
              
-            var Gisfeatures = this.GisApiHelper.GetFeatures< SeedModel>("SeedCollect2021", 0, reqparmForest)  ;
+            var Gisfeatures = this.GisApiHelper.GetFeatures< SeedModel>("SeedCollect2021", "", reqparmForest)  ;
             
             if (Gisfeatures.GisAttributes.error == null)
             {
@@ -133,7 +133,7 @@ namespace YaaranutGisApi.Controllers
                     {"returnCountOnly", "false"}  
                 };
                 //var GisfeaturesAttachments = JsonConvert.DeserializeObject<GisSeedModel>(this.GisApiHelper.GetFeatureAttachments("SeedCollect2021", 0, reqparmAttachments));
-                var GisfeaturesAttachments = this.GisApiHelper.GetFeatureAttachments<GisSeedModel1111>("SeedCollect2021", 0, reqparmAttachments);
+                var GisfeaturesAttachments = this.GisApiHelper.GetFeatureAttachments<GisSeedModel1111>("SeedCollect2021", "", reqparmAttachments);
                 if (GisfeaturesAttachments.error == null)
                 {
                     foreach (var attachmentGroups in GisfeaturesAttachments.attachmentGroups)

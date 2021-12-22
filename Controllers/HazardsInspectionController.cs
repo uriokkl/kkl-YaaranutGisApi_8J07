@@ -33,7 +33,7 @@ namespace YaaranutGisApi.Controllers
             Features.features[0].attributes.InspectionDate = HazardsInspectionValue.InspectionDate;
             Features.features[0].attributes.SevereHazard = HazardsInspectionValue.SevereHazard;
             
-            this.GisApiHelper.InsertFeature("Hazard5436456sInspection",1, JsonConvert.SerializeObject(Features.features));
+            this.GisApiHelper.InsertFeature("Hazard5436456sInspection","1", JsonConvert.SerializeObject(Features.features));
             return null;
         }
         public class GisHazardsInspectionModel : GisModel

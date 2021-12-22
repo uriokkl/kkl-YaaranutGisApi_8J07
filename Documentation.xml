@@ -4,14 +4,35 @@
         <name>YaaranutGisApi</name>
     </assembly>
     <members>
+        <member name="M:YaaranutGisApi.Controllers.ForestryTendersController.GetSubTenderList(System.String)">
+            <summary>
+            קבלת רשימת תיחורים 
+            </summary>
+            <remarks>מחזיר רשימת תיחורים  </remarks>
+        </member>
+        <member name="M:YaaranutGisApi.Controllers.ForestryTendersController.GetSubTenderExprtMap(YaaranutGisApi.Controllers.ForestryTendersMapParmModel,YaaranutGisApi.Controllers.TenderMapType)">
+            <summary>
+            קבלת קובץ תיחור 
+            </summary>
+            <remarks>מחזיר כתובת של קובץ תיור  </remarks>
+        </member>
+        <member name="M:YaaranutGisApi.Controllers.SeedController.GetSeedsCollects(System.String)">
+            <summary>
+            קבלת רשימה של פרטי איסוף זרעים לפי טקסט חופשי
+            </summary>
+            <remarks>מחזיר רשימה של פרטי איסוף זרעים לפי טקסט חופשי   </remarks>
+        </member>
+        <member name="M:YaaranutGisApi.Controllers.SeedController.GetSeedsCollectsDateRange(System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            קבלת רשימה של פרטי איסוף זרעים לפי תאריכים
+            </summary>
+            <remarks>מחזיר רשימה של פרטי איסוף זרעים לפי תאריכים   </remarks>
+        </member>
         <member name="M:YaaranutGisApi.Controllers.SeedController.GetSeedsCollect(System.String)">
             <summary>
-            Retrieves a specific product by unique id
+            קבלת פרטי איסוף זרעים מסויים
             </summary>
-            <remarks>Awesomeness!</remarks>
-            <response code="200">Product created</response>
-            <response code="400">Product has missing/invalid values</response>
-            <response code="500">Oops! Can't create your product right now</response>
+            <remarks>GlobalID_2 מחזיר פרטי איסוף זרעים לפי </remarks>
         </member>
     </members>
 </doc>

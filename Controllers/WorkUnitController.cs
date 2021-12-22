@@ -241,7 +241,7 @@ namespace YaaranutGisApi.Controllers
                 };
 
             
-            var Gisfeatures = this.GisApiHelper.GetFeatures<WorkUnitModel>("KKLForestManagementUnits",0, reqparmForest);
+            var Gisfeatures = this.GisApiHelper.GetFeatures<WorkUnitModel>("KKLForestManagementUnits","", reqparmForest);
             if (Gisfeatures.GisAttributes.error == null)
             {
                 return Ok(Gisfeatures.Features);

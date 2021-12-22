@@ -16,9 +16,55 @@ namespace YaaranutGisApi.Controllers
     {
         public ForestryTendersController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
+        /// <summary>
+        /// קבלת רשימת תיחורים 
+        /// </summary>
+        /// <remarks>מחזיר רשימת תיחורים  </remarks>
+        [HttpPost]
+        [Route("GetSubTenderList")]
+        public async Task<ActionResult<IEnumerable<SeedModel>>>	GetSubTenderList(string QueryParm)
+        {
+            string whr = "";
+
+            if (int.TryParse(QueryParm, out _))
+            {
+                whr = "TenderID like '%" + QueryParm + "%' or SubTenderID=" + QueryParm + " or  SubTenderYear=" + QueryParm;
+            }
+            else
+            {
+                QueryParm = QueryParm.Replace("'", "''");
+                whr = "TenderID like '%" + QueryParm + "%' or SubTenderName like '%" + QueryParm + "%' or STDistrictName like '%" + QueryParm + "%' or STRegionName like '%" + QueryParm + "%' or STStageStatus like '%" + QueryParm + "%'";
+            }
+            
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection
+                {
+                    {"where", whr  },
+                    {"outFields", "*"},
+                    {"returnGeometry", "false"},
+                    {"returnExceededLimitFeatures", "true"},
+                    {"token", this.GisApiHelper.GetToken()},
+                    {"f", "json"},
+                    {"geometryType","esriGeometryPoint"},
+                };
+
+            var Gisfeatures = this.GisApiHelper.GetFeatures<ForestryTendersModel>("ForestryTenders", "SubTenders", reqparmForest);
+            if (Gisfeatures.GisAttributes.error == null)
+            {
+                return Ok(Gisfeatures.Features);
+            }
+            else
+            {
+                return StatusCode(500, Gisfeatures.GisAttributes.error.message + " " + Gisfeatures.GisAttributes.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
+            }
+        }
+
+        /// <summary>
+        /// קבלת קובץ תיחור 
+        /// </summary>
+        /// <remarks>מחזיר כתובת של קובץ תיור  </remarks>
         [HttpPost]
         [Route("GetSubTenderExprtMap/{TenderMapType}")]        
-        public async Task<ActionResult<IEnumerable<ForestryTendersModel>>> GetSubTenderExprtMap([FromBody] ForestryTendersParmModel ForestryTendersParm, TenderMapType TenderMapType)
+        public async Task<ActionResult<IEnumerable<ForestryTendersMapModel>>> GetSubTenderExprtMap([FromBody] ForestryTendersMapParmModel ForestryTendersParm, TenderMapType TenderMapType)
         {
             string whr = "";
             string AttachmentsGlobalID = "";
@@ -37,7 +83,7 @@ namespace YaaranutGisApi.Controllers
                     {"geometryType","esriGeometryPoint"},
                 };
 
-            var Gisfeatures = this.GisApiHelper.GetFeatures<ForestryTendersModel>("ForestryTenders", 1, reqparmForest);
+            var Gisfeatures = this.GisApiHelper.GetFeatures<ForestryTendersMapModel>("ForestryTenders", "SubTenders", reqparmForest);
 
             if (Gisfeatures.GisAttributes.error == null)
             {
@@ -50,12 +96,12 @@ namespace YaaranutGisApi.Controllers
                     {"returnUrl", "true"} ,
                     {"returnCountOnly", "false"}
                 };
-                var GisfeaturesAttachments = this.GisApiHelper.GetFeatureAttachments<GisForestryTendersModel>("ForestryTenders", 1, reqparmAttachments);
+                var GisfeaturesAttachments = this.GisApiHelper.GetFeatureAttachments<GisForestryTendersModel>("ForestryTenders", "SubTenders", reqparmAttachments);
                 if (GisfeaturesAttachments.error == null)
                 {
                     foreach (var attachmentGroups in GisfeaturesAttachments.attachmentGroups)
-                    {                        
-                        ForestryTendersModel ForestryTender = ((List<ForestryTendersModel>)Gisfeatures.Features).First(r => r.GlobalID == attachmentGroups.parentGlobalId);
+                    {
+                        ForestryTendersMapModel ForestryTender = ((List<ForestryTendersMapModel>)Gisfeatures.Features).First(r => r.GlobalID == attachmentGroups.parentGlobalId);
                         foreach (var attachmentInfos in attachmentGroups.attachmentInfos)
                         {
                             if (TenderMapType==TenderMapType.Maps &&  attachmentInfos.Name.Contains("מפות תיחור"))
@@ -67,7 +113,7 @@ namespace YaaranutGisApi.Controllers
 
                     }
                 }
-                return Ok((List<ForestryTendersModel>)Gisfeatures.Features);
+                return Ok((List<ForestryTendersMapModel>)Gisfeatures.Features);
             }
             else
             {
@@ -78,14 +124,32 @@ namespace YaaranutGisApi.Controllers
 
     public class ForestryTendersParmModel
     {
-        public string TenderName { get; set; }
+        public string FreeText { get; set; }
+        public int TenderID { get; set; }
         public int SubTenderID { get; set; }
-        public int SubTenderYear { get; set; }        
+        public int SubTenderYear { get; set; }
     }
     public class ForestryTendersModel
     {
-        public int? OBJECTID { get; set; }
-        public string GlobalID { get; set; }         
+        public string GlobalID { get; set; }
+        public string TenderID { get; set; }
+        public int SubTenderYear { get; set; }
+        public string SubTenderID { get; set; }
+        public string SubTenderName { get; set; }
+        public string STDistrictName { get; set; }
+        public string STRegionName { get; set; }
+        public string STStageStatus { get; set; }
+    }
+
+    public class ForestryTendersMapParmModel
+    {
+        public string TenderName { get; set; }
+        public int SubTenderID { get; set; }
+        public int SubTenderYear { get; set; }
+    }
+    public class ForestryTendersMapModel
+    {
+        public string GlobalID { get; set; }       
         public List<FilesAttachments> FilesAttachments { get; set; }
 
     }

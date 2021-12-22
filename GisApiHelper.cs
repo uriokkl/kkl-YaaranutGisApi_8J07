@@ -15,10 +15,10 @@ namespace YaaranutGisApi
 {
     public interface IGisApiHelper
     {
-        public GisResult<GisModel, TFeatures> GetFeatures<TFeatures>(string LayerName, int SubData, System.Collections.Specialized.NameValueCollection ParmQuery);
-        public T GetFeatureAttachments<T>(string LayerName, int SubData, System.Collections.Specialized.NameValueCollection ParmQuery);
-        public InsertRetModel InsertFeature(string LayerName, int SubData, string UpdateValues);
-        public InsertRetModel UpdateFeature(string LayerName, int SubData, string UpdateValues);
+        public GisResult<GisModel, TFeatures> GetFeatures<TFeatures>(string LayerName, string SubData, System.Collections.Specialized.NameValueCollection ParmQuery);
+        public T GetFeatureAttachments<T>(string LayerName, string SubData, System.Collections.Specialized.NameValueCollection ParmQuery);
+        public InsertRetModel InsertFeature(string LayerName, string SubData, string UpdateValues);
+        public InsertRetModel UpdateFeature(string LayerName, string SubData, string UpdateValues);
         public string GetToken();
     }
     public class GisApiHelper : IGisApiHelper
@@ -33,11 +33,12 @@ namespace YaaranutGisApi
             //if (env.IsDevelopment() || env.IsStaging()) this.GisEnvPrefix = "Test_";
         }
 
-        public GisResult<GisModel, TFeatures> GetFeatures<TFeatures>(string LayerName, int SubData, System.Collections.Specialized.NameValueCollection ParmQuery)  
+        public GisResult<GisModel, TFeatures> GetFeatures<TFeatures>(string LayerName, string SubData, System.Collections.Specialized.NameValueCollection ParmQuery)  
         {
             //var T1Type = Type.GetType(typeof(List<TFeatures>).AssemblyQualifiedName);
             GisResult<GisModel, TFeatures> result= new GisResult<GisModel, TFeatures>();
-             
+
+            if (SubData == "") SubData = "0";
             using (WebClient clientGis = new WebClient())
             {
                 byte[] responsebytesGis = clientGis.UploadValues(this.appSettings.GisApiUrl + "/" + this.GisEnvPrefix + LayerName.ToString() + "/FeatureServer/" + SubData.ToString() + "/query", "POST", ParmQuery);
@@ -61,10 +62,11 @@ namespace YaaranutGisApi
             return result;
         }
         
-        public T  GetFeatureAttachments<T>(string LayerName, int SubData, System.Collections.Specialized.NameValueCollection ParmQuery)  
+        public T  GetFeatureAttachments<T>(string LayerName, string SubData, System.Collections.Specialized.NameValueCollection ParmQuery)  
         {
             T result = default(T);
 
+            if (SubData == "") SubData = "0";
             using (WebClient clientGis = new WebClient())
             {
                 byte[] responsebytesGis = clientGis.UploadValues(this.appSettings.GisApiUrl + "/" + this.GisEnvPrefix + LayerName.ToString() + "/FeatureServer/" + SubData.ToString() + "/queryAttachments", "POST", ParmQuery);
@@ -75,11 +77,12 @@ namespace YaaranutGisApi
             return result;
         }
          
-        public InsertRetModel InsertFeature(string LayerName, int SubData, string InsertValues)
+        public InsertRetModel InsertFeature(string LayerName, string SubData, string InsertValues)
         {
             InsertRetModel InsertRet = null;
             string val="";
 
+            if (SubData == "") SubData = "0";
             using (WebClient client = new WebClient())
             {
                 var reqparm = new System.Collections.Specialized.NameValueCollection
@@ -96,12 +99,13 @@ namespace YaaranutGisApi
             return InsertRet;
         }
 
-        public InsertRetModel UpdateFeature(string LayerName, int SubData, string UpdateValues)
+        public InsertRetModel UpdateFeature(string LayerName, string SubData, string UpdateValues)
         {
             InsertRetModel InsertRet= null;
             //var UpdateValuesDictionary = UpdateValues.AllKeys.ToDictionary(x => x, x => UpdateValues[x]);
             //var UpdateValuesJson = JsonConvert.SerializeObject(UpdateValuesDictionary);
 
+            if (SubData == "") SubData = "0";
             using (WebClient client = new WebClient())
             {
                 var reqparm = new System.Collections.Specialized.NameValueCollection
