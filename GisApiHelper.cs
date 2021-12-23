@@ -30,7 +30,7 @@ namespace YaaranutGisApi
         {
             this.appSettings = appSettings;
             this.env = env;
-            //if (env.IsDevelopment() || env.IsStaging()) this.GisEnvPrefix = "Test_";
+            if (env.IsDevelopment() || env.IsStaging()) this.GisEnvPrefix = "Test_";
         }
 
         public GisResult<GisModel, TFeatures> GetFeatures<TFeatures>(string LayerName, string SubData, System.Collections.Specialized.NameValueCollection ParmQuery)  
