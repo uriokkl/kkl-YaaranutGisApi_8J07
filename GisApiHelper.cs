@@ -204,6 +204,7 @@ namespace YaaranutGisApi
         public Fields[] fields { get; set; }
         public attachmentGroups[] attachmentGroups { get; set; }
         public Features[] features { get; set; }
+        
     }
     public class Features
     {
@@ -221,8 +222,20 @@ namespace YaaranutGisApi
         public string alias { get; set; }
         public string sqlType { get; set; }
         public int length { get; set; }
+        public domain domain { get; set; }
     }
+    public class domain
+    {
+        public string type { get; set; }
+        public string name { get; set; }
+        public codedValues[] codedValues { get; set; }
 
+    }
+    public class codedValues
+    {
+        public string name { get; set; }
+        public string code { get; set; }
+    }
     public class attachmentGroups
     {
         public long parentObjectId { get; set; }

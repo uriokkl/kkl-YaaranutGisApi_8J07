@@ -106,7 +106,7 @@ namespace YaaranutGisApi.Controllers
 
         internal IEnumerable<SeedModel> SearchSeedsCollects(string whr)
         {
-
+            List< SeedModel > Seedfeatures = new List<SeedModel>(); 
             string AttachmentsGlobalIDs = "";
             string token = this.GisApiHelper.GetToken();
 
@@ -121,12 +121,38 @@ namespace YaaranutGisApi.Controllers
                     {"geometryType","esriGeometryPoint"},
                 };
 
-            var Gisfeatures = this.GisApiHelper.GetFeatures<SeedModel>("SeedCollect2021", "", reqparmForest);
-
-            if (Gisfeatures.GisAttributes.error == null)
+            var GisSeedfeatures = this.GisApiHelper.GetFeatures<SeedGisModel>("SeedCollect2021", "", reqparmForest);
+            var StatusDomain = GisSeedfeatures.GisAttributes.fields.Where(f => f.name == "Status").First().domain.codedValues;
+            if (GisSeedfeatures.GisAttributes.error == null)
             {
-                foreach (var item in Gisfeatures.Features)
+                foreach (var item in GisSeedfeatures.Features)
                 {
+                    var propInfo = item.GetType().GetProperties();
+                    var Seedfeature = new SeedModel();
+                    foreach (var item1 in propInfo)
+                    {
+                        if (item1.Name == "Status")
+                        {
+                            Seedfeature.Status = new SeedStatusModel();
+                            if (item1.GetValue(item, null)!=null)
+                                    {
+                                Seedfeature.Status.Status = int.Parse(item1.GetValue(item, null).ToString());
+                                Seedfeature.Status.StatusName = StatusDomain.Where(f => f.code == Seedfeature.Status.Status.ToString()).First().name;
+                            }
+                        }
+                        else
+                        {
+                            Seedfeature.GetType().GetProperty(item1.Name).SetValue(Seedfeature, item1.GetValue(item, null), null);
+                        }
+                    }
+                    Seedfeatures.Add(Seedfeature);
+                    //var serialized = JsonConvert.SerializeObject(item);
+                    //Seedfeatures = JsonConvert.DeserializeObject<IEnumerable<SeedModel>>(serialized);
+
+                    //item.Status = new SeedStatusModel();
+                    //item.Status.StatusName = item.Status;
+                    //item.Status.StatusName = "";
+
                     if (AttachmentsGlobalIDs != "") AttachmentsGlobalIDs += ",";
                     AttachmentsGlobalIDs += item.GlobalID_2;
                 }
@@ -139,12 +165,12 @@ namespace YaaranutGisApi.Controllers
                     {"returnCountOnly", "false"}
                 };
                 //var GisfeaturesAttachments = JsonConvert.DeserializeObject<GisSeedModel>(this.GisApiHelper.GetFeatureAttachments("SeedCollect2021", 0, reqparmAttachments));
-                var GisfeaturesAttachments = this.GisApiHelper.GetFeatureAttachments<GisSeedModel1111>("SeedCollect2021", "", reqparmAttachments);
+                var GisfeaturesAttachments = this.GisApiHelper.GetFeatureAttachments<GisSeedModeAttach>("SeedCollect2021", "", reqparmAttachments);
                 if (GisfeaturesAttachments.error == null)
                 {
                     foreach (var attachmentGroups in GisfeaturesAttachments.attachmentGroups)
                     {
-                        SeedModel seedRow = ((List<SeedModel>)Gisfeatures.Features).First(r => r.GlobalID_2 == attachmentGroups.parentGlobalId);
+                        SeedModel seedRow = ((List<SeedModel>)Seedfeatures).First(r => r.GlobalID_2 == attachmentGroups.parentGlobalId);
                         foreach (var attachmentInfos in attachmentGroups.attachmentInfos)
                         {
                             seedRow.FilesAttachments = new List<FilesAttachments>();
@@ -153,20 +179,28 @@ namespace YaaranutGisApi.Controllers
 
                     }
                 }
-                return Gisfeatures.Features;
+                return Seedfeatures;
             }
             else
             {
-                throw new Exception(Gisfeatures.GisAttributes.error.message + " " + Gisfeatures.GisAttributes.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
+                throw new Exception(GisSeedfeatures.GisAttributes.error.message + " " + GisSeedfeatures.GisAttributes.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
             }
         }
     }
 
-    public class SeedModel
+    public class SeedModel:SeedBaseModel
+    {
+        public SeedStatusModel Status { get; set; }
+    }
+    public class SeedGisModel : SeedBaseModel
+    {
+        public string Status { get; set; }        
+    }
+    public class SeedBaseModel
     {
         public int? OBJECTID { get; set; }
         public string GlobalID_2 { get; set; }
-        public SeedStatusModel Status { get; set; }
+        
         public int? PlantID { get; set; }
         public string PlantName { get; set; }
         public int? SiteID { get; set; }
@@ -221,11 +255,11 @@ namespace YaaranutGisApi.Controllers
 
     public class SeedStatusModel
         {
-        public int Status { get; set; }
+        public int? Status { get; set; }
         public string StatusName { get; set; }
     }
 
-    public class GisSeedModel1111 : GisModel
+    public class GisSeedModeAttach : GisModel
     {
         public Features[] features { get; set; }
         public class Features
@@ -279,5 +313,5 @@ namespace YaaranutGisApi.Controllers
         }
     }
 
-    
+
 }
