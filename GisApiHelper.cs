@@ -40,6 +40,11 @@ namespace YaaranutGisApi
             //var T1Type = Type.GetType(typeof(List<TFeatures>).AssemblyQualifiedName);
             GisResult<GisModel, TFeatures> result= new GisResult<GisModel, TFeatures>();
 
+            if (ParmQuery.Get("outFields") == null) ParmQuery.Add("outFields", "*");
+            if (ParmQuery.Get("returnGeometry")==null) ParmQuery.Add(  "returnGeometry", "false" );
+            if (ParmQuery.Get("token") == null) ParmQuery.Add("token", this.GetToken());
+            if (ParmQuery.Get("f") == null) ParmQuery.Add("f", "json");
+             
             SubData = SubData == "" ? "0" : this.GisEnvPrefix + SubData;
             using (WebClient clientGis = new WebClient())
             {
@@ -85,6 +90,11 @@ namespace YaaranutGisApi
         {
             GisResult<GisModel, TFeatures> result = new GisResult<GisModel, TFeatures>();
 
+            if (ParmQuery.Get("outFields") == null) ParmQuery.Add("outFields", "*");
+            if (ParmQuery.Get("returnGeometry") == null) ParmQuery.Add("returnGeometry", "false");
+            if (ParmQuery.Get("token") == null) ParmQuery.Add("token", this.GetToken());
+            if (ParmQuery.Get("f") == null) ParmQuery.Add("f", "json");
+
             SubData = SubData == "" ? "0" : this.GisEnvPrefix + SubData;
             using (WebClient clientGis = new WebClient())
             {
@@ -113,6 +123,11 @@ namespace YaaranutGisApi
             T result = default(T);
 
             SubData = SubData == ""?    "0" :  this.GisEnvPrefix + SubData;
+
+            if (ParmQuery.Get("returnGeometry") == null) ParmQuery.Add("returnGeometry", "false");
+            if (ParmQuery.Get("token") == null) ParmQuery.Add("token", this.GetToken());
+            if (ParmQuery.Get("f") == null) ParmQuery.Add("f", "json");
+
             using (WebClient clientGis = new WebClient())
             {
                 byte[] responsebytesGis = clientGis.UploadValues(this.appSettings.GisApiUrl + "/" + this.GisEnvPrefix + LayerName.ToString() + "/FeatureServer/" + SubData.ToString() + "/queryAttachments", "POST", ParmQuery);

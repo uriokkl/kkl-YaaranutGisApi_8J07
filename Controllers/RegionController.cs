@@ -21,17 +21,7 @@ namespace YaaranutGisApi.Controllers
         [EnableCors("CorsAll")]
         public async Task<ActionResult<IEnumerable<RegionModel>>> GetRegions()
         {
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection
-                {
-                    {"where", "1=1" },
-                    {"outFields", YaaranutGisApi.GisApiHelper.GetModelFields(typeof( RegionModel))},
-                    {"returnGeometry", "false"},
-                    {"returnExceededLimitFeatures", "true"},
-                    {"token", this.GisApiHelper.GetToken()},
-                    {"f", "json"},
-                    {"geometryType","esriGeometryPoint"},
-                };
-
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection { {"where", "1=1" }, {"outFields", YaaranutGisApi.GisApiHelper.GetModelFields(typeof( RegionModel))} };
             var Gisfeatures = this.GisApiHelper.GetFeatures< RegionModel>("JNFRegions","", reqparmForest);
             if (Gisfeatures.GisAttributes.error == null)
             {

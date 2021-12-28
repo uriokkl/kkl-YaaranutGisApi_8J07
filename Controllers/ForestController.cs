@@ -24,12 +24,7 @@ namespace YaaranutGisApi.Controllers
             var reqparmForest = new System.Collections.Specialized.NameValueCollection
                 {
                     {"where", "1=1" },
-                    {"outFields", YaaranutGisApi.GisApiHelper.GetModelFields(typeof( ForestModel))},
-                    {"returnGeometry", "false"},
-                    {"returnExceededLimitFeatures", "true"},
-                    {"token", this.GisApiHelper.GetToken()},
-                    {"f", "json"},
-                    {"geometryType","esriGeometryPoint"},
+                    {"outFields", YaaranutGisApi.GisApiHelper.GetModelFields(typeof( ForestModel))}
                 };
 
             var Gisfeatures = this.GisApiHelper.GetFeatures<ForestModel>("JNFILForest", "", reqparmForest);
@@ -46,7 +41,7 @@ namespace YaaranutGisApi.Controllers
 
     public class ForestModel
     {
-        public int? FID { get; set; }
+        //public int? FID { get; set; }
         public int? District_C { get; set; }
         public int Region_Cod { get; set; }
         public int FOR_Num { get; set; }

@@ -173,12 +173,9 @@ namespace YaaranutGisApi.Controllers
             //return rrr;
             string responsebodyForest;
             byte[] responsebytesForest;
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection
-            {
-                //{"outFields", "*"},
-                //{"spatialRel","esriSpatialRelIntersects" },
-                {"f", "json"},
-            };
+
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection {  };
+ 
             using (WebClient clientForest = new WebClient())
             {
                 responsebytesForest = clientForest.UploadValues("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/JNFFieldCenterBuildingsPublicView/FeatureServer/0", "POST", reqparmForest);
@@ -228,27 +225,8 @@ namespace YaaranutGisApi.Controllers
             queryWhare += !String.IsNullOrEmpty(QueryParmeters.RegionName) ? " and RegionName='" + QueryParmeters.RegionName + "'" : "";
             queryWhare += !String.IsNullOrEmpty(QueryParmeters.FOR_NO) ? " and FOR_NO='" + QueryParmeters.FOR_NO + "'" : "";
             queryWhare += !String.IsNullOrEmpty(QueryParmeters.TRTUNIT) ? " and TRTUNIT='" + QueryParmeters.TRTUNIT + "'" : "";
-             
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection
-                {
-                    {"where", queryWhare },
-                    //{"where", "ObjectId=7099"},
-                    //{"where", "ObjectID>=6133"},
-                    //{ "where",@"FOR_Name= 'עמק יזרעאל'"},
-                    
-                    {"outFields", "GlobalID,FOR_Name,WorkYear,TRTUnit,WPFSRequestStatus,DistrictName,RegionName,FOR_NO,AgeGr,ForAgeComposition,CurForestType,CurDensity,CurCover,ForStatusMain,AreaDesignation,ReqForestType,VegDesignPrinc,ThinningPurpose,OtherThinningPurpose,ThinFreq,ReqDensity,ReqCover,ThinIntensity,ThinType,PruningType,BurnPermission,WPFSWorkEssence"},
-                    {"returnGeometry", "false"},
-                    {"returnExceededLimitFeatures", "true"},
-                    //{"orderByFields", "objectid"},
-                    {"token", this.GisApiHelper.GetToken()},
-                    {"f", "json"},
-                    {"geometryType","esriGeometryPoint"},
-                    //{"geometry",11+","+22},
-                    //{"inSR","4326"}
-                    //{"spatialRel","esriSpatialRelIntersects"}
-                };
 
-            
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection { {"where", queryWhare },  {"outFields", "GlobalID,FOR_Name,WorkYear,TRTUnit,WPFSRequestStatus,DistrictName,RegionName,FOR_NO,AgeGr,ForAgeComposition,CurForestType,CurDensity,CurCover,ForStatusMain,AreaDesignation,ReqForestType,VegDesignPrinc,ThinningPurpose,OtherThinningPurpose,ThinFreq,ReqDensity,ReqCover,ThinIntensity,ThinType,PruningType,BurnPermission,WPFSWorkEssence"}   };
             var Gisfeatures = this.GisApiHelper.GetFeatures<WorkUnitModel>("KKLForestManagementUnits","", reqparmForest);
             if (Gisfeatures.GisAttributes.error == null)
             {

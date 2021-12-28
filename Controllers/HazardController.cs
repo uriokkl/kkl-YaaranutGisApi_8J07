@@ -19,17 +19,7 @@ namespace YaaranutGisApi.Controllers
         {
             IList<GisHazardModel.HazardModel> HazardList = new List<GisHazardModel.HazardModel>();
 
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection
-                {
-                    {"where", "globalid='"+globalid+"'"  },
-                    {"outFields", YaaranutGisApi.GisApiHelper.GetModelFields(typeof( GisHazardModel.HazardModel))},
-                    {"returnGeometry", "false"},
-                    {"returnExceededLimitFeatures", "true"},
-                    {"token", this.GisApiHelper.GetToken()},
-                    {"f", "json"},
-                    {"geometryType","esriGeometryPoint"},
-                };
-
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection { {"where", "globalid='"+globalid+"'"  }, {"outFields", YaaranutGisApi.GisApiHelper.GetModelFields(typeof( GisHazardModel.HazardModel))} };
             var Gisfeatures = this.GisApiHelper.GetFeatures< GisHazardModel.HazardModel>("service_9804e1f94e74442fa91c3faaa6c134a7", "", reqparmForest);
             return (GisHazardModel.HazardModel)Gisfeatures.Features;
             //if (Gisfeatures.error == null)
@@ -48,18 +38,8 @@ namespace YaaranutGisApi.Controllers
         private GisHazardsInspectionModel.HazardsInspectionModel GetHazardInspection(string globalid)
         {
             IList<GisHazardsInspectionModel.HazardsInspectionModel> HazardList = new List<GisHazardsInspectionModel.HazardsInspectionModel>();
-             
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection
-                {
-                    {"where", "globalid='"+globalid+"'"  },
-                    {"outFields", YaaranutGisApi.GisApiHelper.GetModelFields(typeof( GisHazardsInspectionModel.HazardsInspectionModel))},
-                    {"returnGeometry", "false"},
-                    {"returnExceededLimitFeatures", "true"},
-                    {"token", this.GisApiHelper.GetToken()},
-                    {"f", "json"},
-                    {"geometryType","esriGeometryPoint"},
-                };
 
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection { {"where", "globalid='"+globalid+"'"  },{"outFields", YaaranutGisApi.GisApiHelper.GetModelFields(typeof( GisHazardsInspectionModel.HazardsInspectionModel))} };
             var Gisfeatures = this.GisApiHelper.GetFeatures< GisHazardsInspectionModel.HazardsInspectionModel>("service_9804e1f94e74442fa91c3faaa6c134a7", "1", reqparmForest);
             return (GisHazardsInspectionModel.HazardsInspectionModel)Gisfeatures.Features;
         }
@@ -142,13 +122,7 @@ namespace YaaranutGisApi.Controllers
         //}
         private int GetHazarInspectionCount(string globalid)
         {
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection
-                {
-                    {"where", "parentglobalid='"+globalid.ToString()+"'" },
-                    {"returnCountOnly", "true"},
-                    {"token", this.GisApiHelper.GetToken()},
-                    {"f", "json"}
-                };
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection { {"where", "parentglobalid='"+globalid.ToString()+"'" }, {"returnCountOnly", "true"} };
             var Gisfeatures = this.GisApiHelper.GetFeatures<string>("service_9804e1f94e74442fa91c3faaa6c134a7", "1", reqparmForest);
 
             return (int)Newtonsoft.Json.Linq.JObject.Parse(Gisfeatures.Features[0])["count"];

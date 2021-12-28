@@ -41,17 +41,8 @@ namespace YaaranutGisApi.Controllers
                 whr = "TenderID like '%" + QueryParm + "%' or SubTenderName like '%" + QueryParm + "%' or STDistrictName like '%" + QueryParm + "%' or STRegionName like '%" + QueryParm + "%' or STStageStatus like '%" + QueryParm + "%'";
             }
             
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection
-                {
-                    {"where", whr  },
-                    {"outFields", "*"},
-                    {"returnGeometry", "false"},
-                    {"returnExceededLimitFeatures", "true"},
-                    {"token", this.GisApiHelper.GetToken()},
-                    {"f", "json"},
-                    {"geometryType","esriGeometryPoint"},
-                };
-
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection {{"where", whr  }};
+            
             var Gisfeatures = this.GisApiHelper.GetFeatures<ForestryTendersModel>("ForestryTenders", "SubTenders", reqparmForest);
             if (Gisfeatures.GisAttributes.error == null)
             {
@@ -74,17 +65,8 @@ namespace YaaranutGisApi.Controllers
             string whr = "";
 
             whr = "GlobalID = '" + GlobalID + "'";
-            
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection
-                {
-                    {"where", whr  },
-                    {"outFields", "*"},
-                    {"returnGeometry", "false"},
-                    {"returnExceededLimitFeatures", "true"},
-                    {"token", this.GisApiHelper.GetToken()},
-                    {"f", "json"},
-                    {"geometryType","esriGeometryPoint"},
-                };
+
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection { { "where", whr } };
             //הבאת רשומת תיחור
             var Gisfeatures = this.GisApiHelper.GetFeatures<ForestryTendersModel>("ForestryTenders", "SubTenders", reqparmForest);
             if (Gisfeatures.GisAttributes.error == null)
@@ -94,64 +76,23 @@ namespace YaaranutGisApi.Controllers
                 {
                     if (feature.STStageStatus.STStageStatus != null) feature.STStageStatus.STStageStatusName = StatusDomain.Where(f => f.code == feature.STStageStatus.STStageStatus.ToString()).First().name;
 
-                    {// הבאת סיכום הערכת קוב עץ 
-                        var SubWorkUnitsReqparmForest = new System.Collections.Specialized.NameValueCollection
-                        {
-                            {"objectIds", feature.OBJECTID  },
-                            {"relationshipId", "1"  },
-                            {"outFields", "*"},
-                            {"returnGeometry", "false"},
-                            {"returnExceededLimitFeatures", "true"},
-                            {"token", this.GisApiHelper.GetToken()},
-                            {"f", "json"},
-                            {"geometryType","esriGeometryPoint"},
-                        };
+                    {
+                        var SubWorkUnitsReqparmForest = new System.Collections.Specialized.NameValueCollection { {"objectIds", feature.OBJECTID  }, {"relationshipId", "1"  }, };
                         var SubWorkUnitsFeatures = this.GisApiHelper.GetRelatedFeatures<ForestryTendersWorkUnitsModel>("ForestryTenders", "SubTenders", SubWorkUnitsReqparmForest);
                         feature.ForestryTendersManas = (ForestryTendersWorkUnitsModel[])SubWorkUnitsFeatures.Features.ToArray<ForestryTendersWorkUnitsModel>();
-                        string SubWorkUnitsFeaturesobjectIds = "";
-                        foreach (var SubWorkUnitsFeature in SubWorkUnitsFeatures.Features)
-                        {
-                            if (SubWorkUnitsFeaturesobjectIds != "") SubWorkUnitsFeaturesobjectIds += ",";
-                            SubWorkUnitsFeaturesobjectIds += SubWorkUnitsFeature.OBJECTID;
-                        }
-                        var SubWorkUnitStandsReqparmForest = new System.Collections.Specialized.NameValueCollection
-                            {
-                                {"objectIds", SubWorkUnitsFeaturesobjectIds  },
-                                {"relationshipId", "3"  },
-                                {"outFields", "*"},
-                                {"returnGeometry", "false"},
-                                {"returnExceededLimitFeatures", "true"},
-                                {"token", this.GisApiHelper.GetToken()},
-                                {"f", "json"},
-                                {"geometryType","esriGeometryPoint"},
-                            };
+                        
+                        string SubWorkUnitsFeaturesobjectIds  = String.Join(",", feature.ForestryTendersManas.Select(r => r.OBJECTID));
+                        
+                        var SubWorkUnitStandsReqparmForest = new System.Collections.Specialized.NameValueCollection { {"objectIds", SubWorkUnitsFeaturesobjectIds  },  {"relationshipId", "3"  } };
                         var SubWorkUnitStandsFeatures = this.GisApiHelper.GetRelatedFeatures<ForestryTendersWorkUnitsStandsModel>("ForestryTenders", "SubWorkUnits", SubWorkUnitStandsReqparmForest);
 
-                        var ForestryTendersInvasiveSpTreatmentsParm = new System.Collections.Specialized.NameValueCollection
-                            {
-                                {"objectIds",string.Join("," ,SubWorkUnitsFeaturesobjectIds) },//SubWorkUnitStandsFeatures.Features.Select(f=>f.OBJECTID))  },
-                                {"relationshipId", "4"  },
-                                {"outFields", "*"},
-                                {"returnGeometry", "false"},
-                                {"returnExceededLimitFeatures", "true"},
-                                {"token", this.GisApiHelper.GetToken()},
-                                {"f", "json"},
-                                {"geometryType","esriGeometryPoint"},
-                            };
+                        var ForestryTendersInvasiveSpTreatmentsParm = new System.Collections.Specialized.NameValueCollection { {"objectIds",string.Join("," ,SubWorkUnitsFeaturesobjectIds) }, {"relationshipId", "4"  } };
                         var InvasiveSpTreatmentsFeatures = this.GisApiHelper.GetRelatedFeatures<ForestryTendersInvasiveSpTreatmentsModel>("ForestryTenders", "SubWorkUnits", ForestryTendersInvasiveSpTreatmentsParm);
 
-                        var ForestryTendersStandActivitiesParm = new System.Collections.Specialized.NameValueCollection
-                            {
-                                {"objectIds",string.Join("," ,SubWorkUnitStandsFeatures.Features.Select(f=>f.OBJECTID))  },
-                                {"relationshipId", "7"  },
-                                {"outFields", "*"},
-                                {"returnGeometry", "false"},
-                                {"returnExceededLimitFeatures", "true"},
-                                {"token", this.GisApiHelper.GetToken()},
-                                {"f", "json"},
-                                {"geometryType","esriGeometryPoint"},
-                            };
+                        var ForestryTendersStandActivitiesParm = new System.Collections.Specialized.NameValueCollection { {"objectIds",string.Join("," ,SubWorkUnitStandsFeatures.Features.Select(f=>f.OBJECTID))  },{"relationshipId", "7"  } };
                         var StandActivitiesFeatures = this.GisApiHelper.GetRelatedFeatures<ForestryTendersStandActivitiesModel>("ForestryTenders", "SubWorkUnitStands", ForestryTendersStandActivitiesParm);
+
+                        feature.WoodVolumeForSubTender = SubWorkUnitStandsFeatures.Features.Select(r => r.EstimatedWorkVolumeCubicMeter).Sum();
 
                         foreach (var SubWorkUnitsFeature in SubWorkUnitsFeatures.Features)
                         {                            
@@ -169,8 +110,7 @@ namespace YaaranutGisApi.Controllers
                             UnitStandsFeature.ActivityDetails = (ForestryTendersStandActivitiesModel[])StandActivitiesFeatures.Features.Where(r=>r.ActivityParentGlobalID== UnitStandsFeature.GlobalID).ToArray<ForestryTendersStandActivitiesModel>();
                             
                         }
-                        feature.WoodVolumeForSubTender = SubWorkUnitStandsFeatures.Features.Select(r => r.EstimatedWorkVolumeCubicMeter).Sum();
-                         
+                        
                     }
                 }
                 return Ok(Gisfeatures.Features);
@@ -195,30 +135,13 @@ namespace YaaranutGisApi.Controllers
 
             whr = "TenderName='" +  ( ForestryTendersParm.TenderName) + "' and SubTenderID="+ ForestryTendersParm.SubTenderID.ToString() + " and SubTenderYear=" + ForestryTendersParm.SubTenderYear.ToString();
             //whr = "SubTenderID=" + SubTenderID.ToString() + " and SubTenderYear=" + ForestryTendersParm.SubTenderYear.ToString();
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection
-                {
-                    {"where", whr  }, 
-                    {"outFields", "*"},
-                    {"returnGeometry", "false"},
-                    {"returnExceededLimitFeatures", "true"},
-                    {"token", token},
-                    {"f", "json"},
-                    {"geometryType","esriGeometryPoint"},
-                };
-
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection { { "where", whr } };
             var Gisfeatures = this.GisApiHelper.GetFeatures<ForestryTendersMapModel>("ForestryTenders", "SubTenders", reqparmForest);
 
             if (Gisfeatures.GisAttributes.error == null)
             {
-                AttachmentsGlobalID = Gisfeatures.Features.First().GlobalID;                
-                var reqparmAttachments = new System.Collections.Specialized.NameValueCollection
-                {
-                    {"globalIds", AttachmentsGlobalID  },
-                    {"token", token},
-                    {"f", "pjson"} ,
-                    {"returnUrl", "true"} ,
-                    {"returnCountOnly", "false"}
-                };
+                AttachmentsGlobalID = Gisfeatures.Features.First().GlobalID;
+                var reqparmAttachments = new System.Collections.Specialized.NameValueCollection { { "globalIds", AttachmentsGlobalID } };
                 var GisfeaturesAttachments = this.GisApiHelper.GetFeatureAttachments<GisForestryTendersModel>("ForestryTenders", "SubTenders", reqparmAttachments);
                 if (GisfeaturesAttachments.error == null)
                 {

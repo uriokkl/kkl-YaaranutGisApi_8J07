@@ -109,17 +109,7 @@ namespace YaaranutGisApi.Controllers
             string AttachmentsGlobalIDs = "";
             string token = this.GisApiHelper.GetToken();
 
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection
-                {
-                    {"where", whr  },//"OBJECTID=246"
-                    {"outFields", "*"},
-                    {"returnGeometry", "false"},
-                    {"returnExceededLimitFeatures", "true"},
-                    {"token", token},
-                    {"f", "json"},
-                    {"geometryType","esriGeometryPoint"},
-                };
-
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection { { "where", whr } };
             var GisSeedfeatures = this.GisApiHelper.GetFeatures<SeedModel>("SeedCollect2021", "", reqparmForest);
             var StatusDomain = GisSeedfeatures.GisAttributes.fields.Where(f => f.name == "Status").First().domain.codedValues;
             var CollectorDomain = GisSeedfeatures.GisAttributes.fields.Where(f => f.name == "Collector").First().domain.codedValues;
@@ -147,15 +137,7 @@ namespace YaaranutGisApi.Controllers
                     if (AttachmentsGlobalIDs != "") AttachmentsGlobalIDs += ",";
                     AttachmentsGlobalIDs += item.GlobalID_2;
                 }
-                var reqparmAttachments = new System.Collections.Specialized.NameValueCollection
-                {
-                    {"globalIds", AttachmentsGlobalIDs  },
-                    {"token", token},
-                    {"f", "pjson"} ,
-                    {"returnUrl", "true"} ,
-                    {"returnCountOnly", "false"}
-                };
-                //var GisfeaturesAttachments = JsonConvert.DeserializeObject<GisSeedModel>(this.GisApiHelper.GetFeatureAttachments("SeedCollect2021", 0, reqparmAttachments));
+                var reqparmAttachments = new System.Collections.Specialized.NameValueCollection { {"globalIds", AttachmentsGlobalIDs  }, {"returnUrl", "true"} ,       {"returnCountOnly", "false"}}; 
                 var GisfeaturesAttachments = this.GisApiHelper.GetFeatureAttachments<GisSeedModeAttach>("SeedCollect2021", "", reqparmAttachments);
                 if (GisfeaturesAttachments.error == null)
                 {
