@@ -140,6 +140,19 @@ namespace YaaranutGisApi.Controllers
                             };
                         var InvasiveSpTreatmentsFeatures = this.GisApiHelper.GetRelatedFeatures<ForestryTendersInvasiveSpTreatmentsModel>("ForestryTenders", "SubWorkUnits", ForestryTendersInvasiveSpTreatmentsParm);
 
+                        var ForestryTendersStandActivitiesParm = new System.Collections.Specialized.NameValueCollection
+                            {
+                                {"objectIds",string.Join("," ,SubWorkUnitStandsFeatures.Features.Select(f=>f.OBJECTID))  },
+                                {"relationshipId", "7"  },
+                                {"outFields", "*"},
+                                {"returnGeometry", "false"},
+                                {"returnExceededLimitFeatures", "true"},
+                                {"token", this.GisApiHelper.GetToken()},
+                                {"f", "json"},
+                                {"geometryType","esriGeometryPoint"},
+                            };
+                        var StandActivitiesFeatures = this.GisApiHelper.GetRelatedFeatures<ForestryTendersStandActivitiesModel>("ForestryTenders", "SubWorkUnitStands", ForestryTendersStandActivitiesParm);
+
                         foreach (var SubWorkUnitsFeature in SubWorkUnitsFeatures.Features)
                         {                            
                             SubWorkUnitsFeature.StandDetails = (ForestryTendersWorkUnitsStandsModel[])SubWorkUnitStandsFeatures.Features.Where(r=>r.ManaParentGlobalID == SubWorkUnitsFeature.GlobalID).ToArray<ForestryTendersWorkUnitsStandsModel>() ;
@@ -150,7 +163,12 @@ namespace YaaranutGisApi.Controllers
                             SubWorkUnitsFeature.ISTPlantSpForMana = String.Join(",", InvasiveSpTreatmentsFeatures.Features.Where(r => !string.IsNullOrWhiteSpace(r.ISTPlantSp)).Select(r => r.ISTPlantSp));
                             SubWorkUnitsFeature.ISTTreatmentTypeForMana  = String.Join(",", InvasiveSpTreatmentsFeatures.Features.Where(r=> !string.IsNullOrWhiteSpace(r.ISTTreatmentType)).Select(r => r.ISTTreatmentType));
                         }
-                         
+                        foreach (var UnitStandsFeature in SubWorkUnitStandsFeatures.Features)
+                        {
+                            UnitStandsFeature.ActivityType = String.Join(",", StandActivitiesFeatures.Features.Where(r => !string.IsNullOrWhiteSpace(r.ActivityType)).Select(r => r.ActivityType));
+                            UnitStandsFeature.ActivityDetails = (ForestryTendersStandActivitiesModel[])StandActivitiesFeatures.Features.Where(r=>r.ActivityParentGlobalID== UnitStandsFeature.GlobalID).ToArray<ForestryTendersStandActivitiesModel>();
+                            
+                        }
                         feature.WoodVolumeForSubTender = SubWorkUnitStandsFeatures.Features.Select(r => r.EstimatedWorkVolumeCubicMeter).Sum();
                          
                     }
@@ -311,6 +329,7 @@ namespace YaaranutGisApi.Controllers
      
     public class ForestryTendersWorkUnitsStandsModel     
     {
+        public string GlobalID { get; set; }
         public string OBJECTID { get; set; }
         public string ManaParentGlobalID { get; set; }
         
@@ -326,6 +345,7 @@ namespace YaaranutGisApi.Controllers
         public string StandComments { get; set; }
         public decimal? EstimatedWorkVolumeCubicMeter { get; set; }
         public string ActivityType { get; set; }
+        public ForestryTendersStandActivitiesModel[] ActivityDetails { get; set; }
     }
     
     public class ForestryTendersInvasiveSpTreatmentsModel
@@ -336,11 +356,15 @@ namespace YaaranutGisApi.Controllers
         public string ISTTreatmentType { get; set; }
     }
    
-    public class ForestryTendersStandActivities
+    public class ForestryTendersStandActivitiesModel
     {
         public string GlobalID { get; set; }
+        public string ActivityParentGlobalID { get; set; }
         public string ActivityType { get; set; }
-
+        public decimal? ActivityEstimatedAreaDunam { get; set; }
+        public string ActivityCoverType { get; set; }
+        public string ActivityThinningType { get; set; }
+        public decimal? ActivityTreeDensity { get; set; }
     }
     public class ForestryTenderStatusModel
     {
