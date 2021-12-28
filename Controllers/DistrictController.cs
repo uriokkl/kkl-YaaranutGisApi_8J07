@@ -11,7 +11,11 @@ namespace YaaranutGisApi.Controllers
     public class DistrictController : BaseController
     {
         public DistrictController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
-           
+
+        /// <summary>
+        /// קבלת רשימת מרחבים
+        /// </summary>
+        /// <remarks> מחזיר רשימת מרחבים </remarks>
         [HttpGet]
         [Route("GetDistricts")]
         //[EnableCors("CorsAll")]
@@ -40,6 +44,7 @@ namespace YaaranutGisApi.Controllers
         }
     }
 
+    
     public class DistrictModel
     {
         public int? OBJECTID { get; set; }

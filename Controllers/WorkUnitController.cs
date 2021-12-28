@@ -119,6 +119,7 @@ namespace YaaranutGisApi.Controllers
             //await _context.Response.WriteAsync("azaza");
             return StatusCode(200);
         }
+
         [HttpGet]
         [Route("GetTest/{id}/query")]
         public async Task<IActionResult> Rewrite1(string id)
@@ -143,6 +144,8 @@ namespace YaaranutGisApi.Controllers
                 return StatusCode(((int)HttpStatusCode.NotModified));
             }
         }
+
+
         [HttpGet]
         [Route("GetWorkUnitTipul")]        
         public byte[] GetWorkUnitTipul()
@@ -206,6 +209,11 @@ namespace YaaranutGisApi.Controllers
 
             return new string[] { "aaa", "bbb" };
         }
+
+        /// <summary>
+        /// קבלת רשימת יחידות עבודה
+        /// </summary>
+        /// <remarks> מחזיר רשימת יחידות עבודה </remarks>
         [HttpPost]
         [Route("GetWorkUnits")]  
         public async Task<ActionResult<IEnumerable<WorkUnitModel>>> GetWorkUnits(  WorkUnitModelQueryParameter QueryParmeters)

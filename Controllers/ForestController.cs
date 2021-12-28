@@ -12,6 +12,10 @@ namespace YaaranutGisApi.Controllers
     {
         public ForestController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
+        /// <summary>
+        /// קבלת רשימת יערות
+        /// </summary>
+        /// <remarks> מחזיר רשימת יערות כולל מרחב ואזור </remarks>
         [HttpGet]
         [Route("GetForests")]
         [EnableCors("CorsAll")]

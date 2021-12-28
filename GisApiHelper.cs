@@ -16,6 +16,7 @@ namespace YaaranutGisApi
     public interface IGisApiHelper
     {
         public GisResult<GisModel, TFeatures> GetFeatures<TFeatures>(string LayerName, string SubData, System.Collections.Specialized.NameValueCollection ParmQuery);
+        public GisResult<GisModel, TFeatures> GetRelatedFeatures<TFeatures>(string LayerName, string SubData, System.Collections.Specialized.NameValueCollection ParmQuery);
         public T GetFeatureAttachments<T>(string LayerName, string SubData, System.Collections.Specialized.NameValueCollection ParmQuery);
         public InsertRetModel InsertFeature(string LayerName, string SubData, string UpdateValues);
         public InsertRetModel UpdateFeature(string LayerName, string SubData, string UpdateValues);
@@ -39,10 +40,10 @@ namespace YaaranutGisApi
             //var T1Type = Type.GetType(typeof(List<TFeatures>).AssemblyQualifiedName);
             GisResult<GisModel, TFeatures> result= new GisResult<GisModel, TFeatures>();
 
-            if (SubData == "") SubData = "0";
+            SubData = SubData == "" ? "0" : this.GisEnvPrefix + SubData;
             using (WebClient clientGis = new WebClient())
             {
-                byte[] responsebytesGis = clientGis.UploadValues(this.appSettings.GisApiUrl + "/" + this.GisEnvPrefix + LayerName.ToString() + "/FeatureServer/" + SubData.ToString() + "/query", "POST", ParmQuery);
+                byte[] responsebytesGis = clientGis.UploadValues(this.appSettings.GisApiUrl + "/" + this.GisEnvPrefix + LayerName.ToString() + "/FeatureServer/" +  SubData.ToString() + "/query", "POST", ParmQuery);
                 string responsebodyGis = Encoding.UTF8.GetString(responsebytesGis);
                 
                 result.GisAttributes = JsonConvert.DeserializeObject<GisModel>(responsebodyGis);
@@ -56,18 +57,62 @@ namespace YaaranutGisApi
                 {
                     foreach (var item in result.GisAttributes.features)
                     {
-                        ((List<TFeatures>)result.Features).Add(((JObject)item.attributes).ToObject<TFeatures>());
+                        ((List<TFeatures>)result.Features).Add(((JObject)item.attributes).ToObject<TFeatures>());                         
                     }
+                    //var ppp = result.Features.First().GetType().GetProperties();
+                    //foreach (var p in ppp)
+                    //{
+                    //    if (p.CustomAttributes.Count()>0 && p.CustomAttributes.First().ToString().Contains("DomainConverter"))
+                    //    {
+                    //        foreach (var Feature in result.Features)
+                    //        {
+                    //            var Propery = Feature.GetType().GetProperty(p.Name).GetValue(Feature);
+                    //            if (Propery.GetType().GetProperty(p.Name).GetValue(Propery) != null)
+                    //            {
+                    //                item.Status.StatusName = StatusDomain.Where(f => f.code == item.Status.Status.ToString()).First().name;
+                    //            }
+                    //        }
+                            
+
+                    //    }
+                    //}
+                    
                 }
             }
             return result;
         }
-        
+        public GisResult<GisModel, TFeatures> GetRelatedFeatures<TFeatures>(string LayerName, string SubData, System.Collections.Specialized.NameValueCollection ParmQuery)
+        {
+            GisResult<GisModel, TFeatures> result = new GisResult<GisModel, TFeatures>();
+
+            SubData = SubData == "" ? "0" : this.GisEnvPrefix + SubData;
+            using (WebClient clientGis = new WebClient())
+            {
+                byte[] responsebytesGis = clientGis.UploadValues(this.appSettings.GisApiUrl + "/" + this.GisEnvPrefix + LayerName.ToString() + "/FeatureServer/" + SubData.ToString() + "/queryRelatedRecords", "POST", ParmQuery);
+                string responsebodyGis = Encoding.UTF8.GetString(responsebytesGis);
+
+                result.GisAttributes = JsonConvert.DeserializeObject<GisModel>(responsebodyGis);
+                result.Features = (List<TFeatures>)Activator.CreateInstance(typeof(List<TFeatures>));
+                
+                if (result.GisAttributes.relatedRecordGroups != null)
+                {
+                    foreach (var relatedRecord in result.GisAttributes.relatedRecordGroups)
+                    {
+                        foreach (var Record in relatedRecord.relatedRecords)
+                        {
+                            ((List<TFeatures>)result.Features).Add((((JObject)Record.attributes)).ToObject<TFeatures>());
+                        }                        
+                    }                    
+                }
+            }
+            return result;
+        }
+
         public T  GetFeatureAttachments<T>(string LayerName, string SubData, System.Collections.Specialized.NameValueCollection ParmQuery)  
         {
             T result = default(T);
 
-            if (SubData == "") SubData = "0";
+            SubData = SubData == ""?    "0" :  this.GisEnvPrefix + SubData;
             using (WebClient clientGis = new WebClient())
             {
                 byte[] responsebytesGis = clientGis.UploadValues(this.appSettings.GisApiUrl + "/" + this.GisEnvPrefix + LayerName.ToString() + "/FeatureServer/" + SubData.ToString() + "/queryAttachments", "POST", ParmQuery);
@@ -83,7 +128,7 @@ namespace YaaranutGisApi
             InsertRetModel InsertRet = null;
             string val="";
 
-            if (SubData == "") SubData = "0";
+            SubData = SubData == "" ? "0" : this.GisEnvPrefix + SubData;
             using (WebClient client = new WebClient())
             {
                 var reqparm = new System.Collections.Specialized.NameValueCollection
@@ -106,7 +151,7 @@ namespace YaaranutGisApi
             //var UpdateValuesDictionary = UpdateValues.AllKeys.ToDictionary(x => x, x => UpdateValues[x]);
             //var UpdateValuesJson = JsonConvert.SerializeObject(UpdateValuesDictionary);
 
-            if (SubData == "") SubData = "0";
+            SubData = SubData == "" ? "0" : this.GisEnvPrefix + SubData;
             using (WebClient client = new WebClient())
             {
                 var reqparm = new System.Collections.Specialized.NameValueCollection
@@ -162,7 +207,7 @@ namespace YaaranutGisApi
 
         }
 
-        public class DateTimeConverter : DateTimeConverterBase
+        public class DateTimeConverter : JsonConverter
         {
             private static readonly DateTime _epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
@@ -175,6 +220,29 @@ namespace YaaranutGisApi
             {
                 if (reader.Value == null) { return null; }
                 return _epoch.AddMilliseconds((long)reader.Value);
+            }
+            public override bool CanConvert(Type objectType)
+            {
+                return true;// objectType == typeof(User);
+            }
+        }
+        public class DomainConverter : JsonConverter
+        {
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                 
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                dynamic r = Activator.CreateInstance(objectType);
+                r.GetType().GetProperty(reader.Path).SetValue(r,reader.Value);
+                return r;
+            }
+
+            public override bool CanConvert(Type objectType)
+            {
+                return true;// objectType == typeof(User);
             }
         }
     }
@@ -205,7 +273,9 @@ namespace YaaranutGisApi
         public Fields[] fields { get; set; }
         public attachmentGroups[] attachmentGroups { get; set; }
         public Features[] features { get; set; }
+        public relatedRecordGroups[] relatedRecordGroups { get; set; }
         
+
     }
     public class Features
     {
@@ -224,6 +294,15 @@ namespace YaaranutGisApi
         public string sqlType { get; set; }
         public int length { get; set; }
         public domain domain { get; set; }
+    }
+    public class relatedRecordGroups
+    {
+        public string objectId { get; set; }
+        public relatedRecords[] relatedRecords { get; set; }
+    }
+    public class relatedRecords
+    {
+        public dynamic attributes { get; set; }
     }
     public class domain
     {

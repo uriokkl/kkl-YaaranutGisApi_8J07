@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+//using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,8 +105,7 @@ namespace YaaranutGisApi.Controllers
         }
 
         internal IEnumerable<SeedModel> SearchSeedsCollects(string whr)
-        {
-            List< SeedModel > Seedfeatures = new List<SeedModel>(); 
+        {            
             string AttachmentsGlobalIDs = "";
             string token = this.GisApiHelper.GetToken();
 
@@ -121,31 +120,23 @@ namespace YaaranutGisApi.Controllers
                     {"geometryType","esriGeometryPoint"},
                 };
 
-            var GisSeedfeatures = this.GisApiHelper.GetFeatures<SeedGisModel>("SeedCollect2021", "", reqparmForest);
+            var GisSeedfeatures = this.GisApiHelper.GetFeatures<SeedModel>("SeedCollect2021", "", reqparmForest);
             var StatusDomain = GisSeedfeatures.GisAttributes.fields.Where(f => f.name == "Status").First().domain.codedValues;
+            var CollectorDomain = GisSeedfeatures.GisAttributes.fields.Where(f => f.name == "Collector").First().domain.codedValues;
+            var DiaryEditorIDDomain = GisSeedfeatures.GisAttributes.fields.Where(f => f.name == "DiaryEditorID").First().domain.codedValues;
+            var PlantIDDomain = GisSeedfeatures.GisAttributes.fields.Where(f => f.name == "PlantID").First().domain.codedValues;
+            //var POSITIONSOURCETYPEDomain = GisSeedfeatures.GisAttributes.fields.Where(f => f.name == "ESRIGNSS_POSITIONSOURCETYPE").First().domain.codedValues; 
             if (GisSeedfeatures.GisAttributes.error == null)
             {
                 foreach (var item in GisSeedfeatures.Features)
                 {
-                    var propInfo = item.GetType().GetProperties();
-                    var Seedfeature = new SeedModel();
-                    foreach (var item1 in propInfo)
-                    {
-                        if (item1.Name == "Status")
-                        {
-                            Seedfeature.Status = new SeedStatusModel();
-                            if (item1.GetValue(item, null)!=null)
-                                    {
-                                Seedfeature.Status.Status = int.Parse(item1.GetValue(item, null).ToString());
-                                Seedfeature.Status.StatusName = StatusDomain.Where(f => f.code == Seedfeature.Status.Status.ToString()).First().name;
-                            }
-                        }
-                        else
-                        {
-                            Seedfeature.GetType().GetProperty(item1.Name).SetValue(Seedfeature, item1.GetValue(item, null), null);
-                        }
-                    }
-                    Seedfeatures.Add(Seedfeature);
+                    if (item.Status.Status!=null) item.Status.StatusName = StatusDomain.Where(f => f.code == item.Status.Status.ToString()).First().name;
+                    if (item.Collector!=null) item.CollectorName = CollectorDomain.Where(f => f.code == item.Collector).First().name;
+                    if (item.DiaryEditorID != null) item.DiaryEditorName = DiaryEditorIDDomain.Where(f => f.code == item.DiaryEditorID.ToString()).First().name;
+                    if (item.PlantID != null) item.PlantName = PlantIDDomain.Where(f => f.code == item.PlantID.ToString()).First().name;
+                    //if (item.ESRIGNSS_POSITIONSOURCETYPE != null) item.ESRIGNSS_POSITIONSOURCETYPE_NAME = PlantIDDomain.Where(f => f.code == item.ESRIGNSS_POSITIONSOURCETYPE.ToString()).First().name;
+
+
                     //var serialized = JsonConvert.SerializeObject(item);
                     //Seedfeatures = JsonConvert.DeserializeObject<IEnumerable<SeedModel>>(serialized);
 
@@ -170,7 +161,7 @@ namespace YaaranutGisApi.Controllers
                 {
                     foreach (var attachmentGroups in GisfeaturesAttachments.attachmentGroups)
                     {
-                        SeedModel seedRow = ((List<SeedModel>)Seedfeatures).First(r => r.GlobalID_2 == attachmentGroups.parentGlobalId);
+                        SeedModel seedRow = ((List<SeedModel>)GisSeedfeatures.Features).First(r => r.GlobalID_2 == attachmentGroups.parentGlobalId);
                         foreach (var attachmentInfos in attachmentGroups.attachmentInfos)
                         {
                             seedRow.FilesAttachments = new List<FilesAttachments>();
@@ -179,7 +170,7 @@ namespace YaaranutGisApi.Controllers
 
                     }
                 }
-                return Seedfeatures;
+                return GisSeedfeatures.Features;
             }
             else
             {
@@ -188,30 +179,34 @@ namespace YaaranutGisApi.Controllers
         }
     }
 
-    public class SeedModel:SeedBaseModel
-    {
-        public SeedStatusModel Status { get; set; }
-    }
-    public class SeedGisModel : SeedBaseModel
-    {
-        public string Status { get; set; }        
-    }
-    public class SeedBaseModel
+    //public class SeedModel:SeedBaseModel
+    //{
+    //    public SeedStatusModel Status { get; set; }
+    //}
+    //public class SeedGisModel : SeedBaseModel
+    //{
+    //    [JsonConverter(typeof(DomainConverter))]
+    //    //public string Status { get; set; }        
+    //    public SeedStatusModel Status { get; set; }
+    //}
+    public class SeedModel
     {
         public int? OBJECTID { get; set; }
         public string GlobalID_2 { get; set; }
-        
+        [JsonConverter(typeof(DomainConverter))]
+        public SeedStatusModel Status { get; set; }
         public int? PlantID { get; set; }
         public string PlantName { get; set; }
         public int? SiteID { get; set; }
         public string Site { get; set; }
         [JsonConverter(typeof(DateTimeConverter))]
-        public DateTime LastPic { get; set; }
+        public DateTime? LastPic { get; set; }
         public string Collector { get; set; }
+        public string CollectorName { get; set; }
         public int? DiaryEditorID { get; set; }
         public string DiaryEditorName { get; set; }
         [JsonConverter(typeof(DateTimeConverter))]
-        public DateTime DiaryDate { get; set; }
+        public DateTime? DiaryDate { get; set; }
         public string Comments { get; set; }
         public decimal? FruitsKg { get; set; }
         public int? BagsNum { get; set; }
@@ -221,9 +216,9 @@ namespace YaaranutGisApi.Controllers
         public int? SeedsFor100g { get; set; }
         public string SiteSize { get; set; }
         public int? TreeID { get; set; }
-        public string TreeIDText { get; set; }
-        public int? PositionSourceType { get; set; }
+        public string TreeIDText { get; set; }        
         public int? ESRIGNSS_POSITIONSOURCETYPE { get; set; }
+        //public string ESRIGNSS_POSITIONSOURCETYPE_NAME { get; set; }
         public string PhotosAndFiles { get; set; }
 
 
@@ -255,7 +250,7 @@ namespace YaaranutGisApi.Controllers
 
     public class SeedStatusModel
         {
-        public int? Status { get; set; }
+        public Int64? Status { get; set; }
         public string StatusName { get; set; }
     }
 

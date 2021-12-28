@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/core/testing'), require('@arcgis/core/WebMap'), require('@arcgis/core/views/MapView'), require('@arcgis/core/layers/FeatureLayer'), require('@arcgis/core/Basemap'), require('@arcgis/core/layers/support/LabelClass'), require('@arcgis/core/symbols'), require('@arcgis/core/Color'), require('@arcgis/core/renderers/SimpleRenderer'), require('@angular/platform-browser'), require('@angular/forms')) :
-    typeof define === 'function' && define.amd ? define('yaaranut-gis', ['exports', '@angular/core', '@angular/core/testing', '@arcgis/core/WebMap', '@arcgis/core/views/MapView', '@arcgis/core/layers/FeatureLayer', '@arcgis/core/Basemap', '@arcgis/core/layers/support/LabelClass', '@arcgis/core/symbols', '@arcgis/core/Color', '@arcgis/core/renderers/SimpleRenderer', '@angular/platform-browser', '@angular/forms'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['yaaranut-gis'] = {}, global.ng.core, global.ng.core.testing, global.WebMap, global.MapView, global.FeatureLayer, global.Basemap, global.LabelClass, global.symbols, global.Color, global.SimpleRenderer, global.ng.platformBrowser, global.ng.forms));
-}(this, (function (exports, i0, i1, WebMap, MapView, FeatureLayer, Basemap, LabelClass, symbols, Color, SimpleRenderer, platformBrowser, forms) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/core/testing'), require('@arcgis/core/WebMap'), require('@arcgis/core/views/MapView'), require('@arcgis/core/layers/FeatureLayer'), require('@arcgis/core/Basemap'), require('@arcgis/core/layers/support/LabelClass'), require('@arcgis/core/symbols'), require('@arcgis/core/Color'), require('@arcgis/core/renderers/SimpleRenderer'), require('@angular/common'), require('@angular/forms')) :
+    typeof define === 'function' && define.amd ? define('yaaranut-gis', ['exports', '@angular/core', '@angular/core/testing', '@arcgis/core/WebMap', '@arcgis/core/views/MapView', '@arcgis/core/layers/FeatureLayer', '@arcgis/core/Basemap', '@arcgis/core/layers/support/LabelClass', '@arcgis/core/symbols', '@arcgis/core/Color', '@arcgis/core/renderers/SimpleRenderer', '@angular/common', '@angular/forms'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['yaaranut-gis'] = {}, global.ng.core, global.ng.core.testing, global.WebMap, global.MapView, global.FeatureLayer, global.Basemap, global.LabelClass, global.symbols, global.Color, global.SimpleRenderer, global.ng.common, global.ng.forms));
+}(this, (function (exports, i0, i1, WebMap, MapView, FeatureLayer, Basemap, LabelClass, symbols, Color, SimpleRenderer, common, forms) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -570,10 +570,12 @@
     }());
     WorkUnitModule.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: WorkUnitModule, deps: [], target: i0__namespace.ɵɵFactoryTarget.NgModule });
     WorkUnitModule.ɵmod = i0__namespace.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: WorkUnitModule, declarations: [WorkUnitComponent], imports: [forms.FormsModule,
-            platformBrowser.BrowserModule], exports: [WorkUnitComponent] });
+            //BrowserModule
+            common.CommonModule], exports: [WorkUnitComponent] });
     WorkUnitModule.ɵinj = i0__namespace.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: WorkUnitModule, imports: [[
                 forms.FormsModule,
-                platformBrowser.BrowserModule
+                //BrowserModule
+                common.CommonModule
             ]] });
     i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: WorkUnitModule, decorators: [{
                 type: i0.NgModule,
@@ -583,7 +585,8 @@
                         ],
                         imports: [
                             forms.FormsModule,
-                            platformBrowser.BrowserModule
+                            //BrowserModule
+                            common.CommonModule
                         ],
                         exports: [
                             WorkUnitComponent
@@ -743,10 +746,12 @@
     }());
     SeedsCollectModule.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: SeedsCollectModule, deps: [], target: i0__namespace.ɵɵFactoryTarget.NgModule });
     SeedsCollectModule.ɵmod = i0__namespace.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: SeedsCollectModule, declarations: [SeedsCollectComponent], imports: [forms.FormsModule,
-            platformBrowser.BrowserModule], exports: [SeedsCollectComponent] });
+            //BrowserModule
+            common.CommonModule], exports: [SeedsCollectComponent] });
     SeedsCollectModule.ɵinj = i0__namespace.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: SeedsCollectModule, imports: [[
                 forms.FormsModule,
-                platformBrowser.BrowserModule
+                //BrowserModule
+                common.CommonModule
             ]] });
     i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: SeedsCollectModule, decorators: [{
                 type: i0.NgModule,
@@ -756,7 +761,8 @@
                         ],
                         imports: [
                             forms.FormsModule,
-                            platformBrowser.BrowserModule
+                            //BrowserModule
+                            common.CommonModule
                         ],
                         exports: [
                             SeedsCollectComponent

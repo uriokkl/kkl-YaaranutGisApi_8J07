@@ -175,7 +175,7 @@ namespace ReverseProxyApplication
                 {
                     arcgisServicesUrl = "http://localhost:27552"+ "/ArcGIS/rest/services/KKLForestManagementUnits/FeatureServer/99";
                 }
-                //if (!this.env.IsProduction()) arcgisServicesUrl += "Test_";
+                if (true || !this.env.IsProduction()) arcgisServicesUrl += "Test_";
                 arcgisServicesUrl += requestArr[4];     
                 arcgisServicesUrl += "/FeatureServer/";
                 arcgisServicesUrl += "" + requestArr[6];

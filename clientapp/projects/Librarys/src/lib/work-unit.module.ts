@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+//import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule} from '@angular/common'
 import { FormsModule } from '@angular/forms';
 
 import { WorkUnitComponent } from './work-unit.component';
@@ -12,7 +13,8 @@ import { WorkUnitComponent } from './work-unit.component';
   ],
   imports: [
     FormsModule,
-    BrowserModule
+    //BrowserModule
+      CommonModule
   ],         
   exports: [
     WorkUnitComponent

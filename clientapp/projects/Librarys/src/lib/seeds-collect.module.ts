@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
+//import { BrowserModule } from '@angular/platform-browser';
+import {CommonModule } from '@angular/common'
 import { SeedsCollectComponent } from './seeds-collect.component';
 
 
@@ -11,7 +12,8 @@ import { SeedsCollectComponent } from './seeds-collect.component';
   ],
   imports: [
     FormsModule,
-    BrowserModule
+    //BrowserModule
+      CommonModule
   ],
   exports: [
     SeedsCollectComponent

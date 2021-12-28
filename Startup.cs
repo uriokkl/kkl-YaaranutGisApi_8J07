@@ -46,6 +46,7 @@ namespace YaaranutGisApi
                 .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+                 
                 //options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 //options.JsonSerializerOptions.DictionaryKeyPolicy = null;
                 //options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;

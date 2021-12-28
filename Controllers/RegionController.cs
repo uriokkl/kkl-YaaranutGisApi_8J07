@@ -12,6 +12,10 @@ namespace YaaranutGisApi.Controllers
     {        
         public RegionController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
+        /// <summary>
+        /// קבלת רשימת אזורים
+        /// </summary>
+        /// <remarks> מחזיר רשימת אזורים כולל מרחב </remarks>
         [HttpGet]
         [Route("GetRegions")]
         [EnableCors("CorsAll")]

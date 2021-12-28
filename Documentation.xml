@@ -4,17 +4,41 @@
         <name>YaaranutGisApi</name>
     </assembly>
     <members>
-        <member name="M:YaaranutGisApi.Controllers.ForestryTendersController.GetSubTenderList(System.String)">
+        <member name="M:YaaranutGisApi.Controllers.DistrictController.GetDistricts">
+            <summary>
+            קבלת רשימת מרחבים
+            </summary>
+            <remarks> מחזיר רשימת מרחבים </remarks>
+        </member>
+        <member name="M:YaaranutGisApi.Controllers.ForestController.GetForests">
+            <summary>
+            קבלת רשימת יערות
+            </summary>
+            <remarks> מחזיר רשימת יערות כולל מרחב ואזור </remarks>
+        </member>
+        <member name="M:YaaranutGisApi.Controllers.ForestryTendersController.GetSubTendersList(System.String)">
             <summary>
             קבלת רשימת תיחורים 
             </summary>
             <remarks>מחזיר רשימת תיחורים  </remarks>
+        </member>
+        <member name="M:YaaranutGisApi.Controllers.ForestryTendersController.GetSubTenderList(System.String)">
+            <summary>
+            קבלת פרטי תיחור 
+            </summary>
+            <remarks>מחזיר פרטי תיחור  </remarks>
         </member>
         <member name="M:YaaranutGisApi.Controllers.ForestryTendersController.GetSubTenderExprtMap(YaaranutGisApi.Controllers.ForestryTendersMapParmModel,YaaranutGisApi.Controllers.TenderMapType)">
             <summary>
             קבלת קובץ תיחור 
             </summary>
             <remarks>מחזיר כתובת של קובץ תיור  </remarks>
+        </member>
+        <member name="M:YaaranutGisApi.Controllers.RegionController.GetRegions">
+            <summary>
+            קבלת רשימת אזורים
+            </summary>
+            <remarks> מחזיר רשימת אזורים כולל מרחב </remarks>
         </member>
         <member name="M:YaaranutGisApi.Controllers.SeedController.GetSeedsCollects(System.String)">
             <summary>
@@ -33,6 +57,12 @@
             קבלת פרטי איסוף זרעים מסויים
             </summary>
             <remarks>GlobalID_2 מחזיר פרטי איסוף זרעים לפי </remarks>
+        </member>
+        <member name="M:YaaranutGisApi.Controllers.WorkUnitController.GetWorkUnits(YaaranutGisApi.Controllers.WorkUnitModelQueryParameter)">
+            <summary>
+            קבלת רשימת יחידות עבודה
+            </summary>
+            <remarks> מחזיר רשימת יחידות עבודה </remarks>
         </member>
     </members>
 </doc>
