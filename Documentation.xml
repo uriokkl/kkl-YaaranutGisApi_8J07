@@ -28,7 +28,7 @@
             </summary>
             <remarks>מחזיר פרטי תיחור  </remarks>
         </member>
-        <member name="M:YaaranutGisApi.Controllers.ForestryTendersController.GetSubTenderExprtMap(YaaranutGisApi.Controllers.ForestryTendersMapParmModel,YaaranutGisApi.Controllers.TenderMapType)">
+        <member name="M:YaaranutGisApi.Controllers.ForestryTendersController.TenderGetDoc(YaaranutGisApi.Controllers.ForestryTendersMapParmModel,YaaranutGisApi.Controllers.TenderMapType)">
             <summary>
             קבלת קובץ תיחור 
             </summary>

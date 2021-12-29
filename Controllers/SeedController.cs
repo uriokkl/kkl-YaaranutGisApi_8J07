@@ -121,12 +121,19 @@ namespace YaaranutGisApi.Controllers
             {
                 foreach (var item in GisSeedfeatures.Features)
                 {
-                    if (item.Status.Status!=null) item.Status.StatusName = StatusDomain.Where(f => f.code == item.Status.Status.ToString()).First().name;
-                    if (item.Collector!=null) item.CollectorName = CollectorDomain.Where(f => f.code == item.Collector).First().name;
-                    if (item.DiaryEditorID != null) item.DiaryEditorName = DiaryEditorIDDomain.Where(f => f.code == item.DiaryEditorID.ToString()).First().name;
-                    if (item.PlantID != null) item.PlantName = PlantIDDomain.Where(f => f.code == item.PlantID.ToString()).First().name;
-                    //if (item.ESRIGNSS_POSITIONSOURCETYPE != null) item.ESRIGNSS_POSITIONSOURCETYPE_NAME = PlantIDDomain.Where(f => f.code == item.ESRIGNSS_POSITIONSOURCETYPE.ToString()).First().name;
+                    try
+                    {
+                        
+                    if (item.Status.Status != null) item.Status.StatusName = StatusDomain.Where(f => f.code == item.Status.Status.ToString()).First().name;
+                        if (item.Collector != null) item.CollectorName = CollectorDomain.Where(f => f.code == item.Collector).First().name;
+                        if (item.DiaryEditorID != null) item.DiaryEditorName = DiaryEditorIDDomain.Where(f => f.code == item.DiaryEditorID.ToString()).First().name;
+                        if (item.PlantID != null) item.PlantName = PlantIDDomain.Where(f => f.code == item.PlantID.ToString()).First().name;
+                        //if (item.ESRIGNSS_POSITIONSOURCETYPE != null) item.ESRIGNSS_POSITIONSOURCETYPE_NAME = PlantIDDomain.Where(f => f.code == item.ESRIGNSS_POSITIONSOURCETYPE.ToString()).First().name;
+                    }
+                    catch (Exception ex)
+                    {
 
+                    }
 
                     //var serialized = JsonConvert.SerializeObject(item);
                     //Seedfeatures = JsonConvert.DeserializeObject<IEnumerable<SeedModel>>(serialized);

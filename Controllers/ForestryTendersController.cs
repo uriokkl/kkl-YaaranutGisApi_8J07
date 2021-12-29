@@ -126,8 +126,8 @@ namespace YaaranutGisApi.Controllers
         /// </summary>
         /// <remarks>מחזיר כתובת של קובץ תיור  </remarks>
         [HttpPost]
-        [Route("GetSubTenderExprtMap/{TenderMapType}")]        
-        public async Task<ActionResult<IEnumerable<ForestryTendersMapModel>>> GetSubTenderExprtMap([FromBody] ForestryTendersMapParmModel ForestryTendersParm, TenderMapType TenderMapType)
+        [Route("TenderGetDoc/{TenderMapType}")]        
+        public async Task<ActionResult<IEnumerable<ForestryTendersMapModel>>> TenderGetDoc([FromBody] ForestryTendersMapParmModel ForestryTendersParm, TenderMapType TenderMapType)
         {
             string whr = "";
             string AttachmentsGlobalID = "";
@@ -154,6 +154,21 @@ namespace YaaranutGisApi.Controllers
                             {
                                 ForestryTender.FilesAttachments = new List<FilesAttachments>();
                                 ForestryTender.FilesAttachments.Add(new FilesAttachments() { Url = attachmentInfos.url + "?token=" + token, Type = attachmentInfos.contentType,Name= attachmentInfos.Name });
+                            }
+                            else if (TenderMapType == TenderMapType.ContractorGuidelines && attachmentInfos.Name.Contains("ContractorGuidelines"))
+                            {
+                                ForestryTender.FilesAttachments = new List<FilesAttachments>();
+                                ForestryTender.FilesAttachments.Add(new FilesAttachments() { Url = attachmentInfos.url + "?token=" + token, Type = attachmentInfos.contentType, Name = attachmentInfos.Name });
+                            }
+                            else if (TenderMapType == TenderMapType.Quotation && attachmentInfos.Name.Contains("Quotation"))
+                            {
+                                ForestryTender.FilesAttachments = new List<FilesAttachments>();
+                                ForestryTender.FilesAttachments.Add(new FilesAttachments() { Url = attachmentInfos.url + "?token=" + token, Type = attachmentInfos.contentType, Name = attachmentInfos.Name });
+                            }
+                            else if (TenderMapType == TenderMapType.WorkCapacity && attachmentInfos.Name.Contains("WorkCapacity"))
+                            {
+                                ForestryTender.FilesAttachments = new List<FilesAttachments>();
+                                ForestryTender.FilesAttachments.Add(new FilesAttachments() { Url = attachmentInfos.url + "?token=" + token, Type = attachmentInfos.contentType, Name = attachmentInfos.Name });
                             }
                         }
 
@@ -333,6 +348,9 @@ namespace YaaranutGisApi.Controllers
      
     public enum TenderMapType
     {
-        Maps 
+        Maps ,
+        WorkCapacity,
+        ContractorGuidelines,
+        Quotation
     }
 }
