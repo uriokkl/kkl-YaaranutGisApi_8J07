@@ -106,7 +106,7 @@ namespace YaaranutGisApi.Controllers
 
         internal IEnumerable<SeedModel> SearchSeedsCollects(string whr)
         {
-            return null;
+            string az = "";
             string AttachmentsGlobalIDs = "";
             string token = this.GisApiHelper.GetToken();
 
