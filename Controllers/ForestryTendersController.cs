@@ -91,7 +91,7 @@ namespace YaaranutGisApi.Controllers
 
                         var ForestryTendersStandActivitiesParm = new System.Collections.Specialized.NameValueCollection { {"objectIds",string.Join("," ,SubWorkUnitStandsFeatures.Features.Select(f=>f.OBJECTID))  },{"relationshipId", "7"  } };
                         var StandActivitiesFeatures = this.GisApiHelper.GetRelatedFeatures<ForestryTendersStandActivitiesModel>("ForestryTenders", "SubWorkUnitStands", ForestryTendersStandActivitiesParm);
-
+                        
                         feature.WoodVolumeForSubTender = SubWorkUnitStandsFeatures.Features.Select(r => r.EstimatedWorkVolumeCubicMeter).Sum();
 
                         foreach (var SubWorkUnitsFeature in SubWorkUnitsFeatures.Features)
