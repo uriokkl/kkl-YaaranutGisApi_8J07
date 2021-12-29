@@ -195,6 +195,7 @@ namespace YaaranutGisApi.Controllers
         public string GlobalID { get; set; }
         public string OBJECTID { get; set; }
         public string TenderID { get; set; }
+        public string TenderName { get; set; }
         public int SubTenderYear { get; set; }
         public string SubTenderID { get; set; }
         public string SubTenderName { get; set; }
