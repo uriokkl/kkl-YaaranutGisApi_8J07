@@ -58,6 +58,12 @@
             </summary>
             <remarks>GlobalID_2 מחזיר פרטי איסוף זרעים לפי </remarks>
         </member>
+        <member name="M:YaaranutGisApi.Controllers.SeedController.DeleteSeedsCollect(System.String,System.String)">
+            <summary>
+            מחיקת רשומת פרטי איסוף זרעים מסויים
+            </summary>
+            <remarks>GlobalID_2 ו OBJECTID מוחק רשומת פרטי איסוף זרעים לפי </remarks>
+        </member>
         <member name="M:YaaranutGisApi.Controllers.WorkUnitController.GetWorkUnits(YaaranutGisApi.Controllers.WorkUnitModelQueryParameter)">
             <summary>
             קבלת רשימת יחידות עבודה

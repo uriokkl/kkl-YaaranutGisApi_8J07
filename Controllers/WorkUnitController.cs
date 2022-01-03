@@ -97,7 +97,7 @@ namespace YaaranutGisApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [EnableCors("CorsAll")]
-    public class WorkUnitController : BaseController
+    public class WorkUnitController : BaseGisController
     {
          
         public WorkUnitController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) {   }

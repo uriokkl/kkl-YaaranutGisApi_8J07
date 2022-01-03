@@ -21,6 +21,10 @@
       "dom"
     ],
     "paths": {
+      "forestry-tenders": [
+        "dist/forestry-tenders/forestry-tenders",
+        "dist/forestry-tenders"
+      ],
       
       "seeds-collect": [
         "dist/seeds-collect/seeds-collect",

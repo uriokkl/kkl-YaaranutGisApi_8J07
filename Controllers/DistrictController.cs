@@ -8,7 +8,7 @@ namespace YaaranutGisApi.Controllers
     [ApiController]
     [Route("[controller]")]
     //[EnableCors("CorsAll")]
-    public class DistrictController : BaseController
+    public class DistrictController : BaseGisController
     {
         public DistrictController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 

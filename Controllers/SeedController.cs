@@ -13,7 +13,7 @@ namespace YaaranutGisApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [EnableCors("CorsAll")]
-    public class SeedController : BaseController
+    public class SeedController : BaseGisController
     {
         public SeedController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
@@ -96,6 +96,47 @@ namespace YaaranutGisApi.Controllers
                 whr += "GlobalID_2 = '" + GlobalID + "'";
 
                 return Ok((List<SeedModel>)this.SearchSeedsCollects(whr));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, General.baseUtil.GetExceptionmessage(ex));
+            }
+
+        }
+
+        /// <summary>
+        /// מחיקת רשומת פרטי איסוף זרעים מסויים
+        /// </summary>
+        /// <remarks>GlobalID_2 ו OBJECTID מוחק רשומת פרטי איסוף זרעים לפי </remarks>
+        [HttpDelete]
+        [Route("DeleteSeedsCollect")]
+        [EnableCors("CorsAll")]
+        public async Task<ActionResult<string>> DeleteSeedsCollect(string GlobalID_2,string OBJECTID)
+        {
+            string whr = "";
+            string errDescription="", errGlobalId="";
+            try
+            {
+                whr += "GlobalID_2 = '" + GlobalID_2 + "'";
+                var GisSeedfeatures = this.GisApiHelper.DeleteFeature("SeedCollect2021", "", OBJECTID, whr);
+                if (GisSeedfeatures.error==null )
+                {
+                    if (GisSeedfeatures.DeleteResults.Count() > 0)
+                        return "ok";
+                    else
+                        return Problem(statusCode:400, detail: "record not found: GlobalID_2=" + GlobalID_2, type: "record not found");
+                }
+                else
+                {
+                    if (GisSeedfeatures.DeleteResults != null)
+                    {
+                        errDescription = string.Join(",", GisSeedfeatures.DeleteResults.Where(f => !f.success).Select(f => f.error.description));
+                        errGlobalId = string.Join(",", GisSeedfeatures.DeleteResults.Where(f => !f.success).Select(f => f.globalId));
+                    }
+                    return Problem(detail: GisSeedfeatures.error.message + " " + GisSeedfeatures.error.details[0] + "  " + errDescription + " " + errGlobalId + " where:" + GlobalID_2, type:"gis error ");
+
+                }
+
             }
             catch (Exception ex)
             {

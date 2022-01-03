@@ -8,7 +8,7 @@ namespace YaaranutGisApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class HazardController : BaseController
+    public class HazardController : BaseGisController
     {   
         public HazardController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 

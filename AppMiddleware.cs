@@ -176,9 +176,9 @@ namespace ReverseProxyApplication
                     arcgisServicesUrl = "http://localhost:27552"+ "/ArcGIS/rest/services/KKLForestManagementUnits/FeatureServer/99";
                 }
                 if (true || !this.env.IsProduction()) arcgisServicesUrl += "Test_";
-                arcgisServicesUrl += requestArr[4];     
+                arcgisServicesUrl += requestArr[4];     //שם שרות
                 arcgisServicesUrl += "/FeatureServer/";
-                arcgisServicesUrl += "" + requestArr[6];
+                arcgisServicesUrl += "" + requestArr[6];//שם/מספר שיכבה
                 if (requestArr.Length>7) arcgisServicesUrl += "/"+ requestArr[7];
                 arcgisServicesUrl += request.QueryString;
                 //if (request.QueryString.ToString() == "?f=json")   arcgisServicesUrl += "&token=" + this.GisApiHelper.GetToken();

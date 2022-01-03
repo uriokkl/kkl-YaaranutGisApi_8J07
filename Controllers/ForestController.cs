@@ -8,7 +8,7 @@ namespace YaaranutGisApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [EnableCors("CorsAll")]
-    public class ForestController : BaseController
+    public class ForestController : BaseGisController
     {
         public ForestController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 

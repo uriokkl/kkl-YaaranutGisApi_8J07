@@ -20,8 +20,10 @@ namespace YaaranutGisApi
         public T GetFeatureAttachments<T>(string LayerName, string SubData, System.Collections.Specialized.NameValueCollection ParmQuery);
         public InsertRetModel InsertFeature(string LayerName, string SubData, string UpdateValues);
         public InsertRetModel UpdateFeature(string LayerName, string SubData, string UpdateValues);
+        public DeleteRetModel DeleteFeature(string LayerName, string SubData, string objectId, string whrStr);
         public string GetToken();
     }
+    
     public class GisApiHelper : IGisApiHelper
     {
         IAppSettings appSettings;
@@ -182,6 +184,30 @@ namespace YaaranutGisApi
             }
             return InsertRet;
         }
+        public DeleteRetModel DeleteFeature(string LayerName, string SubData, string objectId, string whrStr)
+        {
+            DeleteRetModel DeleteRet = null;
+            //var UpdateValuesDictionary = UpdateValues.AllKeys.ToDictionary(x => x, x => UpdateValues[x]);
+            //var UpdateValuesJson = JsonConvert.SerializeObject(UpdateValuesDictionary);
+
+            SubData = SubData == "" ? "0" : this.GisEnvPrefix + SubData;
+            using (WebClient client = new WebClient())
+            {
+                var reqparm = new System.Collections.Specialized.NameValueCollection
+                {
+                    {"objectIds", objectId},
+                    {"where", whrStr},
+                    {"token", this.GetToken()},
+                    {"f", "json"},
+                    {"rollbackOnFailure","true" }
+                };
+
+                byte[] responsebytes = client.UploadValues(this.appSettings.GisApiUrl + "/" + this.GisEnvPrefix + LayerName.ToString() + "/FeatureServer/" + SubData.ToString() + "/deleteFeatures", "POST", reqparm);
+                string responsebody = Encoding.UTF8.GetString(responsebytes);
+                DeleteRet = JsonConvert.DeserializeObject<DeleteRetModel>(responsebody);
+            }
+            return DeleteRet;
+        }
 
         public string GetToken()
         {
@@ -267,6 +293,7 @@ namespace YaaranutGisApi
         public int code { get; set; }
         public string message { get; set; }
         public string[] details { get; set; }
+        public string description { get; set; }
     }
     public class InsertRetModel
     {
@@ -278,6 +305,20 @@ namespace YaaranutGisApi
         public int uniqueId { get; set; }
         public string globalId { get; set; }
         public bool success { get; set; }
+    }
+    public class DeleteRetModel
+    {
+        public GisErrorModel error { get; set; }
+        public deleteResults[] DeleteResults { get; set; }
+        
+    }
+    public class deleteResults
+    {
+        public string objectId { get; set; }
+        public string globalId { get; set; }
+        public bool success { get; set; }
+        public GisErrorModel error { get; set; }
+
     }
     //    {"addResults":[{"objectId":8700,"uniqueId":8700,"globalId":"B8062064-4A13-4E66-8DA3-E05E92D62DA0","success":true}]}
     public class GisModel

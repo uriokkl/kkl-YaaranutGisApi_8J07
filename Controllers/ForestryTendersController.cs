@@ -13,7 +13,7 @@ namespace YaaranutGisApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ForestryTendersController : BaseController
+    public class ForestryTendersController : BaseGisController
     {
         public ForestryTendersController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
 
@@ -150,24 +150,21 @@ namespace YaaranutGisApi.Controllers
                         ForestryTendersMapModel ForestryTender = ((List<ForestryTendersMapModel>)Gisfeatures.Features).First(r => r.GlobalID == attachmentGroups.parentGlobalId);
                         foreach (var attachmentInfos in attachmentGroups.attachmentInfos)
                         {
+                            ForestryTender.FilesAttachments = new List<FilesAttachments>();
                             if (TenderMapType==TenderMapType.Maps &&  attachmentInfos.Name.Contains("מפות תיחור"))
                             {
-                                ForestryTender.FilesAttachments = new List<FilesAttachments>();
                                 ForestryTender.FilesAttachments.Add(new FilesAttachments() { Url = attachmentInfos.url + "?token=" + token, Type = attachmentInfos.contentType,Name= attachmentInfos.Name });
                             }
                             else if (TenderMapType == TenderMapType.ContractorGuidelines && attachmentInfos.Name.Contains("ContractorGuidelines"))
                             {
-                                ForestryTender.FilesAttachments = new List<FilesAttachments>();
                                 ForestryTender.FilesAttachments.Add(new FilesAttachments() { Url = attachmentInfos.url + "?token=" + token, Type = attachmentInfos.contentType, Name = attachmentInfos.Name });
                             }
                             else if (TenderMapType == TenderMapType.Quotation && attachmentInfos.Name.Contains("Quotation"))
                             {
-                                ForestryTender.FilesAttachments = new List<FilesAttachments>();
                                 ForestryTender.FilesAttachments.Add(new FilesAttachments() { Url = attachmentInfos.url + "?token=" + token, Type = attachmentInfos.contentType, Name = attachmentInfos.Name });
                             }
                             else if (TenderMapType == TenderMapType.WorkCapacity && attachmentInfos.Name.Contains("WorkCapacity"))
                             {
-                                ForestryTender.FilesAttachments = new List<FilesAttachments>();
                                 ForestryTender.FilesAttachments.Add(new FilesAttachments() { Url = attachmentInfos.url + "?token=" + token, Type = attachmentInfos.contentType, Name = attachmentInfos.Name });
                             }
                         }
@@ -218,7 +215,6 @@ namespace YaaranutGisApi.Controllers
         public decimal? CostSubTender { get; set; }
         public ForestryTendersWorkUnitsModel[] ForestryTendersManas { get; set; }
     }
-
     public class ForestryTendersWorkUnitsModel
     {
         public string GlobalID { get; set; }
@@ -265,7 +261,6 @@ namespace YaaranutGisApi.Controllers
         public decimal? WoodVolumeForMana { get; set; }
         public ForestryTendersWorkUnitsStandsModel[] StandDetails { get; set; }
     }
-     
     public class ForestryTendersWorkUnitsStandsModel     
     {
         public string GlobalID { get; set; }
@@ -286,7 +281,6 @@ namespace YaaranutGisApi.Controllers
         public string ActivityType { get; set; }
         public ForestryTendersStandActivitiesModel[] ActivityDetails { get; set; }
     }
-    
     public class ForestryTendersInvasiveSpTreatmentsModel
     {
         public string GlobalID { get; set; }
@@ -294,7 +288,6 @@ namespace YaaranutGisApi.Controllers
         public string ISTPlantSp { get; set; }
         public string ISTTreatmentType { get; set; }
     }
-   
     public class ForestryTendersStandActivitiesModel
     {
         public string GlobalID { get; set; }
