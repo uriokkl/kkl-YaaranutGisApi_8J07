@@ -13,7 +13,7 @@ import { YaaranutService } from '../yaaranut.service';
 @Component({
   selector: 'YaaranutGis-workUnit',
   template: `
-  <div #mapViewNode style="width:100%;height: 100%;background-color:yellow"></div>
+  <div #mapViewNode style="width:100%;height: 100%;background-color:white"></div>
   `,
   styles: [
   ]
