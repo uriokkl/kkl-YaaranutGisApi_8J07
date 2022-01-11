@@ -13,7 +13,7 @@ import { YaaranutService } from '../yaaranut.service';
 @Component({
   selector: 'YaaranutGis-workUnit',
   template: `
-  <div #mapViewNode style="width:100%;height: 100%;background-color:yellow"></div>
+  <div #mapViewNode style="width:100%;height: 100%;background-color:white"></div>
   `,
   styles: [
   ]
@@ -122,7 +122,7 @@ export class WorkUnitComponent implements OnInit {
      const featerRenderer = new SimpleRenderer();
      featerRenderer.label = "{FOR_NO}";
      const polygonsSimpleFillSymbol = new SimpleFillSymbol();
-     polygonsSimpleFillSymbol.color = Color.fromString("gold");
+     polygonsSimpleFillSymbol.color = Color.fromString("green");
      polygonsSimpleFillSymbol.outline.color = Color.fromString("blue");
      polygonsSimpleFillSymbol.outline.width = 2;
      featerRenderer.symbol = polygonsSimpleFillSymbol;
