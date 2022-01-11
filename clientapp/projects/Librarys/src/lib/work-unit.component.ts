@@ -122,7 +122,7 @@ export class WorkUnitComponent implements OnInit {
      const featerRenderer = new SimpleRenderer();
      featerRenderer.label = "{FOR_NO}";
      const polygonsSimpleFillSymbol = new SimpleFillSymbol();
-     polygonsSimpleFillSymbol.color = Color.fromString("gold");
+     polygonsSimpleFillSymbol.color = Color.fromString("green");
      polygonsSimpleFillSymbol.outline.color = Color.fromString("blue");
      polygonsSimpleFillSymbol.outline.width = 2;
      featerRenderer.symbol = polygonsSimpleFillSymbol;
