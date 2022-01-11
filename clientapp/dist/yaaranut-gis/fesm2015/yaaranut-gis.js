@@ -159,7 +159,7 @@ class WorkUnitComponent {
                 const featerRenderer = new SimpleRenderer();
                 featerRenderer.label = "{FOR_NO}";
                 const polygonsSimpleFillSymbol = new SimpleFillSymbol();
-                polygonsSimpleFillSymbol.color = Color.fromString("gold");
+                polygonsSimpleFillSymbol.color = Color.fromString("green");
                 polygonsSimpleFillSymbol.outline.color = Color.fromString("blue");
                 polygonsSimpleFillSymbol.outline.width = 2;
                 featerRenderer.symbol = polygonsSimpleFillSymbol;
@@ -186,14 +186,14 @@ class WorkUnitComponent {
 }
 WorkUnitComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitComponent, deps: [{ token: YaaranutService }], target: i0.ɵɵFactoryTarget.Component });
 WorkUnitComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.3", type: WorkUnitComponent, selector: "YaaranutGis-workUnit", inputs: { zz: "zz", workUnits: "workUnits" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewNode"], descendants: true, static: true }], ngImport: i0, template: `
-  <div #mapViewNode style="width:100%;height: 100%;background-color:yellow"></div>
+  <div #mapViewNode style="width:100%;height: 100%;background-color:white"></div>
   `, isInline: true });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitComponent, decorators: [{
             type: Component,
             args: [{
                     selector: 'YaaranutGis-workUnit',
                     template: `
-  <div #mapViewNode style="width:100%;height: 100%;background-color:yellow"></div>
+  <div #mapViewNode style="width:100%;height: 100%;background-color:white"></div>
   `,
                     styles: []
                 }]

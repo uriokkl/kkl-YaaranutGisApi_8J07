@@ -515,7 +515,7 @@
                         featerRenderer = new SimpleRenderer__default['default']();
                         featerRenderer.label = "{FOR_NO}";
                         polygonsSimpleFillSymbol = new symbols.SimpleFillSymbol();
-                        polygonsSimpleFillSymbol.color = Color__default['default'].fromString("gold");
+                        polygonsSimpleFillSymbol.color = Color__default['default'].fromString("green");
                         polygonsSimpleFillSymbol.outline.color = Color__default['default'].fromString("blue");
                         polygonsSimpleFillSymbol.outline.width = 2;
                         featerRenderer.symbol = polygonsSimpleFillSymbol;
@@ -544,12 +544,12 @@
         return WorkUnitComponent;
     }());
     WorkUnitComponent.ɵfac = i0__namespace.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: WorkUnitComponent, deps: [{ token: YaaranutService }], target: i0__namespace.ɵɵFactoryTarget.Component });
-    WorkUnitComponent.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.3", type: WorkUnitComponent, selector: "YaaranutGis-workUnit", inputs: { zz: "zz", workUnits: "workUnits" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewNode"], descendants: true, static: true }], ngImport: i0__namespace, template: "\n  <div #mapViewNode style=\"width:100%;height: 100%;background-color:yellow\"></div>\n  ", isInline: true });
+    WorkUnitComponent.ɵcmp = i0__namespace.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.3", type: WorkUnitComponent, selector: "YaaranutGis-workUnit", inputs: { zz: "zz", workUnits: "workUnits" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewNode"], descendants: true, static: true }], ngImport: i0__namespace, template: "\n  <div #mapViewNode style=\"width:100%;height: 100%;background-color:white\"></div>\n  ", isInline: true });
     i0__namespace.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0__namespace, type: WorkUnitComponent, decorators: [{
                 type: i0.Component,
                 args: [{
                         selector: 'YaaranutGis-workUnit',
-                        template: "\n  <div #mapViewNode style=\"width:100%;height: 100%;background-color:yellow\"></div>\n  ",
+                        template: "\n  <div #mapViewNode style=\"width:100%;height: 100%;background-color:white\"></div>\n  ",
                         styles: []
                     }]
             }], ctorParameters: function () { return [{ type: YaaranutService }]; }, propDecorators: { content: [{
