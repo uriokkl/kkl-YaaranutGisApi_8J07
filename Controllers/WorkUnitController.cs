@@ -9,7 +9,7 @@ using System.Net;
 using System.Text;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
- 
+using static YaaranutGisApi.GisApiHelper;
 
 namespace YaaranutGisApi.Controllers
 {
@@ -226,7 +226,7 @@ namespace YaaranutGisApi.Controllers
             queryWhare += !String.IsNullOrEmpty(QueryParmeters.FOR_NO) ? " and FOR_NO='" + QueryParmeters.FOR_NO + "'" : "";
             queryWhare += !String.IsNullOrEmpty(QueryParmeters.TRTUNIT) ? " and TRTUNIT='" + QueryParmeters.TRTUNIT + "'" : "";
 
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection { {"where", queryWhare },  {"outFields", "GlobalID,FOR_Name,WorkYear,TRTUnit,WPFSRequestStatus,DistrictName,RegionName,FOR_NO,AgeGr,ForAgeComposition,CurForestType,CurDensity,CurCover,ForStatusMain,AreaDesignation,ReqForestType,VegDesignPrinc,ThinningPurpose,OtherThinningPurpose,ThinFreq,ReqDensity,ReqCover,ThinIntensity,ThinType,PruningType,BurnPermission,WPFSWorkEssence"}   };
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection { {"where", queryWhare },  {"outFields", "*"}   };
             var Gisfeatures = this.GisApiHelper.GetFeatures<WorkUnitModel>("KKLForestManagementUnits","", reqparmForest);
             if (Gisfeatures.GisAttributes.error == null)
             {
@@ -268,9 +268,11 @@ namespace YaaranutGisApi.Controllers
         public string ThinType { get; set; }
         public string PruningType { get; set; }
         public string BurnPermission { get; set; }
-        public string WPFSWorkEssence { get; set; }
-        public string Date { get; set; }
+        [JsonConverter(typeof(DateTimeConverter))]
+        public DateTime Date { get; set; }
         public string ReporterName { get; set; }
+        public string WPFSWorkEssence { get; set; }
+        
         public string TRTPriority { get; set; }
         public string OtherCurForestType { get; set; }
         public string Stands { get; set; }
