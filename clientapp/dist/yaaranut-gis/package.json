@@ -9,11 +9,24 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "main": "bundles/yaaranut-gis.umd.js",
-  "module": "fesm2015/yaaranut-gis.js",
-  "es2015": "fesm2015/yaaranut-gis.js",
-  "esm2015": "esm2015/yaaranut-gis.js",
-  "fesm2015": "fesm2015/yaaranut-gis.js",
+  "module": "fesm2015/yaaranut-gis.mjs",
+  "es2020": "fesm2020/yaaranut-gis.mjs",
+  "esm2020": "esm2020/yaaranut-gis.mjs",
+  "fesm2020": "fesm2020/yaaranut-gis.mjs",
+  "fesm2015": "fesm2015/yaaranut-gis.mjs",
   "typings": "yaaranut-gis.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./yaaranut-gis.d.ts",
+      "esm2020": "./esm2020/yaaranut-gis.mjs",
+      "es2020": "./fesm2020/yaaranut-gis.mjs",
+      "es2015": "./fesm2015/yaaranut-gis.mjs",
+      "node": "./fesm2015/yaaranut-gis.mjs",
+      "default": "./fesm2020/yaaranut-gis.mjs"
+    }
+  },
   "sideEffects": false
 }

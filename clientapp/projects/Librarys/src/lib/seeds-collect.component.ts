@@ -22,7 +22,7 @@ import { YaaranutService } from '../yaaranut.service';
 export class SeedsCollectComponent implements OnInit {
 
   private mapViewEl!: ElementRef;
-  private _SeedsCollects: string[] = [];
+  private _SeedsCollects: string[] =   [];
   private firstTime = true;
 
   @ViewChild('mapViewSeedsCollect', { static: true }) set content(content: ElementRef) {

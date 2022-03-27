@@ -13,19 +13,19 @@ import { YaaranutService } from '../yaaranut.service';
 @Component({
   selector: 'YaaranutGis-workUnit',
   template: `
-  <div #mapViewNode style="width:100%;height: 100%;background-color:white"></div>
+  <div #mapViewNode1 style="width:100%;height: 100%;background-color:white"></div>
   `,
   styles: [
   ]
 })
 export class WorkUnitComponent implements OnInit {
 
-  @ViewChild('mapViewNode', { static: true }) set content(content: ElementRef) {
+  @ViewChild('mapViewNode1', { static: true }) set content(content: ElementRef) {
     if (content) { this.mapViewEl = content; }
   }
   @Output() mapLoaded = new EventEmitter<boolean>();
   private mapViewEl!: ElementRef;
-  private _workUnits: string[] = [];
+  private _workUnits: string[] =     [];
   private firstTime=true; 
 
   constructor(private ys: YaaranutService) {
@@ -33,7 +33,7 @@ export class WorkUnitComponent implements OnInit {
 
   }
 
-  private _z: string="z";
+  private _z: string="zz";
   @Input()
   set zz(zzz: string)
   {
@@ -120,14 +120,14 @@ export class WorkUnitComponent implements OnInit {
      //this.featerLayer.outFields = ["FOR_NO"];
      //this.featerLayer.popupEnabled = true;
      const featerRenderer = new SimpleRenderer();
-     featerRenderer.label = "{FOR_NO}";
+        featerRenderer.label = "{trtUnit}";
      const polygonsSimpleFillSymbol = new SimpleFillSymbol();
      polygonsSimpleFillSymbol.color = Color.fromString("green");
      polygonsSimpleFillSymbol.outline.color = Color.fromString("blue");
      polygonsSimpleFillSymbol.outline.width = 2;
      featerRenderer.symbol = polygonsSimpleFillSymbol;
      const labelClass = new LabelClass();
-     labelClass.labelExpressionInfo = { expression: "$feature.FOR_NO  " };
+        labelClass.labelExpressionInfo = { expression: "$feature.trtUnit  " };
      this.featerLayer.labelingInfo = [labelClass];
      this.featerLayer.renderer = featerRenderer;
      webMap.add(this.featerLayer);

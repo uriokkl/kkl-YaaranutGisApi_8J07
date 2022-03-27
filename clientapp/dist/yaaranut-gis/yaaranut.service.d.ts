@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
 import * as i0 from "@angular/core";
 export declare class YaaranutService {
+    private config;
     apiUrl: string;
-    constructor(testBed: TestBed | null);
-    static ɵfac: i0.ɵɵFactoryDeclaration<YaaranutService, [{ optional: true; }]>;
+    constructor(config: any);
+    static ɵfac: i0.ɵɵFactoryDeclaration<YaaranutService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<YaaranutService>;
 }
