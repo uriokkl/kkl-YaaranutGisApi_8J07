@@ -16,7 +16,6 @@ C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\YaaranutGisApi.deps.json
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\YaaranutGisApi.runtimeconfig.json
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\YaaranutGisApi.runtimeconfig.dev.json
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\YaaranutGisApi.dll
-C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\ref\YaaranutGisApi.dll
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\YaaranutGisApi.pdb
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Microsoft.OpenApi.dll
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Newtonsoft.Json.dll
@@ -40,3 +39,4 @@ C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.genruntimeconfig.cach
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\web.config
 C:\Yaaranut\YaaranutGisApi\bin\Debug\net5.0\Documentation.xml
 C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\YaaranutGisApi.csproj.AssemblyReference.cache
+C:\Yaaranut\YaaranutGisApi\obj\Debug\net5.0\refint\YaaranutGisApi.dll

@@ -70,5 +70,11 @@
             </summary>
             <remarks> מחזיר רשימת יחידות עבודה </remarks>
         </member>
+        <member name="M:YaaranutGisApi.Controllers.WorkUnitController.GetWorkUnitsEdit(System.DateTime)">
+            <summary>
+            קבלת רשימת יחידות עבודה שעודכנו
+            </summary>
+            <remarks> מחזיר רשימת יחידות עבודה שעודכנו </remarks>
+        </member>
     </members>
 </doc>
