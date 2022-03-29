@@ -16,12 +16,14 @@ namespace YaaranutGisApi
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
+        IWebHostEnvironment appEnv;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -46,7 +48,7 @@ namespace YaaranutGisApi
                 .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
-                 
+                
                 //options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 //options.JsonSerializerOptions.DictionaryKeyPolicy = null;
                 //options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
@@ -55,15 +57,48 @@ namespace YaaranutGisApi
             ;
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "YaaranutGisApi", Version = "v1" });
-                c.IncludeXmlComments(@"Documentation.xml",true);
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "שרות גאוגרפי עבור מערכת יערנות",
+                    Description = this.appEnv.EnvironmentName
+
+                    //TermsOfService = new Uri("https://example.com/terms"),
+                    //Contact = new OpenApiContact
+                    //{
+                    //    Name = "Example Contact",
+                    //    Url = new Uri("https://example.com/contact")
+                    //},
+                    //License = new OpenApiLicense
+                    //{
+                    //    Name = "Example License",
+                    //    Url = new Uri("https://example.com/license")
+                    //}
+                }); ;
+                c.IncludeXmlComments(@"Documentation.xml", true);
             });
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //if (env.IsDevelopment() || env.IsStaging())
+            this.appEnv = env;
+            if (env.IsProduction())
+            {
+                app.UseSwagger(c =>
+                {
+                    c.RouteTemplate = "azaz/{documentname}/swagger.json";
+
+                });
+                app.UseSwaggerUI(c => {
+                    c.RoutePrefix = "azaz";
+                    c.SwaggerEndpoint("/azaz/v1/swagger.json", "YaaranutGisApi v1");
+                });
+            }
+            else
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();

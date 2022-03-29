@@ -33,8 +33,8 @@ namespace YaaranutGisApi
         {
             this.appSettings = appSettings;
             this.env = env;
-            //if (env.IsDevelopment() || env.IsStaging()) this.GisEnvPrefix = "Test_";
-            this.GisEnvPrefix = "Test_";
+            if (env.IsDevelopment() || env.IsStaging()) this.GisEnvPrefix = "Test_";
+            //this.GisEnvPrefix = "Test_";
         }
 
         public GisResult<GisModel, TFeatures> GetFeatures<TFeatures>(string LayerName, string SubData, System.Collections.Specialized.NameValueCollection ParmQuery)  
@@ -46,8 +46,8 @@ namespace YaaranutGisApi
             if (ParmQuery.Get("returnGeometry")==null) ParmQuery.Add(  "returnGeometry", "false" );
             if (ParmQuery.Get("token") == null) ParmQuery.Add("token", this.GetToken());
             if (ParmQuery.Get("f") == null) ParmQuery.Add("f", "json");
-             
-            SubData = SubData == "" ? "0" : this.GisEnvPrefix + SubData;
+            ParmQuery.Add("timeReferenceUnknownClient", "false"); 
+           SubData = SubData == "" ? "0" : this.GisEnvPrefix + SubData;
             using (WebClient clientGis = new WebClient())
             {
                 byte[] responsebytesGis = clientGis.UploadValues(this.appSettings.GisApiUrl + "/" + this.GisEnvPrefix + LayerName.ToString() + "/FeatureServer/" +  SubData.ToString() + "/query", "POST", ParmQuery);

@@ -147,9 +147,9 @@ namespace ReverseProxyApplication
             Uri targetUri = null;
             string arcgisServicesUrl;
             //string LayerName,SubLayerNum;
-//            "/utNNrmXb4IZOLXXs/ArcGIS/rest/services/Test_SeedCollect2021/FeatureServer/0/query"
+            //            "/utNNrmXb4IZOLXXs/ArcGIS/rest/services/Test_SeedCollect2021/FeatureServer/0/query"
             //if (request.Path.StartsWithSegments("/ArcGIS/rest/services/", out var remainingPath) )
-            if (request.Path.Value.IndexOf("/ArcGIS/rest/services/") >=0)
+            if (request.Path.Value.IndexOf("/ArcGIS/rest/services/") >= 0)
             {
                 //LayerName = request.Path.Value.Substring(request.Path.Value.IndexOf("/ArcGIS/rest/services/") + "/ArcGIS/rest/services/".Length);
                 //LayerName = request.Path.Value.Substring(0, request.Path.Value.IndexOf("/FeatureServer/"));
@@ -165,24 +165,28 @@ namespace ReverseProxyApplication
 
                 //targetUri = new Uri("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services" + "/" + "Test_SeedCollect2021" + "/FeatureServer/" + 0.ToString() + "/query?token="+ this.GetToken() +"&where=1=1"+ remainingPath);
                 //targetUri = new Uri(System.Net.WebUtility.UrlDecode(@"https://services2.arcgis.com" + request.Path + request.QueryString + "&token=" + this.GetToken()));
-                  
-                var requestArr= request.Path.Value.Split("/");
+
+                var requestArr = request.Path.Value.Split("/");
                 if (true || request.Method == "GET")
                 {
                     arcgisServicesUrl = @"https://services2.arcgis.com/utNNrmXb4IZOLXXs/ArcGIS/rest/services/";
                 }
                 else
                 {
-                    arcgisServicesUrl = "http://localhost:27552"+ "/ArcGIS/rest/services/KKLForestManagementUnits/FeatureServer/99";
+                    arcgisServicesUrl = "http://localhost:27552" + "/ArcGIS/rest/services/KKLForestManagementUnits/FeatureServer/99";
                 }
                 if (true || !this.env.IsProduction()) arcgisServicesUrl += "Test_";
                 arcgisServicesUrl += requestArr[4];     //שם שרות
                 arcgisServicesUrl += "/FeatureServer/";
                 arcgisServicesUrl += "" + requestArr[6];//שם/מספר שיכבה
-                if (requestArr.Length>7) arcgisServicesUrl += "/"+ requestArr[7];
+                if (requestArr.Length > 7) arcgisServicesUrl += "/" + requestArr[7];
                 arcgisServicesUrl += request.QueryString;
                 //if (request.QueryString.ToString() == "?f=json")   arcgisServicesUrl += "&token=" + this.GisApiHelper.GetToken();
-                if (request.Method=="GET") arcgisServicesUrl += "&token=" + this.GisApiHelper.GetToken();
+                if (request.Method == "GET")
+                {
+                    //if (!arcgisServicesUrl.Contains("?")) arcgisServicesUrl += "?f=json";
+                    arcgisServicesUrl += "&token=" + this.GisApiHelper.GetToken();
+                }
                 targetUri = new Uri(System.Net.WebUtility.UrlDecode(arcgisServicesUrl ));
             }
 

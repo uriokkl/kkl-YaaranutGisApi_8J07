@@ -263,6 +263,32 @@ namespace YaaranutGisApi.Controllers
                 return StatusCode(500, Gisfeatures.GisAttributes.error.message + " " + Gisfeatures.GisAttributes.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
             }
         }
+
+        /// <summary>
+        /// קבלת רשימת יחידות עבודה שעודכנו
+        /// </summary>
+        /// <remarks> מחזיר רשימת יחידות עבודה שעודכנו </remarks>
+        [HttpGet]
+        [Route("GetWorkUnitsEdit")]
+        public async Task<ActionResult<IEnumerable<WorkUnitModel>>> GetWorkUnitsEdit(DateTime EditDate)
+        {
+            //var az = @" { ""DistrictName"": null, ""FOR_NO"": null, ""OBJECTID"": null , ""RegionName"": null, ""TRTUnit"": ""T12551"", ""WorkYear"": ""2020"", ""WPFSRequestStatus"": ""אושר על ידי מחלקת יער""} ";
+            //QueryParmeters = System.Text.Json.JsonSerializer.Deserialize<WorkUnitModelQueryParameter>(az);
+            string queryWhare = "1=1";
+            queryWhare = "EditDate >= date'" + EditDate.ToString("yyyy/MM/dd hh:mm:ss") + "'";
+
+
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection { { "where", queryWhare }, { "outFields", "*" } };
+            var Gisfeatures = this.GisApiHelper.GetFeatures<WorkUnitModel>("KKLForestManagementUnits", "", reqparmForest);
+            if (Gisfeatures.GisAttributes.error == null)
+            {
+                return Ok(Gisfeatures.Features);
+            }
+            else
+            {
+                return StatusCode(500, Gisfeatures.GisAttributes.error.message + " " + Gisfeatures.GisAttributes.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
+            }
+        }
     }
 
     public class WorkUnitModel
