@@ -1,6 +1,5 @@
 import * as i0 from '@angular/core';
-import { isDevMode, Injectable, Optional, EventEmitter, Component, ViewChild, Output, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import * as i1 from '@angular/core/testing';
+import { Injectable, Inject, EventEmitter, Component, ViewChild, Output, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { __awaiter } from 'tslib';
 import WebMap from '@arcgis/core/WebMap';
 import MapView from '@arcgis/core/views/MapView';
@@ -13,61 +12,31 @@ import SimpleRenderer from '@arcgis/core/renderers/SimpleRenderer';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-const environment = {
-    production: false,
-    apiUrl: 'http://localhost:27552',
-};
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
-
-const environmentTest = {
-    production: false,
-    apiUrl: 'https://kkl-yaaranutgisapi.azurewebsites.net',
-};
-
-const environmentProd = {
-    production: true,
-    apiUrl: 'https://kkl-yaaranutgisapi.azurewebsites.net',
-};
-
 class YaaranutService {
-    constructor(testBed) {
+    constructor(config) {
+        this.config = config;
         this.apiUrl = "";
-        if (isDevMode()) {
-            this.apiUrl = environment.apiUrl;
-            this.apiUrl = environmentTest.apiUrl;
-        }
-        else if (testBed !== null) {
-            this.apiUrl = environmentTest.apiUrl;
-        }
-        else {
-            this.apiUrl = environmentProd.apiUrl;
-        }
+        this.apiUrl = config.GisApiUrl;
+        //this.apiUrl = 'https://kkl-yaaranutgisapi.azurewebsites.net';
     }
 }
-YaaranutService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: YaaranutService, deps: [{ token: i1.TestBed, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
-YaaranutService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: YaaranutService });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: YaaranutService, decorators: [{
+YaaranutService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: YaaranutService, deps: [{ token: 'environmentFile' }], target: i0.ɵɵFactoryTarget.Injectable });
+YaaranutService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: YaaranutService });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: YaaranutService, decorators: [{
             type: Injectable
-        }], ctorParameters: function () { return [{ type: i1.TestBed, decorators: [{
-                    type: Optional
-                }] }]; } });
+        }], ctorParameters: function () {
+        return [{ type: undefined, decorators: [{
+                        type: Inject,
+                        args: ['environmentFile']
+                    }] }];
+    } });
 
 class WorkUnitService {
     constructor() { }
 }
-WorkUnitService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-WorkUnitService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitService, providedIn: 'root' });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitService, decorators: [{
+WorkUnitService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: WorkUnitService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+WorkUnitService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: WorkUnitService, providedIn: 'root' });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: WorkUnitService, decorators: [{
             type: Injectable,
             args: [{
                     providedIn: 'root'
@@ -80,7 +49,7 @@ class WorkUnitComponent {
         this.mapLoaded = new EventEmitter();
         this._workUnits = [];
         this.firstTime = true;
-        this._z = "z";
+        this._z = "zz";
         this.featerLayer = new FeatureLayer();
         this.mapView = new MapView();
     }
@@ -157,14 +126,14 @@ class WorkUnitComponent {
                 //this.featerLayer.outFields = ["FOR_NO"];
                 //this.featerLayer.popupEnabled = true;
                 const featerRenderer = new SimpleRenderer();
-                featerRenderer.label = "{FOR_NO}";
+                featerRenderer.label = "{trtUnit}";
                 const polygonsSimpleFillSymbol = new SimpleFillSymbol();
-                polygonsSimpleFillSymbol.color = Color.fromString("gold");
+                polygonsSimpleFillSymbol.color = Color.fromString("green");
                 polygonsSimpleFillSymbol.outline.color = Color.fromString("blue");
                 polygonsSimpleFillSymbol.outline.width = 2;
                 featerRenderer.symbol = polygonsSimpleFillSymbol;
                 const labelClass = new LabelClass();
-                labelClass.labelExpressionInfo = { expression: "$feature.FOR_NO  " };
+                labelClass.labelExpressionInfo = { expression: "$feature.trtUnit  " };
                 this.featerLayer.labelingInfo = [labelClass];
                 this.featerLayer.renderer = featerRenderer;
                 webMap.add(this.featerLayer);
@@ -184,11 +153,11 @@ class WorkUnitComponent {
     ngOnInit() {
     }
 }
-WorkUnitComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitComponent, deps: [{ token: YaaranutService }], target: i0.ɵɵFactoryTarget.Component });
-WorkUnitComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.3", type: WorkUnitComponent, selector: "YaaranutGis-workUnit", inputs: { zz: "zz", workUnits: "workUnits" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewNode"], descendants: true, static: true }], ngImport: i0, template: `
+WorkUnitComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: WorkUnitComponent, deps: [{ token: YaaranutService }], target: i0.ɵɵFactoryTarget.Component });
+WorkUnitComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.1.2", type: WorkUnitComponent, selector: "YaaranutGis-workUnit", inputs: { zz: "zz", workUnits: "workUnits" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewNode1"], descendants: true, static: true }], ngImport: i0, template: `
   <div #mapViewNode style="width:100%;height: 100%;background-color:white"></div>
   `, isInline: true });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitComponent, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: WorkUnitComponent, decorators: [{
             type: Component,
             args: [{
                     selector: 'YaaranutGis-workUnit',
@@ -199,7 +168,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImpor
                 }]
         }], ctorParameters: function () { return [{ type: YaaranutService }]; }, propDecorators: { content: [{
                 type: ViewChild,
-                args: ['mapViewNode', { static: true }]
+                args: ['mapViewNode1', { static: true }]
             }], mapLoaded: [{
                 type: Output
             }], zz: [{
@@ -209,17 +178,23 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImpor
             }] } });
 
 class WorkUnitModule {
+    static forRoot(environment) {
+        return {
+            ngModule: WorkUnitModule,
+            providers: [YaaranutService, { provide: 'environmentFile', useValue: environment }]
+        };
+    }
 }
-WorkUnitModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-WorkUnitModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitModule, declarations: [WorkUnitComponent], imports: [FormsModule,
+WorkUnitModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: WorkUnitModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+WorkUnitModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: WorkUnitModule, declarations: [WorkUnitComponent], imports: [FormsModule,
         //BrowserModule
         CommonModule], exports: [WorkUnitComponent] });
-WorkUnitModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitModule, imports: [[
+WorkUnitModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: WorkUnitModule, imports: [[
             FormsModule,
             //BrowserModule
             CommonModule
         ]] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: WorkUnitModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: WorkUnitModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: [
@@ -240,9 +215,9 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImpor
 class SeedsCollectService {
     constructor() { }
 }
-SeedsCollectService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: SeedsCollectService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-SeedsCollectService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: SeedsCollectService, providedIn: 'root' });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: SeedsCollectService, decorators: [{
+SeedsCollectService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: SeedsCollectService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+SeedsCollectService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: SeedsCollectService, providedIn: 'root' });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: SeedsCollectService, decorators: [{
             type: Injectable,
             args: [{
                     providedIn: 'root'
@@ -352,11 +327,11 @@ class SeedsCollectComponent {
     ngOnInit() {
     }
 }
-SeedsCollectComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: SeedsCollectComponent, deps: [{ token: YaaranutService }], target: i0.ɵɵFactoryTarget.Component });
-SeedsCollectComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.3", type: SeedsCollectComponent, selector: "YaaranutGis-SeedsCollect", inputs: { seedsCollects: "seedsCollects" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewSeedsCollect"], descendants: true, static: true }], ngImport: i0, template: `
+SeedsCollectComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: SeedsCollectComponent, deps: [{ token: YaaranutService }], target: i0.ɵɵFactoryTarget.Component });
+SeedsCollectComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.1.2", type: SeedsCollectComponent, selector: "YaaranutGis-SeedsCollect", inputs: { seedsCollects: "seedsCollects" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewSeedsCollect"], descendants: true, static: true }], ngImport: i0, template: `
     <div #mapViewSeedsCollect style="width:100%;height: 100%;background-color:green"></div>
   `, isInline: true });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: SeedsCollectComponent, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: SeedsCollectComponent, decorators: [{
             type: Component,
             args: [{
                     selector: 'YaaranutGis-SeedsCollect',
@@ -375,17 +350,23 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImpor
             }] } });
 
 class SeedsCollectModule {
+    static forRoot(environment) {
+        return {
+            ngModule: SeedsCollectModule,
+            providers: [YaaranutService, { provide: 'environmentFile', useValue: environment }]
+        };
+    }
 }
-SeedsCollectModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: SeedsCollectModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-SeedsCollectModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: SeedsCollectModule, declarations: [SeedsCollectComponent], imports: [FormsModule,
+SeedsCollectModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: SeedsCollectModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+SeedsCollectModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: SeedsCollectModule, declarations: [SeedsCollectComponent], imports: [FormsModule,
         //BrowserModule
         CommonModule], exports: [SeedsCollectComponent] });
-SeedsCollectModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: SeedsCollectModule, imports: [[
+SeedsCollectModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: SeedsCollectModule, imports: [[
             FormsModule,
             //BrowserModule
             CommonModule
         ]] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: SeedsCollectModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: SeedsCollectModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: [
@@ -406,9 +387,9 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImpor
 class ForestryTendersService {
     constructor() { }
 }
-ForestryTendersService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: ForestryTendersService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-ForestryTendersService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: ForestryTendersService, providedIn: 'root' });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: ForestryTendersService, decorators: [{
+ForestryTendersService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: ForestryTendersService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+ForestryTendersService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: ForestryTendersService, providedIn: 'root' });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: ForestryTendersService, decorators: [{
             type: Injectable,
             args: [{
                     providedIn: 'root'
@@ -424,9 +405,11 @@ class ForestryTendersComponent {
         this.firstTime = true;
         this.mapLoaded = new EventEmitter();
     }
-    set content(content) { if (content) {
-        this.mapViewEl = content;
-    } }
+    set content(content) {
+        if (content) {
+            this.mapViewEl = content;
+        }
+    }
     set ForestryTenders(ForestryTenders) {
         this._ForestryTenders = ForestryTenders;
         if (this.firstTime) {
@@ -494,11 +477,11 @@ class ForestryTendersComponent {
     }
     ngOnInit() { }
 }
-ForestryTendersComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: ForestryTendersComponent, deps: [{ token: YaaranutService }], target: i0.ɵɵFactoryTarget.Component });
-ForestryTendersComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "12.2.3", type: ForestryTendersComponent, selector: "YaaranutGis-ForestryTenders", inputs: { ForestryTenders: "ForestryTenders" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewForestryTenders"], descendants: true, static: true }], ngImport: i0, template: `
+ForestryTendersComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: ForestryTendersComponent, deps: [{ token: YaaranutService }], target: i0.ɵɵFactoryTarget.Component });
+ForestryTendersComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.1.2", type: ForestryTendersComponent, selector: "YaaranutGis-ForestryTenders", inputs: { ForestryTenders: "ForestryTenders" }, outputs: { mapLoaded: "mapLoaded" }, viewQueries: [{ propertyName: "content", first: true, predicate: ["mapViewForestryTenders"], descendants: true, static: true }], ngImport: i0, template: `
     <div #mapViewForestryTenders style="width:100%;height: 100%;background-color:white"></div>
   `, isInline: true });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: ForestryTendersComponent, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: ForestryTendersComponent, decorators: [{
             type: Component,
             args: [{
                     selector: 'YaaranutGis-ForestryTenders',
@@ -517,17 +500,23 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImpor
             }] } });
 
 class ForestryTendersModule {
+    static forRoot(environment) {
+        return {
+            ngModule: ForestryTendersModule,
+            providers: [YaaranutService, { provide: 'environmentFile', useValue: environment }]
+        };
+    }
 }
-ForestryTendersModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: ForestryTendersModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-ForestryTendersModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: ForestryTendersModule, declarations: [ForestryTendersComponent], imports: [FormsModule,
+ForestryTendersModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: ForestryTendersModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+ForestryTendersModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: ForestryTendersModule, declarations: [ForestryTendersComponent], imports: [FormsModule,
         //BrowserModule
         CommonModule], exports: [ForestryTendersComponent] });
-ForestryTendersModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: ForestryTendersModule, imports: [[
+ForestryTendersModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: ForestryTendersModule, imports: [[
             FormsModule,
             //BrowserModule
             CommonModule
         ]] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImport: i0, type: ForestryTendersModule, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.2", ngImport: i0, type: ForestryTendersModule, decorators: [{
             type: NgModule,
             args: [{
                     declarations: [
@@ -554,4 +543,4 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "12.2.3", ngImpor
  */
 
 export { ForestryTendersComponent, ForestryTendersModule, ForestryTendersService, SeedsCollectComponent, SeedsCollectModule, SeedsCollectService, WorkUnitComponent, WorkUnitModule, WorkUnitService, YaaranutService };
-//# sourceMappingURL=yaaranut-gis.js.map
+//# sourceMappingURL=yaaranut-gis.mjs.map
