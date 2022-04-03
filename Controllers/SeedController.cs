@@ -4,9 +4,7 @@ using Newtonsoft.Json;
 //using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using static YaaranutGisApi.GisApiHelper;
 
@@ -104,33 +102,6 @@ namespace YaaranutGisApi.Controllers
                 return StatusCode(500, General.baseUtil.GetExceptionmessage(ex));
             }
 
-        }
-
-
-        [HttpGet]
-        [Route("test")]
-        public async Task<ActionResult<string>> test()
-        {
-            string data;
-
-            using (var client = new HttpClient())
-            {
-                HttpResponseMessage response = await client.DeleteAsync(new Uri("https://kkl-yaaranutgisapi.azurewebsites.net/Seed/DeleteSeedsCollect?GlobalID_2=" + "azzz" + "&ObjectID=" + "56"));
-
-                var stream = await response.Content.ReadAsStreamAsync();
-
-                using (var streamReader = new StreamReader(stream))
-                {
-                    using (var jsonTextReader = new JsonTextReader(streamReader))
-                    {
-                        var jsonSerializer = new JsonSerializer();
-                        data = jsonSerializer.Deserialize (jsonTextReader).ToString();
-                    }
-                }
-
-
-            }
-            return data;
         }
 
         /// <summary>

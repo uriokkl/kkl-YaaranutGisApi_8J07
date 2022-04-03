@@ -14,7 +14,7 @@ import { YaaranutService } from '../yaaranut.service';
 @Component({
     selector: 'YaaranutGis-ForestryTenders',
   template: `
-    <div #mapViewForestryTenders style="width:100%;height: 100%;background-color:white"></div>
+    <div #mapViewForestryTenders style="width:100%;height: 100%;background-color:green"></div>
   `,
   styles: [
   ]

@@ -13,8 +13,8 @@ using static YaaranutGisApi.GisApiHelper;
 
 namespace YaaranutGisApi.Controllers
 {
-    public static class pppp
-    {
+    public static class pppp  
+        {
         public static HttpRequestMessage CreateProxyHttpRequest(this HttpContext context, Uri uri)
         {
             var request = context.Request;
@@ -30,7 +30,7 @@ namespace YaaranutGisApi.Controllers
                 requestMessage.Content = streamContent;
             }
 
-            // Copy the request headers111
+            // Copy the request headers
             foreach (var header in request.Headers)
             {
                 if (!requestMessage.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray()) && requestMessage.Content != null)
@@ -69,29 +69,29 @@ namespace YaaranutGisApi.Controllers
 
             // SendAsync removes chunking from the response. This removes the header so it doesn't expect a chunked response.
             response.Headers.Remove("transfer-encoding");
-            if (responseMessage.Content.Headers.ContentLength != null)
-                using (var responseStream = await responseMessage.Content.ReadAsStreamAsync())
-                {
-                    //byte[] az = new byte[int.Parse(responseMessage.Content.Headers.ContentLength.ToString())];
-                    //var azzz=responseStream.Read(az);
-                    //var str = System.Text.Encoding.GetEncoding(1255).GetString(az);
-                    //await responseStream.CopyToAsync(response.Body, int.Parse( responseMessage.Content.Headers.ContentLength.ToString()), context.RequestAborted);
-                    //string html;
-                    //using (BrotliStream bs = new BrotliStream(responseStream, System.IO.Compression.CompressionMode.Decompress))
-                    //{
-                    //    using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
-                    //    {
-                    //        bs.CopyTo(msOutput);
-                    //        msOutput.Seek(0, System.IO.SeekOrigin.Begin);
-                    //        using (StreamReader reader = new StreamReader(msOutput))
-                    //        {
-                    //            html = reader.ReadToEnd();
-                    //        }
-                    //    }
-                    //}
+            if (responseMessage.Content.Headers.ContentLength!=null)
+            using (var responseStream = await responseMessage.Content.ReadAsStreamAsync())
+            {
+                //byte[] az = new byte[int.Parse(responseMessage.Content.Headers.ContentLength.ToString())];
+                //var azzz=responseStream.Read(az);
+                //var str = System.Text.Encoding.GetEncoding(1255).GetString(az);
+                //await responseStream.CopyToAsync(response.Body, int.Parse( responseMessage.Content.Headers.ContentLength.ToString()), context.RequestAborted);
+                //string html;
+                //using (BrotliStream bs = new BrotliStream(responseStream, System.IO.Compression.CompressionMode.Decompress))
+                //{
+                //    using (System.IO.MemoryStream msOutput = new System.IO.MemoryStream())
+                //    {
+                //        bs.CopyTo(msOutput);
+                //        msOutput.Seek(0, System.IO.SeekOrigin.Begin);
+                //        using (StreamReader reader = new StreamReader(msOutput))
+                //        {
+                //            html = reader.ReadToEnd();
+                //        }
+                //    }
+                //}
 
-                    await responseStream.CopyToAsync(response.Body, int.Parse(responseMessage.Content.Headers.ContentLength.ToString()), context.RequestAborted);
-                }
+                await responseStream.CopyToAsync(response.Body,int.Parse( responseMessage.Content.Headers.ContentLength.ToString()), context.RequestAborted);
+            }
         }
     }
     [ApiController]
@@ -99,8 +99,8 @@ namespace YaaranutGisApi.Controllers
     [EnableCors("CorsAll")]
     public class WorkUnitController : BaseGisController
     {
-
-        public WorkUnitController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) { }
+         
+        public WorkUnitController(YaaranutGisApi.IAppSettings appSettings, IGisApiHelper GisApiHelper) : base(appSettings, GisApiHelper) {   }
 
 
         [HttpGet]
@@ -113,7 +113,7 @@ namespace YaaranutGisApi.Controllers
             {
                 AllowAutoRedirect = false
             });
-            var request = pppp.CreateProxyHttpRequest(_context, new Uri("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/Test_HazardInspection_Service/FeatureServer/0/" + _context.Request.QueryString + "&token=" + this.GisApiHelper.GetToken()));
+            var request =pppp.CreateProxyHttpRequest(_context, new Uri("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/Test_HazardInspection_Service/FeatureServer/0/" +   _context.Request.QueryString+"&token="+this.GisApiHelper.GetToken()));
             var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, HttpContext.RequestAborted);
             await pppp.CopyProxyHttpResponse(_context, response);
             //await _context.Response.WriteAsync("azaza");
@@ -130,7 +130,7 @@ namespace YaaranutGisApi.Controllers
             {
                 AllowAutoRedirect = false
             });
-            var request = pppp.CreateProxyHttpRequest(_context, new Uri("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/Test_HazardInspection_Service/FeatureServer/" + id + "/query" + _context.Request.QueryString + "&token=" + this.GisApiHelper.GetToken()));
+            var request = pppp.CreateProxyHttpRequest(_context, new Uri("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/Test_HazardInspection_Service/FeatureServer/" + id+"/query"  + _context.Request.QueryString + "&token=" + this.GisApiHelper.GetToken()));
             request.Headers.Add("Connection", "Keep-Alive");
             var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, HttpContext.RequestAborted);
             if (response.StatusCode != HttpStatusCode.NotModified)
@@ -147,7 +147,7 @@ namespace YaaranutGisApi.Controllers
 
 
         [HttpGet]
-        [Route("GetWorkUnitTipul")]
+        [Route("GetWorkUnitTipul")]        
         public byte[] GetWorkUnitTipul()
         {
 
@@ -174,8 +174,8 @@ namespace YaaranutGisApi.Controllers
             string responsebodyForest;
             byte[] responsebytesForest;
 
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection { };
-
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection {  };
+ 
             using (WebClient clientForest = new WebClient())
             {
                 responsebytesForest = clientForest.UploadValues("https://services2.arcgis.com/utNNrmXb4IZOLXXs/arcgis/rest/services/JNFFieldCenterBuildingsPublicView/FeatureServer/0", "POST", reqparmForest);
@@ -183,7 +183,7 @@ namespace YaaranutGisApi.Controllers
             }
             //var azz = JsonConvert.DeserializeObject (responsebodyForest);
             //Response.Headers.Add("content-encoding","br");
-            Response.Headers.Add("content-disposition", "inline;filename=results.pbf");
+            Response.Headers.Add("content-disposition","inline;filename=results.pbf");
             //Response.Headers.Add("content-type", "application/x-protobuf");
 
             return responsebytesForest;
@@ -212,8 +212,8 @@ namespace YaaranutGisApi.Controllers
         /// </summary>
         /// <remarks> מחזיר רשימת יחידות עבודה </remarks>
         [HttpPost]
-        [Route("GetWorkUnits")]
-        public async Task<ActionResult<IEnumerable<WorkUnitModel>>> GetWorkUnits(WorkUnitModelQueryParameter QueryParmeters)
+        [Route("GetWorkUnits")]  
+        public async Task<ActionResult<IEnumerable<WorkUnitModel>>> GetWorkUnits(  WorkUnitModelQueryParameter QueryParmeters)
         {
             //var az = @" { ""DistrictName"": null, ""FOR_NO"": null, ""OBJECTID"": null , ""RegionName"": null, ""TRTUnit"": ""T12551"", ""WorkYear"": ""2020"", ""WPFSRequestStatus"": ""אושר על ידי מחלקת יער""} ";
             //QueryParmeters = System.Text.Json.JsonSerializer.Deserialize<WorkUnitModelQueryParameter>(az);
@@ -226,34 +226,8 @@ namespace YaaranutGisApi.Controllers
             queryWhare += !String.IsNullOrEmpty(QueryParmeters.FOR_NO) ? " and FOR_NO='" + QueryParmeters.FOR_NO + "'" : "";
             queryWhare += !String.IsNullOrEmpty(QueryParmeters.TRTUNIT) ? " and TRTUNIT='" + QueryParmeters.TRTUNIT + "'" : "";
 
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection { { "where", queryWhare }, { "outFields", "*" } };
-            var Gisfeatures = this.GisApiHelper.GetFeatures<WorkUnitModel>("KKLForestManagementUnits", "", reqparmForest);
-            if (Gisfeatures.GisAttributes.error == null)
-            {
-                return Ok(Gisfeatures.Features);
-            }
-            else
-            {
-                return StatusCode(500, Gisfeatures.GisAttributes.error.message + " " + Gisfeatures.GisAttributes.error.details[0] + " where:" + reqparmForest.GetValues("where")[0] + " Fields:" + reqparmForest.GetValues("outFields")[0]);
-            }
-        }
-
-        /// <summary>
-        /// קבלת רשימת יחידות עבודה שעודכנו
-        /// </summary>
-        /// <remarks> מחזיר רשימת יחידות עבודה שעודכנו </remarks>
-        [HttpGet]
-        [Route("GetWorkUnitsEdit")]
-        public async Task<ActionResult<IEnumerable<WorkUnitModel>>> GetWorkUnitsEdit(DateTime EditDate)
-        {
-            //var az = @" { ""DistrictName"": null, ""FOR_NO"": null, ""OBJECTID"": null , ""RegionName"": null, ""TRTUnit"": ""T12551"", ""WorkYear"": ""2020"", ""WPFSRequestStatus"": ""אושר על ידי מחלקת יער""} ";
-            //QueryParmeters = System.Text.Json.JsonSerializer.Deserialize<WorkUnitModelQueryParameter>(az);
-            string queryWhare = "1=1";
-            queryWhare = "EditDate >= date'" + EditDate.ToString("yyyy/MM/dd hh:mm:ss") + "'";
-
-
-            var reqparmForest = new System.Collections.Specialized.NameValueCollection { { "where", queryWhare }, { "outFields", "*" } };
-            var Gisfeatures = this.GisApiHelper.GetFeatures<WorkUnitModel>("KKLForestManagementUnits", "", reqparmForest);
+            var reqparmForest = new System.Collections.Specialized.NameValueCollection { {"where", queryWhare },  {"outFields", "*"}   };
+            var Gisfeatures = this.GisApiHelper.GetFeatures<WorkUnitModel>("KKLForestManagementUnits","", reqparmForest);
             if (Gisfeatures.GisAttributes.error == null)
             {   
                 return Ok(Gisfeatures.Features);
@@ -291,7 +265,7 @@ namespace YaaranutGisApi.Controllers
         }
     }
 
-    public class WorkUnitModel
+    public class WorkUnitModel   
     {
         //public int? OBJECTID { get; set; }
         public string GlobalID { get; set; }
@@ -335,21 +309,21 @@ namespace YaaranutGisApi.Controllers
     }
 
     public class GisWorkUnitModel11111 : GisModel
-    {
+    {      
         public Features[] features { get; set; }
         public class Features
         {
             public Attributes attributes { get; set; }
         }
-        public class Attributes : WorkUnitModel
-        {
+        public class Attributes:WorkUnitModel
+        {            
         }
         public class WorkUnitModel
         {
             //public int? OBJECTID { get; set; }
             public string GlobalID { get; set; }
-
-            public string FOR_Name { get; set; }
+                     
+            public string FOR_Name { get; set; }       
             public int WorkYear { get; set; }
             public string TRTUnit { get; set; }
             public string WPFSRequestStatus { get; set; }
@@ -381,7 +355,7 @@ namespace YaaranutGisApi.Controllers
             public string Stands { get; set; }
         }
     }
-    public class WorkUnitModelQueryParameter
+    public class WorkUnitModelQueryParameter 
     {
         public int? OBJECTID { get; set; }
         public string WorkYear { get; set; }
