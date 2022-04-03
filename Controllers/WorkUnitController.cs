@@ -10,7 +10,7 @@ using System.Text;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using static YaaranutGisApi.GisApiHelper;
-
+//main
 namespace YaaranutGisApi.Controllers
 {
     public static class pppp  
